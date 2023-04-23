@@ -3,9 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieStore.App", "MovieStore.App\MovieStore.App.csproj", "{7D0358E6-2C89-4B9E-80D7-D6E45B84809A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieStore.Domain", "MovieStore.Domain\MovieStore.Domain.csproj", "{0BDE0A61-F6E2-4079-85C9-7998FCD42D80}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieStore.App", "MovieStore.App\MovieStore.App.csproj", "{26E93A02-8265-4FBB-929F-767C9105258C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,19 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7D0358E6-2C89-4B9E-80D7-D6E45B84809A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7D0358E6-2C89-4B9E-80D7-D6E45B84809A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7D0358E6-2C89-4B9E-80D7-D6E45B84809A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7D0358E6-2C89-4B9E-80D7-D6E45B84809A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0BDE0A61-F6E2-4079-85C9-7998FCD42D80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0BDE0A61-F6E2-4079-85C9-7998FCD42D80}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0BDE0A61-F6E2-4079-85C9-7998FCD42D80}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0BDE0A61-F6E2-4079-85C9-7998FCD42D80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26E93A02-8265-4FBB-929F-767C9105258C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26E93A02-8265-4FBB-929F-767C9105258C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26E93A02-8265-4FBB-929F-767C9105258C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26E93A02-8265-4FBB-929F-767C9105258C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {2E8408F3-8420-4CF7-815A-40479AA5F13F}
+		SolutionGuid = {03C9AC70-DA85-4B13-B18D-97B08A757CAD}
 	EndGlobalSection
 EndGlobal

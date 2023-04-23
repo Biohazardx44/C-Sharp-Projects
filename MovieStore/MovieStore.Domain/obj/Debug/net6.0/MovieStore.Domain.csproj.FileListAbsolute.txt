@@ -1,5 +1,0 @@
-C:\Users\nikol\Desktop\Code\C-Sharp-Projects\MovieStore\MovieStore.Domain\obj\Debug\net6.0\MovieStore.Domain.csproj.AssemblyReference.cache
-C:\Users\nikol\Desktop\Code\C-Sharp-Projects\MovieStore\MovieStore.Domain\obj\Debug\net6.0\MovieStore.Domain.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\nikol\Desktop\Code\C-Sharp-Projects\MovieStore\MovieStore.Domain\obj\Debug\net6.0\MovieStore.Domain.AssemblyInfoInputs.cache
-C:\Users\nikol\Desktop\Code\C-Sharp-Projects\MovieStore\MovieStore.Domain\obj\Debug\net6.0\MovieStore.Domain.AssemblyInfo.cs
-C:\Users\nikol\Desktop\Code\C-Sharp-Projects\MovieStore\MovieStore.Domain\obj\Debug\net6.0\MovieStore.Domain.csproj.CoreCompileInputs.cache

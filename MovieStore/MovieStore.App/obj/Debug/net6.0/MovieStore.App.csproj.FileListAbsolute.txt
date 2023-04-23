@@ -3,13 +3,3 @@ C:\Users\nikol\Desktop\Code\C-Sharp-Projects\MovieStore\MovieStore.App\obj\Debug
 C:\Users\nikol\Desktop\Code\C-Sharp-Projects\MovieStore\MovieStore.App\obj\Debug\net6.0\MovieStore.App.AssemblyInfoInputs.cache
 C:\Users\nikol\Desktop\Code\C-Sharp-Projects\MovieStore\MovieStore.App\obj\Debug\net6.0\MovieStore.App.AssemblyInfo.cs
 C:\Users\nikol\Desktop\Code\C-Sharp-Projects\MovieStore\MovieStore.App\obj\Debug\net6.0\MovieStore.App.csproj.CoreCompileInputs.cache
-C:\Users\nikol\Desktop\Code\C-Sharp-Projects\MovieStore\MovieStore.App\bin\Debug\net6.0\MovieStore.App.exe
-C:\Users\nikol\Desktop\Code\C-Sharp-Projects\MovieStore\MovieStore.App\bin\Debug\net6.0\MovieStore.App.deps.json
-C:\Users\nikol\Desktop\Code\C-Sharp-Projects\MovieStore\MovieStore.App\bin\Debug\net6.0\MovieStore.App.runtimeconfig.json
-C:\Users\nikol\Desktop\Code\C-Sharp-Projects\MovieStore\MovieStore.App\bin\Debug\net6.0\MovieStore.App.dll
-C:\Users\nikol\Desktop\Code\C-Sharp-Projects\MovieStore\MovieStore.App\bin\Debug\net6.0\MovieStore.App.pdb
-C:\Users\nikol\Desktop\Code\C-Sharp-Projects\MovieStore\MovieStore.App\obj\Debug\net6.0\MovieStore.App.dll
-C:\Users\nikol\Desktop\Code\C-Sharp-Projects\MovieStore\MovieStore.App\obj\Debug\net6.0\refint\MovieStore.App.dll
-C:\Users\nikol\Desktop\Code\C-Sharp-Projects\MovieStore\MovieStore.App\obj\Debug\net6.0\MovieStore.App.pdb
-C:\Users\nikol\Desktop\Code\C-Sharp-Projects\MovieStore\MovieStore.App\obj\Debug\net6.0\MovieStore.App.genruntimeconfig.cache
-C:\Users\nikol\Desktop\Code\C-Sharp-Projects\MovieStore\MovieStore.App\obj\Debug\net6.0\ref\MovieStore.App.dll
