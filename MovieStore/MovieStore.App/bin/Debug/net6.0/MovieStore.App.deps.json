@@ -1,0 +1,36 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v6.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v6.0": {
+      "MovieStore.App/1.0.0": {
+        "dependencies": {
+          "MovieStore.Domain": "1.0.0"
+        },
+        "runtime": {
+          "MovieStore.App.dll": {}
+        }
+      },
+      "MovieStore.Domain/1.0.0": {
+        "runtime": {
+          "MovieStore.Domain.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "MovieStore.App/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "MovieStore.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
