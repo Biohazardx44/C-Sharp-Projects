@@ -1,0 +1,74 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v6.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v6.0": {
+      "TaxiManagerApp9000.App/1.0.0": {
+        "dependencies": {
+          "TaxiManagerApp9000.Helpers": "1.0.0",
+          "TaxiManagerApp9000.Services": "1.0.0"
+        },
+        "runtime": {
+          "TaxiManagerApp9000.App.dll": {}
+        }
+      },
+      "TaxiManagerApp9000.DataAccess/1.0.0": {
+        "dependencies": {
+          "TaxiManagerApp9000.Domain": "1.0.0"
+        },
+        "runtime": {
+          "TaxiManagerApp9000.DataAccess.dll": {}
+        }
+      },
+      "TaxiManagerApp9000.Domain/1.0.0": {
+        "runtime": {
+          "TaxiManagerApp9000.Domain.dll": {}
+        }
+      },
+      "TaxiManagerApp9000.Helpers/1.0.0": {
+        "runtime": {
+          "TaxiManagerApp9000.Helpers.dll": {}
+        }
+      },
+      "TaxiManagerApp9000.Services/1.0.0": {
+        "dependencies": {
+          "TaxiManagerApp9000.DataAccess": "1.0.0",
+          "TaxiManagerApp9000.Domain": "1.0.0"
+        },
+        "runtime": {
+          "TaxiManagerApp9000.Services.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "TaxiManagerApp9000.App/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "TaxiManagerApp9000.DataAccess/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "TaxiManagerApp9000.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "TaxiManagerApp9000.Helpers/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "TaxiManagerApp9000.Services/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
