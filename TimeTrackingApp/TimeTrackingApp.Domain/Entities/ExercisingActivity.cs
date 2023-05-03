@@ -6,13 +6,13 @@ namespace TimeTrackingApp.Domain.Entities
     {
         public int UserId { get; set; }
         public int Duration { get; set; }
-        public ExercisingType Type { get; set; }
+        public ExercisingType ExercisingType { get; set; }
 
-        public ExercisingActivity(int userId, int duration, ExercisingType type) : base()
+        public ExercisingActivity(int userId, int duration, ExercisingType exercisingType) : base()
         {
             UserId = userId;
             Duration = duration;
-            Type = type;
+            ExercisingType = exercisingType;
         }
     }
 }

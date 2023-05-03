@@ -35,7 +35,8 @@ namespace TimeTrackingApp.Services
 
         public string GetTimeInMinutes()
         {
-            return TimeSpan.FromSeconds(_seconds).ToString() + " seconds";
+            TimeSpan timeSpan = TimeSpan.FromSeconds(_seconds);
+            return $"{timeSpan.TotalMinutes:0} minutes";
         }
 
         private void ClearCurrentConsoleLine()

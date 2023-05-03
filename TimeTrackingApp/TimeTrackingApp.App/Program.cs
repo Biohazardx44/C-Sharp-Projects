@@ -17,14 +17,12 @@ async void StartAppAsync()
 
     if (userManagerService.CurrentUser == null)
     {
-        ShowAuthMenu(userManagerService);
+        ShowLoginMenu(userManagerService);
     }
     else
     {
         ShowMainMenu(userManagerService);
     }
-
-
 }
 
 void ShowMainMenu(IUserManagerService userManagerService)
@@ -35,7 +33,7 @@ void ShowMainMenu(IUserManagerService userManagerService)
     switch (actionChoise)
     {
         case UserLogOut.LOG_OUT:
-            TextHelper.TextGenerator("Loging Out... Byee!", ConsoleColor.Yellow);
+            TextHelper.TextGenerator("You have been logged out!", ConsoleColor.Yellow);
             userManagerService.LogOut();
             StartAppAsync();
             break;
@@ -56,7 +54,8 @@ void ShowTrack(IUserManagerService userManagerService)
         $"{TrackOptions.READING}.Reading\n" +
         $"{TrackOptions.EXERCISING}.Exercising\n" +
         $"{TrackOptions.WORKING}.Working\n" +
-        $"{TrackOptions.OTHER_HOBBY}.Other Hobby"
+        $"{TrackOptions.OTHER_HOBBY}.Other Hobby\n" +
+        $"{TrackOptions.BACK_TO_MAIN_MENU}.Back to main menu"
         , ConsoleColor.Cyan);
     string trackChosen = Console.ReadLine();
 
@@ -66,13 +65,15 @@ void ShowTrack(IUserManagerService userManagerService)
             ShowReadingActivity(userManagerService, timerService);
             break;
         case TrackOptions.EXERCISING:
-            ShowExercisingActivity(userManagerService);
+            ShowExercisingActivity(userManagerService, timerService);
             break;
         case TrackOptions.WORKING:
-            ShowWorkingActivity(userManagerService);
+            ShowWorkingActivity(userManagerService, timerService);
             break;
         case TrackOptions.OTHER_HOBBY:
-            ShowHobbyActivity(userManagerService);
+            ShowHobbyActivity(userManagerService, timerService);
+            break;
+        case TrackOptions.BACK_TO_MAIN_MENU:
             break;
         default:
             TextHelper.TextGenerator("Invalid Input! Please enter one of the given options...", ConsoleColor.Red);
@@ -81,46 +82,129 @@ void ShowTrack(IUserManagerService userManagerService)
     }
 }
 
-void ShowHobbyActivity(IUserManagerService userManagerService)
+void ShowHobbyActivity(IUserManagerService userManagerService, ITimerTrackerService timerService)
 {
-    throw new NotImplementedException();
+    TextHelper.TextGenerator("Timer has started! Start working on your hobby!", ConsoleColor.Green);
+    timerService.StartTimer();
+
+    TextHelper.TextGenerator("Press ENTER when you want to stop the timer", ConsoleColor.Cyan);
+    Console.ReadLine();
+    timerService.StopTimer();
+
+    TextHelper.TextGenerator("Enter the name of the hobby you were doing:", ConsoleColor.Cyan);
+    string hobby = Console.ReadLine();
+    while (string.IsNullOrWhiteSpace(hobby))
+    {
+        TextHelper.TextGenerator("Invalid input, please enter a valid hobby:", ConsoleColor.Yellow);
+        hobby = Console.ReadLine();
+    }
+    string hobbyList = hobby;
+
+    string time = timerService.GetTimeInMinutes();
+    TextHelper.TextGenerator($"Time spent: {time}\nPress ENTER to go back to the main menu", ConsoleColor.Cyan);
+
+    Console.ReadLine();
+    StartAppAsync();
 }
 
-void ShowWorkingActivity(IUserManagerService userManagerService)
+void ShowWorkingActivity(IUserManagerService userManagerService, ITimerTrackerService timerService)
 {
-    throw new NotImplementedException();
+    TextHelper.TextGenerator("Timer has started & Working has begun!", ConsoleColor.Green);
+    timerService.StartTimer();
+
+    TextHelper.TextGenerator("Press ENTER when you want to stop the timer", ConsoleColor.Cyan);
+    Console.ReadLine();
+    timerService.StopTimer();
+
+    TextHelper.TextGenerator("Enter where you are working from:", ConsoleColor.Cyan);
+    Console.WriteLine
+        (
+            $"1){Working.Office}\n" +
+            $"2){Working.Home}"
+        );
+    int typeValue;
+    while (!int.TryParse(Console.ReadLine(), out typeValue) || !Enum.IsDefined(typeof(Working), typeValue))
+    {
+        TextHelper.TextGenerator("Invalid input, please enter a valid work place (1-2):", ConsoleColor.Yellow);
+    }
+    Working workingPlace = (Working)typeValue;
+
+    string time = timerService.GetTimeInMinutes();
+    TextHelper.TextGenerator($"Time spent: {time}\nPress ENTER to go back to the main menu", ConsoleColor.Cyan);
+
+    Console.ReadLine();
+    StartAppAsync();
 }
 
-void ShowExercisingActivity(IUserManagerService userManagerService)
+void ShowExercisingActivity(IUserManagerService userManagerService, ITimerTrackerService timerService)
 {
-    throw new NotImplementedException();
+    TextHelper.TextGenerator("Timer has started & Exercising has begun!", ConsoleColor.Green);
+    timerService.StartTimer();
+
+    TextHelper.TextGenerator("Press ENTER when you want to stop the timer", ConsoleColor.Cyan);
+    Console.ReadLine();
+    timerService.StopTimer();
+
+    TextHelper.TextGenerator("Enter the type of exercise you are doing:", ConsoleColor.Cyan);
+    Console.WriteLine
+        (
+            $"1){ExercisingType.Yoga}\n" +
+            $"2){ExercisingType.Running}\n" +
+            $"3){ExercisingType.Swimming}"
+        );
+    int typeValue;
+    while (!int.TryParse(Console.ReadLine(), out typeValue) || !Enum.IsDefined(typeof(ExercisingType), typeValue))
+    {
+        TextHelper.TextGenerator("Invalid input, please enter a valid exercise type (1-3):", ConsoleColor.Yellow);
+    }
+    ExercisingType exercisingType = (ExercisingType)typeValue;
+
+    string time = timerService.GetTimeInMinutes();
+    TextHelper.TextGenerator($"Time spent: {time}\nPress ENTER to go back to the main menu", ConsoleColor.Cyan);
+
+    Console.ReadLine();
+    StartAppAsync();
 }
 
 void ShowReadingActivity(IUserManagerService userManagerService, ITimerTrackerService timerService)
 {
-    TextHelper.TextGenerator("Timer is started", ConsoleColor.Green);
+    TextHelper.TextGenerator("Timer has started & Reading has begun!", ConsoleColor.Green);
     timerService.StartTimer();
 
-    TextHelper.TextGenerator("PressEnter when you want to stop the timer", ConsoleColor.Cyan);
-
+    TextHelper.TextGenerator("Press ENTER when you want to stop the timer", ConsoleColor.Cyan);
     Console.ReadLine();
-
     timerService.StopTimer();
 
-    TextHelper.TextGenerator("Enter the number of pages:", ConsoleColor.Cyan);
-    int.TryParse(Console.ReadLine(), out int pagesCount);
+    TextHelper.TextGenerator("Enter the number of pages you have read:", ConsoleColor.Cyan);
+    int pagesCount;
+    while (!int.TryParse(Console.ReadLine(), out pagesCount))
+    {
+        TextHelper.TextGenerator("Invalid input, please enter a valid integer:", ConsoleColor.Yellow);
+    }
+    int pages = pagesCount;
 
-    TextHelper.TextGenerator("Enter the type of book:", ConsoleColor.Cyan);
+    TextHelper.TextGenerator("Enter the type of book you are reading:", ConsoleColor.Cyan);
     Console.WriteLine
         (
-            $"{ReadingType.Fiction}.Fiction\n" +
-            $"{ReadingType.ProfessionalLiterature}.Professional Literature\n" +
-            $"{ReadingType.BellesLettres}.Belles Lettres"
+            $"1){ReadingType.Romance}\n" +
+            $"2){ReadingType.Fiction}\n" +
+            $"3){ReadingType.Fantasy}"
         );
-    string type = Console.ReadLine();
+    int typeValue;
+    while (!int.TryParse(Console.ReadLine(), out typeValue) || !Enum.IsDefined(typeof(ReadingType), typeValue))
+    {
+        TextHelper.TextGenerator("Invalid input, please enter a valid book type (1-3):", ConsoleColor.Yellow);
+    }
+    ReadingType bookType = (ReadingType)typeValue;
+
+    string time = timerService.GetTimeInMinutes();
+    TextHelper.TextGenerator($"Time spent: {time}\nPress ENTER to go back to the main menu", ConsoleColor.Cyan);
+
+    Console.ReadLine();
+    StartAppAsync();
 }
 
-void ShowAuthMenu(IUserManagerService userManagerService)
+void ShowLoginMenu(IUserManagerService userManagerService)
 {
     Console.WriteLine($"{UserLogIn.LOG_IN}.Log In\n{UserLogIn.REGISTER_USER}.Register");
     string authChoice = Console.ReadLine();
@@ -135,7 +219,7 @@ void ShowAuthMenu(IUserManagerService userManagerService)
             break;
         default:
             TextHelper.TextGenerator("Invalid Input! Please enter one of the given options...", ConsoleColor.Red);
-            ShowAuthMenu(userManagerService);
+            ShowLoginMenu(userManagerService);
             break;
     }
 
@@ -149,13 +233,13 @@ void ShowRegister(IUserManagerService userManagerService)
     TextHelper.TextGenerator("Enter your Last Name:", ConsoleColor.Cyan);
     string lastName = Console.ReadLine();
 
-    TextHelper.TextGenerator("Enter your age:", ConsoleColor.Cyan);
+    TextHelper.TextGenerator("Enter your Age:", ConsoleColor.Cyan);
     string age = Console.ReadLine();
 
-    TextHelper.TextGenerator("Enter username:", ConsoleColor.Cyan);
+    TextHelper.TextGenerator("Enter Username:", ConsoleColor.Cyan);
     string username = Console.ReadLine();
 
-    TextHelper.TextGenerator("Enter password:", ConsoleColor.Cyan);
+    TextHelper.TextGenerator("Enter Password:", ConsoleColor.Cyan);
     string password = Console.ReadLine();
 
     if (!int.TryParse(age, out int intAge))
@@ -178,7 +262,7 @@ void ShowRegister(IUserManagerService userManagerService)
 
 }
 
-void ShowLogIn(IUserManagerService authService)
+void ShowLogIn(IUserManagerService userManagerService)
 {
     for (int i = 0; i < 3; i++)
     {
@@ -190,20 +274,18 @@ void ShowLogIn(IUserManagerService authService)
 
         try
         {
-            authService.LogIn(username, password);
+            userManagerService.LogIn(username, password);
 
-            TextHelper.TextGenerator($"Success! Welcome {authService.CurrentUser.FirstName}.", ConsoleColor.Green);
+            TextHelper.TextGenerator($"Success! Welcome {userManagerService.CurrentUser.FirstName}.", ConsoleColor.Green);
 
             StartAppAsync();
         }
         catch (Exception ex)
         {
-            TextHelper.TextGenerator(ex.Message, ConsoleColor.Red);
-
-            TextHelper.TextGenerator("Unsuccessful login! Try again...", ConsoleColor.Red);
+            TextHelper.TextGenerator($"Unsuccessful login! Try again...", ConsoleColor.Red);
         }
     }
 
-    TextHelper.TextGenerator("Surpassed tries...\nClosing APP...\nGoodbye...", ConsoleColor.Red);
+    TextHelper.TextGenerator("\nYou have tried to login 3 times! No more attempts left!", ConsoleColor.Red);
     Environment.Exit(0);
 }

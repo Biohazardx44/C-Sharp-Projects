@@ -17,9 +17,9 @@ namespace TimeTrackingApp.DataAccess
         private async Task SeedAsync()
         {
             InsertAsync(new ExercisingActivity(1, 200, ExercisingType.Running));
-            InsertAsync(new ExercisingActivity(1, 4500, ExercisingType.General));
-            InsertAsync(new ExercisingActivity(2, 2500, ExercisingType.Sport));
-            InsertAsync(new ExercisingActivity(5, 2500, ExercisingType.General));
+            InsertAsync(new ExercisingActivity(1, 4500, ExercisingType.Swimming));
+            InsertAsync(new ExercisingActivity(2, 2500, ExercisingType.Yoga));
+            InsertAsync(new ExercisingActivity(5, 2500, ExercisingType.Swimming));
             InsertAsync(new ExercisingActivity(1, 2030, ExercisingType.Running));
         }
 

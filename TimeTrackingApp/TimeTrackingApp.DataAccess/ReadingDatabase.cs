@@ -17,11 +17,11 @@ namespace TimeTrackingApp.DataAccess
         private async Task SeedAsync()
         {
             InsertAsync(new ReadingActivity(1, 1000, 10, ReadingType.Fiction));
-            InsertAsync(new ReadingActivity(2, 2000, 20, ReadingType.Fiction));
-            InsertAsync(new ReadingActivity(3, 3000, 30, ReadingType.BellesLettres));
-            InsertAsync(new ReadingActivity(4, 4000, 40, ReadingType.BellesLettres));
+            InsertAsync(new ReadingActivity(2, 2000, 20, ReadingType.Romance));
+            InsertAsync(new ReadingActivity(3, 3000, 30, ReadingType.Fantasy));
+            InsertAsync(new ReadingActivity(4, 4000, 40, ReadingType.Fantasy));
             InsertAsync(new ReadingActivity(5, 5000, 50, ReadingType.Fiction));
-            InsertAsync(new ReadingActivity(1, 6000, 60, ReadingType.ProfessionalLiterature));
+            InsertAsync(new ReadingActivity(1, 6000, 60, ReadingType.Romance));
         }
 
         public ReadingActivity GetActivityById(int id)

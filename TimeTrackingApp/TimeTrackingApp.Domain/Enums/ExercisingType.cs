@@ -2,8 +2,8 @@
 {
     public enum ExercisingType
     {
-        General = 1,
+        Yoga = 1,
         Running = 2,
-        Sport = 3
+        Swimming = 3
     }
 }

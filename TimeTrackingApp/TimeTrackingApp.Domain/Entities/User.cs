@@ -8,11 +8,11 @@
         public string Username { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
 
-        private const int VALID_USERNAME_LENGHT = 5;
-        private const int VALID_PASSWORD_LENGHT = 6;
-        private const int VALID_NAME_LENGHT = 2;
-        private const int VALID_MIN_AGE = 18;
-        private const int VALID_MAX_AGE = 120;
+        private const int _validUsernameLenght = 5;
+        private const int _validPasswordLenght = 6;
+        private const int _validNameLenght = 2;
+        private const int _validMinAge = 18;
+        private const int _validMaxAge = 120;
 
         public User(string firstName, string lastName, int age, string username, string password) : base()
         {
@@ -22,24 +22,24 @@
             ValidateNameInput(lastName);
             LastName = lastName;
 
-            if (age < VALID_MIN_AGE || age > VALID_MAX_AGE)
+            if (age < _validMinAge || age > _validMaxAge)
             {
-                throw new Exception("Not in valid age group!");
+                throw new Exception("Age should not be less than 18 years or over 120!");
             }
             Age = age;
 
-            if (username.Length < VALID_USERNAME_LENGHT)
+            if (username.Length < _validUsernameLenght)
             {
-                throw new Exception($"Username should be more then {VALID_USERNAME_LENGHT}");
+                throw new Exception($"Username should not be shorter than {_validUsernameLenght} characters!");
             }
 
-            if (username.Length < VALID_USERNAME_LENGHT)
+            if (password.Length < _validPasswordLenght)
             {
-                throw new Exception($"Password should be more then {VALID_USERNAME_LENGHT}");
+                throw new Exception($"Password should not be shorter than {_validPasswordLenght} characters!");
             }
             ValidatePassword(password);
-            Password = password;
 
+            Password = password;
             Username = username;
         }
 
@@ -48,29 +48,46 @@
             bool hasCapital = false;
             bool hasNum = false;
 
+            foreach (char c in password)
+            {
+                if (char.IsUpper(c))
+                {
+                    hasCapital = true;
+                }
+                else if (char.IsDigit(c))
+                {
+                    hasNum = true;
+                }
+
+                if (hasCapital && hasNum)
+                {
+                    break;
+                }
+            }
+
             if (!hasCapital)
             {
-                //throw new Exception("Password should have atleast one capital leater!");
+                throw new Exception("Password should contain at least one capital letter!");
             }
 
             if (!hasNum)
             {
-                //throw new Exception("Password should have atleast one number!");
+                throw new Exception("Password should contain at least one number!");
             }
         }
 
         private void ValidateNameInput(string input)
         {
-            if (input.Length < VALID_NAME_LENGHT)
+            if (input.Length < _validNameLenght)
             {
-                throw new Exception("First and Last Name should not be shorter then two chars!");
+                throw new Exception("First and Last Name should not be shorter than 2 characters!");
             }
 
             foreach (char c in input)
             {
                 if (char.IsDigit(c))
                 {
-                    //throw new Exception("First and Last Name should not contain numbers!");
+                    throw new Exception("First and Last Name should not contain numbers!");
                 }
             }
         }

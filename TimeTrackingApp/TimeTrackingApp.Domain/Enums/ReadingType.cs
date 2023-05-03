@@ -2,8 +2,8 @@
 {
     public enum ReadingType
     {
-        BellesLettres = 1,
+        Romance = 1,
         Fiction = 2,
-        ProfessionalLiterature = 3
+        Fantasy = 3
     }
 }
