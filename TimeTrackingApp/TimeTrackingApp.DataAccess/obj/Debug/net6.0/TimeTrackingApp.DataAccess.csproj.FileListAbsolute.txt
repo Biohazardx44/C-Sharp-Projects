@@ -1,0 +1,15 @@
+C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.DataAccess\bin\Debug\net6.0\TimeTrackingApp.DataAccess.deps.json
+C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.DataAccess\bin\Debug\net6.0\TimeTrackingApp.DataAccess.dll
+C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.DataAccess\bin\Debug\net6.0\TimeTrackingApp.DataAccess.pdb
+C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.DataAccess\bin\Debug\net6.0\TimeTrackingApp.Domain.dll
+C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.DataAccess\bin\Debug\net6.0\TimeTrackingApp.Domain.pdb
+C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.DataAccess\obj\Debug\net6.0\TimeTrackingApp.DataAccess.csproj.AssemblyReference.cache
+C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.DataAccess\obj\Debug\net6.0\TimeTrackingApp.DataAccess.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.DataAccess\obj\Debug\net6.0\TimeTrackingApp.DataAccess.AssemblyInfoInputs.cache
+C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.DataAccess\obj\Debug\net6.0\TimeTrackingApp.DataAccess.AssemblyInfo.cs
+C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.DataAccess\obj\Debug\net6.0\TimeTrackingApp.DataAccess.csproj.CoreCompileInputs.cache
+C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.DataAccess\obj\Debug\net6.0\TimeTrackingApp.DataAccess.csproj.CopyComplete
+C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.DataAccess\obj\Debug\net6.0\TimeTrackingApp.DataAccess.dll
+C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.DataAccess\obj\Debug\net6.0\refint\TimeTrackingApp.DataAccess.dll
+C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.DataAccess\obj\Debug\net6.0\TimeTrackingApp.DataAccess.pdb
+C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.DataAccess\obj\Debug\net6.0\ref\TimeTrackingApp.DataAccess.dll

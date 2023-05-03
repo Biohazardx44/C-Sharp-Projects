@@ -1,0 +1,17 @@
+C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.Services\bin\Debug\net6.0\TimeTrackingApp.Services.deps.json
+C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.Services\bin\Debug\net6.0\TimeTrackingApp.Services.dll
+C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.Services\bin\Debug\net6.0\TimeTrackingApp.Services.pdb
+C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.Services\bin\Debug\net6.0\TimeTrackingApp.DataAccess.dll
+C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.Services\bin\Debug\net6.0\TimeTrackingApp.Domain.dll
+C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.Services\bin\Debug\net6.0\TimeTrackingApp.DataAccess.pdb
+C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.Services\bin\Debug\net6.0\TimeTrackingApp.Domain.pdb
+C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.Services\obj\Debug\net6.0\TimeTrackingApp.Services.csproj.AssemblyReference.cache
+C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.Services\obj\Debug\net6.0\TimeTrackingApp.Services.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.Services\obj\Debug\net6.0\TimeTrackingApp.Services.AssemblyInfoInputs.cache
+C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.Services\obj\Debug\net6.0\TimeTrackingApp.Services.AssemblyInfo.cs
+C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.Services\obj\Debug\net6.0\TimeTrackingApp.Services.csproj.CoreCompileInputs.cache
+C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.Services\obj\Debug\net6.0\TimeTrackingApp.Services.csproj.CopyComplete
+C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.Services\obj\Debug\net6.0\TimeTrackingApp.Services.dll
+C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.Services\obj\Debug\net6.0\refint\TimeTrackingApp.Services.dll
+C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.Services\obj\Debug\net6.0\TimeTrackingApp.Services.pdb
+C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.Services\obj\Debug\net6.0\ref\TimeTrackingApp.Services.dll

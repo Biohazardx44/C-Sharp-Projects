@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "9YgmwfXRqsxRGrgbMXE6R6CKIYr/aBi9iKof7iV+mUXz65UOi8zbwGH9gU8S1S6s0Ydzz+aQN54EXFuM7aa8yA==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\nikol\\Desktop\\Code\\C-Sharp-Projects\\TimeTrackingApp\\TimeTrackingApp.App\\TimeTrackingApp.App.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\nikol\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33516.290
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimeTrackingApp.App", "TimeTrackingApp.App\TimeTrackingApp.App.csproj", "{1A6DDD1E-5A71-403C-A128-02819E327274}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimeTrackingApp.Domain", "TimeTrackingApp.Domain\TimeTrackingApp.Domain.csproj", "{9033F399-C04C-4C5B-A0A5-784B22E439B4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimeTrackingApp.Services", "TimeTrackingApp.Services\TimeTrackingApp.Services.csproj", "{E89482D8-854E-43A4-BB32-51D9D8AC3488}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeTrackingApp.DataAccess", "TimeTrackingApp.DataAccess\TimeTrackingApp.DataAccess.csproj", "{8D6F916B-8F45-4CAA-8FA2-F9D0FE4550F8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeTrackingApp.Helpers", "TimeTrackingApp.Helpers\TimeTrackingApp.Helpers.csproj", "{A47C3548-45BD-4E13-BB92-6F192A26BEB5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1A6DDD1E-5A71-403C-A128-02819E327274}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A6DDD1E-5A71-403C-A128-02819E327274}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A6DDD1E-5A71-403C-A128-02819E327274}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A6DDD1E-5A71-403C-A128-02819E327274}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9033F399-C04C-4C5B-A0A5-784B22E439B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9033F399-C04C-4C5B-A0A5-784B22E439B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9033F399-C04C-4C5B-A0A5-784B22E439B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9033F399-C04C-4C5B-A0A5-784B22E439B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E89482D8-854E-43A4-BB32-51D9D8AC3488}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E89482D8-854E-43A4-BB32-51D9D8AC3488}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E89482D8-854E-43A4-BB32-51D9D8AC3488}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E89482D8-854E-43A4-BB32-51D9D8AC3488}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D6F916B-8F45-4CAA-8FA2-F9D0FE4550F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D6F916B-8F45-4CAA-8FA2-F9D0FE4550F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D6F916B-8F45-4CAA-8FA2-F9D0FE4550F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D6F916B-8F45-4CAA-8FA2-F9D0FE4550F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A47C3548-45BD-4E13-BB92-6F192A26BEB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A47C3548-45BD-4E13-BB92-6F192A26BEB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A47C3548-45BD-4E13-BB92-6F192A26BEB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A47C3548-45BD-4E13-BB92-6F192A26BEB5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C1249A17-2F38-4EEF-B6AE-FFE817937EE4}
+	EndGlobalSection
+EndGlobal

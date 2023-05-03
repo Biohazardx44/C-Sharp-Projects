@@ -1,0 +1,12 @@
+C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.Helpers\bin\Debug\net6.0\TimeTrackingApp.Helpers.deps.json
+C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.Helpers\bin\Debug\net6.0\TimeTrackingApp.Helpers.dll
+C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.Helpers\bin\Debug\net6.0\TimeTrackingApp.Helpers.pdb
+C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.Helpers\obj\Debug\net6.0\TimeTrackingApp.Helpers.csproj.AssemblyReference.cache
+C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.Helpers\obj\Debug\net6.0\TimeTrackingApp.Helpers.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.Helpers\obj\Debug\net6.0\TimeTrackingApp.Helpers.AssemblyInfoInputs.cache
+C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.Helpers\obj\Debug\net6.0\TimeTrackingApp.Helpers.AssemblyInfo.cs
+C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.Helpers\obj\Debug\net6.0\TimeTrackingApp.Helpers.csproj.CoreCompileInputs.cache
+C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.Helpers\obj\Debug\net6.0\TimeTrackingApp.Helpers.dll
+C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.Helpers\obj\Debug\net6.0\refint\TimeTrackingApp.Helpers.dll
+C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.Helpers\obj\Debug\net6.0\TimeTrackingApp.Helpers.pdb
+C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.Helpers\obj\Debug\net6.0\ref\TimeTrackingApp.Helpers.dll
