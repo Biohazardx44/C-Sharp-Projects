@@ -27,7 +27,7 @@ async void StartAppAsync()
 
 void ShowMainMenu(IUserManagerService userManagerService)
 {
-    Console.WriteLine($"{UserLogOut.LOG_OUT}.Log Out\n{UserLogOut.TRACK}.Track");
+    Console.WriteLine($"{UserLogOut.LOG_OUT}.Log Out\n{UserLogOut.TRACK}.Track Activity\n{UserLogOut.STATISTICS}.Statistics\n{UserLogOut.MANAGE_ACCOUNT}.Manage Account");
     string actionChoise = Console.ReadLine();
 
     switch (actionChoise)
@@ -41,11 +41,136 @@ void ShowMainMenu(IUserManagerService userManagerService)
             ShowTrack(userManagerService);
             StartAppAsync();
             break;
+        case UserLogOut.STATISTICS:
+            ShowStatistics(userManagerService);
+            StartAppAsync();
+            break;
+        case UserLogOut.MANAGE_ACCOUNT:
+            ShowManageAccount(userManagerService);
+            StartAppAsync();
+            break;
         default:
             TextHelper.TextGenerator("Invalid Input! Please enter one of the given options...", ConsoleColor.Red);
             ShowMainMenu(userManagerService);
             break;
     }
+}
+
+void ShowManageAccount(IUserManagerService userManagerService)
+{
+    TextHelper.TextGenerator(
+    $"{ManageAccountOptions.CHANGE_PASSWORD}.Change password\n" +
+    $"{ManageAccountOptions.CHANGE_FIRST_NAME}.Change First Name\n" +
+    $"{ManageAccountOptions.CHANGE_LAST_NAME}.Change Last Name\n" +
+    $"{ManageAccountOptions.DEACTIVATE_ACCOUNT}.Deactivate account\n" +
+    $"{ManageAccountOptions.BACK_TO_MAIN_MENU}.Back to main menu"
+    , ConsoleColor.Cyan);
+    string accountOptionChosen = Console.ReadLine();
+
+    switch (accountOptionChosen)
+    {
+        case ManageAccountOptions.CHANGE_PASSWORD:
+            AccountChangePassword(userManagerService);
+            break;
+        case ManageAccountOptions.CHANGE_FIRST_NAME:
+            AccountChangeFirstName(userManagerService);
+            break;
+        case ManageAccountOptions.CHANGE_LAST_NAME:
+            AccountChangeLastName(userManagerService);
+            break;
+        case ManageAccountOptions.DEACTIVATE_ACCOUNT:
+            AccountDeactivation(userManagerService);
+            break;
+        case ManageAccountOptions.BACK_TO_MAIN_MENU:
+            break;
+        default:
+            TextHelper.TextGenerator("Invalid Input! Please enter one of the given options...", ConsoleColor.Red);
+            ShowStatistics(userManagerService);
+            break;
+    }
+}
+
+void AccountChangePassword(IUserManagerService userManagerService)
+{
+
+}
+
+void AccountChangeFirstName(IUserManagerService userManagerService)
+{
+
+}
+
+void AccountChangeLastName(IUserManagerService userManagerService)
+{
+
+}
+
+void AccountDeactivation(IUserManagerService userManagerService)
+{
+
+}
+
+void ShowStatistics(IUserManagerService userManagerService)
+{
+    TextHelper.TextGenerator(
+        $"{StatisticsOptions.READING}.Reading\n" +
+        $"{StatisticsOptions.EXERCISING}.Exercising\n" +
+        $"{StatisticsOptions.WORKING}.Working\n" +
+        $"{StatisticsOptions.HOBBIES}.Hobbies\n" +
+        $"{StatisticsOptions.GLOBAL}.Global\n" +
+        $"{StatisticsOptions.BACK_TO_MAIN_MENU}.Back to main menu"
+        , ConsoleColor.Cyan);
+    string statisticChosen = Console.ReadLine();
+
+    switch (statisticChosen)
+    {
+        case StatisticsOptions.READING:
+            ShowReadingStatistics(userManagerService);
+            break;
+        case StatisticsOptions.EXERCISING:
+            ShowExercisingStatistics(userManagerService);
+            break;
+        case StatisticsOptions.WORKING:
+            ShowWorkingStatistics(userManagerService);
+            break;
+        case StatisticsOptions.HOBBIES:
+            ShowHobbiesStatistics(userManagerService);
+            break;
+        case StatisticsOptions.GLOBAL:
+            ShowGlobalStatistics(userManagerService);
+            break;
+        case StatisticsOptions.BACK_TO_MAIN_MENU:
+            break;
+        default:
+            TextHelper.TextGenerator("Invalid Input! Please enter one of the given options...", ConsoleColor.Red);
+            ShowStatistics(userManagerService);
+            break;
+    }
+}
+
+void ShowReadingStatistics(IUserManagerService userManagerService)
+{
+
+}
+
+void ShowExercisingStatistics(IUserManagerService userManagerService)
+{
+
+}
+
+void ShowWorkingStatistics(IUserManagerService userManagerService)
+{
+
+}
+
+void ShowHobbiesStatistics(IUserManagerService userManagerService)
+{
+
+}
+
+void ShowGlobalStatistics(IUserManagerService userManagerService)
+{
+
 }
 
 void ShowTrack(IUserManagerService userManagerService)
@@ -77,7 +202,7 @@ void ShowTrack(IUserManagerService userManagerService)
             break;
         default:
             TextHelper.TextGenerator("Invalid Input! Please enter one of the given options...", ConsoleColor.Red);
-            ShowMainMenu(userManagerService);
+            ShowTrack(userManagerService);
             break;
     }
 }
@@ -252,6 +377,7 @@ void ShowRegister(IUserManagerService userManagerService)
         try
         {
             userManagerService.Register(firstName, lastName, intAge, username, password);
+            TextHelper.TextGenerator("You have successfully registered!", ConsoleColor.Green);
         }
         catch (Exception ex)
         {
@@ -260,6 +386,7 @@ void ShowRegister(IUserManagerService userManagerService)
         }
     }
 
+    StartAppAsync();
 }
 
 void ShowLogIn(IUserManagerService userManagerService)

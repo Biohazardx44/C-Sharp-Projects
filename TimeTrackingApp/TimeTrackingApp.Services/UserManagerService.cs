@@ -12,26 +12,26 @@ namespace TimeTrackingApp.Services
 
         public UserManagerService(IUserDatabase database)
         {
-            _database = database;
+            _database = database ?? throw new ArgumentNullException(nameof(database));
         }
 
         public void LogIn(string username, string password)
         {
             if (string.IsNullOrEmpty(username))
             {
-                throw new ArgumentNullException("Username can't be empty!");
+                throw new ArgumentNullException("Username can't be empty!", nameof(username));
             }
 
             if (string.IsNullOrEmpty(password))
             {
-                throw new ArgumentNullException("Password can't be empty!");
+                throw new ArgumentNullException("Password can't be empty!", nameof(password));
             }
 
             User currentUser = _database.GetUserByUsernameAndPassword(username, password);
 
             if (currentUser == null)
             {
-                throw new ArgumentException("user does not exist!");
+                throw new ArgumentException("User does not exist!", nameof(username));
             }
 
             CurrentUser = currentUser;
@@ -41,25 +41,26 @@ namespace TimeTrackingApp.Services
         {
             if (string.IsNullOrEmpty(firstName))
             {
-                throw new ArgumentNullException("Enter a Name!");
+                throw new ArgumentNullException("Enter your First Name!", nameof(firstName));
             }
 
             if (string.IsNullOrEmpty(lastName))
             {
-                throw new ArgumentNullException("Enter a Last Name!");
+                throw new ArgumentNullException("Enter your Last Name!", nameof(lastName));
             }
 
             if (string.IsNullOrEmpty(username))
             {
-                throw new ArgumentNullException("Username can't be empty!");
+                throw new ArgumentNullException("Username can't be empty!", nameof(username));
             }
 
             if (string.IsNullOrEmpty(password))
             {
-                throw new ArgumentNullException("Password can't be empty!");
+                throw new ArgumentNullException("Password can't be empty!", nameof(password));
             }
 
-            _database.InsertAsync(new User(firstName, lastName, age, username, password));
+            User user = new User(firstName, lastName, age, username, password);
+            _database.InsertAsync(user);
         }
 
         public void LogOut()

@@ -24,7 +24,7 @@
 
             if (age < _validMinAge || age > _validMaxAge)
             {
-                throw new Exception("Age should not be less than 18 years or over 120!");
+                throw new Exception($"Age should not be less than {_validMinAge} or over {_validMaxAge} years!");
             }
             Age = age;
 
@@ -80,7 +80,7 @@
         {
             if (input.Length < _validNameLenght)
             {
-                throw new Exception("First and Last Name should not be shorter than 2 characters!");
+                throw new Exception($"First and Last Name should not be shorter than {_validNameLenght} characters!");
             }
 
             foreach (char c in input)

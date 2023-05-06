@@ -6,66 +6,62 @@ namespace TimeTrackingApp.DataAccess
 {
     public abstract class Database<T> : IDatabase<T> where T : BaseEntity
     {
-        protected List<T> Items;
+        private readonly string _filePath;
 
-        private const string DATABASE_FOLDER_NAME = "Database";
+        protected List<T> Items = new List<T>();
+
+        private const string DATABASE_FOLDER_NAME = "../../../../Database";
         private const string DATABASE_FILE_EXTENSION = ".json";
-
-        private readonly string _filePath = $"{DATABASE_FOLDER_NAME}/{typeof(T).Name}{DATABASE_FILE_EXTENSION}";
 
         public Database()
         {
-            Items = new List<T>();
-
             if (!Directory.Exists(DATABASE_FOLDER_NAME))
             {
                 Directory.CreateDirectory(DATABASE_FOLDER_NAME);
             }
 
+            _filePath = Path.Combine(DATABASE_FOLDER_NAME, typeof(T).Name + "s" + DATABASE_FILE_EXTENSION);
+
             if (!File.Exists(_filePath))
             {
-                var file = File.Create(_filePath);
-                file.Close();
+                File.Create(_filePath).Close();
             }
 
-            Task.Run(async () => Items = await ReadFromFileAsync()).Wait();
+            LoadItemsAsync().Wait();
         }
 
-        public async Task DeleteAsync(T Data)
-        {
-            Items = Items.Where(item => item.Id == Data.Id).ToList();
+        public List<T> GetAll() => Items;
 
+        public T GetById(int id) => Items.FirstOrDefault(i => i.Id == id);
+
+        public async Task InsertAsync(T data)
+        {
+            data.Id = Items.Count > 0 ? Items.Max(i => i.Id) + 1 : 1;
+            Items.Add(data);
             await WriteToFileAsync();
         }
 
-        public List<T> GetAll()
-        {
-            return Items;
-        }
-
-        public T GetById(int Id)
-        {
-            return Items.FirstOrDefault(item => item.Id == Id);
-        }
-
-        public async Task InsertAsync(T Data)
-        {
-            Items.Add(AutoIncrementId(Data));
-            await WriteToFileAsync();
-        }
-
-        public async Task UpdateAsync(T Data)
+        public async Task UpdateAsync(T data)
         {
             await WriteToFileAsync();
         }
 
-        private async Task<List<T>> ReadFromFileAsync()
+        public async Task DeleteAsync(T data)
+        {
+            Items.RemoveAll(i => i.Id == data.Id);
+            await WriteToFileAsync();
+        }
+
+        private async Task LoadItemsAsync()
         {
             using (StreamReader sr = new StreamReader(_filePath))
             {
-                string data = await sr.ReadToEndAsync();
+                string jsonData = await sr.ReadToEndAsync();
 
-                return JsonConvert.DeserializeObject<List<T>>(data) ?? new List<T>();
+                if (!string.IsNullOrEmpty(jsonData))
+                {
+                    Items = JsonConvert.DeserializeObject<List<T>>(jsonData);
+                }
             }
         }
 
@@ -73,27 +69,13 @@ namespace TimeTrackingApp.DataAccess
         {
             using (StreamWriter sw = new StreamWriter(_filePath))
             {
-                string data = JsonConvert.SerializeObject(Items, new JsonSerializerSettings()
+                string jsonData = JsonConvert.SerializeObject(Items, Formatting.Indented, new JsonSerializerSettings
                 {
-                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
                 });
 
-                await sw.WriteLineAsync(data);
+                await sw.WriteAsync(jsonData);
             }
-        }
-
-        private T AutoIncrementId(T item)
-        {
-            int currentId = 0;
-
-            if (Items.Count > 0)
-            {
-                currentId = Items.OrderByDescending(item => item.Id).First().Id;
-            }
-
-            item.Id = ++currentId;
-
-            return item;
         }
     }
 }

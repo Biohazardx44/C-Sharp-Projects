@@ -5,12 +5,13 @@ namespace TimeTrackingApp.Services
 {
     public class TimeTrackerService : ITimerTrackerService
     {
-        private readonly System.Timers.Timer _timer = new(interval: 1000);
-        private int _seconds = 0;
+        private readonly System.Timers.Timer _timer = new System.Timers.Timer(1000);
+        private int _seconds;
 
         public void StartTimer()
         {
             _seconds = 0;
+            _timer.Elapsed -= OnTimerElapsed;
 
             _timer.Elapsed += OnTimerElapsed;
             _timer.Start();
@@ -23,37 +24,35 @@ namespace TimeTrackingApp.Services
 
         private void OnTimerElapsed(object sender, ElapsedEventArgs e)
         {
-            SetAndClear();
-            HandleTimer();
+            ClearConsoleLineIfNecessary();
+            IncrementTimer();
+            PrintTimeInSeconds();
         }
 
-        private void HandleTimer()
+        private void ClearConsoleLineIfNecessary()
         {
-            _seconds += 1;
-            Console.WriteLine(_seconds.ToString());
+            if (_seconds >= 1)
+            {
+                Console.SetCursorPosition(0, Console.CursorTop - 1);
+                Console.Write(new string(' ', Console.WindowWidth));
+                Console.SetCursorPosition(0, Console.CursorTop);
+            }
+        }
+
+        private void IncrementTimer()
+        {
+            _seconds++;
+        }
+
+        private void PrintTimeInSeconds()
+        {
+            Console.WriteLine(_seconds);
         }
 
         public string GetTimeInMinutes()
         {
             TimeSpan timeSpan = TimeSpan.FromSeconds(_seconds);
-            return $"{timeSpan.TotalMinutes:0} minutes";
-        }
-
-        private void ClearCurrentConsoleLine()
-        {
-            int currentLineCursor = Console.CursorTop;
-            Console.SetCursorPosition(0, Console.CursorTop);
-            Console.Write(new string(' ', Console.WindowWidth));
-            Console.SetCursorPosition(0, currentLineCursor);
-        }
-
-        private void SetAndClear()
-        {
-            if (_seconds >= 1)
-            {
-                Console.SetCursorPosition(0, Console.CursorTop - 1);
-                ClearCurrentConsoleLine();
-            }
+            return $"{timeSpan.TotalMinutes:F0} minutes";
         }
     }
 }
