@@ -1,5 +1,6 @@
 [
   {
+    "IsActive": true,
     "FirstName": "Test",
     "LastName": "Test",
     "Age": 18,
@@ -8,14 +9,16 @@
     "Id": 1
   },
   {
+    "IsActive": true,
     "FirstName": "admin",
     "LastName": "admin",
     "Age": 18,
     "Username": "admin",
-    "Password": "A123456",
+    "Password": "A12345",
     "Id": 2
   },
   {
+    "IsActive": true,
     "FirstName": "newuser",
     "LastName": "newuser",
     "Age": 20,
@@ -24,51 +27,21 @@
     "Id": 3
   },
   {
-    "FirstName": "newAdmin",
-    "LastName": "newAdmin",
-    "Age": 25,
-    "Username": "newAdmin",
+    "IsActive": true,
+    "FirstName": "newadmin",
+    "LastName": "newadmin",
+    "Age": 20,
+    "Username": "newadmin",
     "Password": "A12345",
     "Id": 4
   },
   {
-    "FirstName": "newUser",
-    "LastName": "newUser",
-    "Age": 20,
-    "Username": "newUser",
+    "IsActive": false,
+    "FirstName": "NewFirstName",
+    "LastName": "NewLastName",
+    "Age": 60,
+    "Username": "NewTest",
     "Password": "A12345",
     "Id": 5
-  },
-  {
-    "FirstName": "testing",
-    "LastName": "testing",
-    "Age": 20,
-    "Username": "testingUsername",
-    "Password": "Test123",
-    "Id": 6
-  },
-  {
-    "FirstName": "newTest",
-    "LastName": "newTest",
-    "Age": 30,
-    "Username": "SomeUser",
-    "Password": "A12345",
-    "Id": 7
-  },
-  {
-    "FirstName": "randomTest",
-    "LastName": "randomTest",
-    "Age": 69,
-    "Username": "randomUser",
-    "Password": "A12345",
-    "Id": 8
-  },
-  {
-    "FirstName": "newUser",
-    "LastName": "newUser",
-    "Age": 20,
-    "Username": "newUser22",
-    "Password": "A12345",
-    "Id": 9
   }
 ]

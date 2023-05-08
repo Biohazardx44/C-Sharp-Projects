@@ -11,10 +11,10 @@ namespace TimeTrackingApp.Domain.Entities
 
         public ReadingActivity(int userId, int duration, int pageCount, ReadingType readingType) : base()
         {
+            UserId = userId;
+            Duration = duration;
             PageCount = pageCount;
             ReadingType = readingType;
-            Duration = duration;
-            UserId = userId;
         }
     }
 }

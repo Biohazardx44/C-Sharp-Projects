@@ -1,5 +1,6 @@
 ﻿using TimeTrackingApp.DataAccess;
 using TimeTrackingApp.DataAccess.Interfaces;
+using TimeTrackingApp.Domain.Entities;
 using TimeTrackingApp.Domain.Enums;
 using TimeTrackingApp.Helpers;
 using TimeTrackingApp.Services;
@@ -9,23 +10,23 @@ IUserDatabase database = new UserDatabase();
 IUserManagerService userManagerService = new UserManagerService(database);
 ITimerTrackerService timerService = new TimeTrackerService();
 
-StartAppAsync();
+await StartAppAsync();
 
-async void StartAppAsync()
+async Task StartAppAsync()
 {
     TextHelper.TextGenerator("Welcome to Time Tracking APP", ConsoleColor.Green);
 
     if (userManagerService.CurrentUser == null)
     {
-        ShowLoginMenu(userManagerService);
+        await ShowLoginMenu(userManagerService);
     }
     else
     {
-        ShowMainMenu(userManagerService);
+        await ShowMainMenu(userManagerService);
     }
 }
 
-void ShowMainMenu(IUserManagerService userManagerService)
+async Task ShowMainMenu(IUserManagerService userManagerService)
 {
     Console.WriteLine($"{UserLogOut.LOG_OUT}.Log Out\n{UserLogOut.TRACK}.Track Activity\n{UserLogOut.STATISTICS}.Statistics\n{UserLogOut.MANAGE_ACCOUNT}.Manage Account");
     string actionChoise = Console.ReadLine();
@@ -35,28 +36,28 @@ void ShowMainMenu(IUserManagerService userManagerService)
         case UserLogOut.LOG_OUT:
             TextHelper.TextGenerator("You have been logged out!", ConsoleColor.Yellow);
             userManagerService.LogOut();
-            StartAppAsync();
+            await StartAppAsync();
             break;
         case UserLogOut.TRACK:
-            ShowTrack(userManagerService);
-            StartAppAsync();
+            await ShowTrack(userManagerService);
+            await StartAppAsync();
             break;
         case UserLogOut.STATISTICS:
-            ShowStatistics(userManagerService);
-            StartAppAsync();
+            await ShowStatistics(userManagerService);
+            await StartAppAsync();
             break;
         case UserLogOut.MANAGE_ACCOUNT:
-            ShowManageAccount(userManagerService);
-            StartAppAsync();
+            await ShowManageAccountAsync(userManagerService, database);
+            await StartAppAsync();
             break;
         default:
             TextHelper.TextGenerator("Invalid Input! Please enter one of the given options...", ConsoleColor.Red);
-            ShowMainMenu(userManagerService);
+            await ShowMainMenu(userManagerService);
             break;
     }
 }
 
-void ShowManageAccount(IUserManagerService userManagerService)
+async Task ShowManageAccountAsync(IUserManagerService userManagerService, IUserDatabase database)
 {
     TextHelper.TextGenerator(
     $"{ManageAccountOptions.CHANGE_PASSWORD}.Change password\n" +
@@ -70,47 +71,234 @@ void ShowManageAccount(IUserManagerService userManagerService)
     switch (accountOptionChosen)
     {
         case ManageAccountOptions.CHANGE_PASSWORD:
-            AccountChangePassword(userManagerService);
+            await AccountChangePasswordAsync(userManagerService, database);
             break;
         case ManageAccountOptions.CHANGE_FIRST_NAME:
-            AccountChangeFirstName(userManagerService);
+            await AccountChangeFirstNameAsync(userManagerService, database);
             break;
         case ManageAccountOptions.CHANGE_LAST_NAME:
-            AccountChangeLastName(userManagerService);
+            await AccountChangeLastNameAsync(userManagerService, database);
             break;
         case ManageAccountOptions.DEACTIVATE_ACCOUNT:
-            AccountDeactivation(userManagerService);
+            await AccountDeactivationAsync(userManagerService, database);
             break;
         case ManageAccountOptions.BACK_TO_MAIN_MENU:
             break;
         default:
             TextHelper.TextGenerator("Invalid Input! Please enter one of the given options...", ConsoleColor.Red);
-            ShowStatistics(userManagerService);
+            await ShowManageAccountAsync(userManagerService, database);
             break;
     }
 }
 
-void AccountChangePassword(IUserManagerService userManagerService)
+async Task AccountChangePasswordAsync(IUserManagerService userManagerService, IUserDatabase database)
 {
+    User currentUser = userManagerService.CurrentUser;
+    int incorrectAttempts = 0;
 
+    while (incorrectAttempts < 3)
+    {
+        TextHelper.TextGenerator("Enter your current password:", ConsoleColor.Cyan);
+        string currentPassword = Console.ReadLine();
+
+        if (currentUser.Password != currentPassword)
+        {
+            TextHelper.TextGenerator("The current password you entered is incorrect.", ConsoleColor.Red);
+            incorrectAttempts++;
+        }
+        else
+        {
+            break;
+        }
+    }
+
+    if (incorrectAttempts == 3)
+    {
+        TextHelper.TextGenerator("\nYou have tried to enter your current password 3 times! No more attempts left. Exiting application...", ConsoleColor.Red);
+        Environment.Exit(0);
+    }
+
+    string newPassword;
+    while (true)
+    {
+        TextHelper.TextGenerator("Enter the new password:", ConsoleColor.Cyan);
+        newPassword = Console.ReadLine();
+
+        try
+        {
+            currentUser.ValidatePassword(newPassword);
+            break;
+        }
+        catch (Exception ex)
+        {
+            TextHelper.TextGenerator(ex.Message, ConsoleColor.Red);
+            incorrectAttempts++;
+        }
+
+        if (incorrectAttempts == 3)
+        {
+            TextHelper.TextGenerator("\nYou have tried to enter a valid password 3 times! No more attempts left. Exiting application...", ConsoleColor.Red);
+            Environment.Exit(0);
+        }
+    }
+
+    currentUser.Password = newPassword;
+    await database.UpdateUserAsync(currentUser);
+
+    TextHelper.TextGenerator("Password updated successfully!", ConsoleColor.Green);
+    await ShowManageAccountAsync(userManagerService, database);
 }
 
-void AccountChangeFirstName(IUserManagerService userManagerService)
+async Task AccountChangeFirstNameAsync(IUserManagerService userManagerService, IUserDatabase database)
 {
+    User currentUser = userManagerService.CurrentUser;
 
+    int incorrectAttempts = 0;
+
+    while (incorrectAttempts < 3)
+    {
+        TextHelper.TextGenerator("Enter your current first name:", ConsoleColor.Cyan);
+        string currentFirstName = Console.ReadLine();
+
+        if (currentUser.FirstName != currentFirstName)
+        {
+            TextHelper.TextGenerator("The current first name you entered is incorrect.", ConsoleColor.Red);
+            incorrectAttempts++;
+        }
+        else
+        {
+            break;
+        }
+    }
+
+    if (incorrectAttempts == 3)
+    {
+        TextHelper.TextGenerator("\nYou have tried to enter your current first name 3 times! No more attempts left. Exiting application...", ConsoleColor.Red);
+        Environment.Exit(0);
+    }
+
+    string newFirstName;
+    while (true)
+    {
+        TextHelper.TextGenerator("Enter the new first name:", ConsoleColor.Cyan);
+        newFirstName = Console.ReadLine();
+
+        try
+        {
+            currentUser.ValidateNameInput(newFirstName);
+            break;
+        }
+        catch (Exception ex)
+        {
+            TextHelper.TextGenerator(ex.Message, ConsoleColor.Red);
+            incorrectAttempts++;
+        }
+
+        if (incorrectAttempts == 3)
+        {
+            TextHelper.TextGenerator("\nYou have tried to enter a valid first name 3 times! No more attempts left. Exiting application...", ConsoleColor.Red);
+            Environment.Exit(0);
+        }
+    }
+
+    currentUser.FirstName = newFirstName;
+    await database.UpdateUserAsync(currentUser);
+
+    TextHelper.TextGenerator("First name updated successfully!", ConsoleColor.Green);
+    await ShowManageAccountAsync(userManagerService, database);
 }
 
-void AccountChangeLastName(IUserManagerService userManagerService)
+async Task AccountChangeLastNameAsync(IUserManagerService userManagerService, IUserDatabase database)
 {
+    User currentUser = userManagerService.CurrentUser;
 
+    int incorrectAttempts = 0;
+
+    while (incorrectAttempts < 3)
+    {
+        TextHelper.TextGenerator("Enter your current last name:", ConsoleColor.Cyan);
+        string currentLastName = Console.ReadLine();
+
+        if (currentUser.LastName != currentLastName)
+        {
+            TextHelper.TextGenerator("The current last name you entered is incorrect.", ConsoleColor.Red);
+            incorrectAttempts++;
+        }
+        else
+        {
+            break;
+        }
+    }
+
+    if (incorrectAttempts == 3)
+    {
+        TextHelper.TextGenerator("\nYou have tried to enter your current last name 3 times! No more attempts left. Exiting application...", ConsoleColor.Red);
+        Environment.Exit(0);
+    }
+
+    string newLastName;
+    while (true)
+    {
+        TextHelper.TextGenerator("Enter the new last name:", ConsoleColor.Cyan);
+        newLastName = Console.ReadLine();
+
+        try
+        {
+            currentUser.ValidateNameInput(newLastName);
+            break;
+        }
+        catch (Exception ex)
+        {
+            TextHelper.TextGenerator(ex.Message, ConsoleColor.Red);
+            incorrectAttempts++;
+        }
+
+        if (incorrectAttempts == 3)
+        {
+            TextHelper.TextGenerator("\nYou have tried to enter a valid last name 3 times! No more attempts left. Exiting application...", ConsoleColor.Red);
+            Environment.Exit(0);
+        }
+    }
+
+    currentUser.LastName = newLastName;
+    await database.UpdateUserAsync(currentUser);
+
+    TextHelper.TextGenerator("Last name updated successfully!", ConsoleColor.Green);
+    await ShowManageAccountAsync(userManagerService, database);
 }
 
-void AccountDeactivation(IUserManagerService userManagerService)
+async Task AccountDeactivationAsync(IUserManagerService userManagerService, IUserDatabase database)
 {
+    User currentUser = userManagerService.CurrentUser;
+    currentUser.IsActive = false;
 
+    TextHelper.TextGenerator("Do you want to deactivate your account? (Y/N)", ConsoleColor.Cyan);
+
+    string userInput = Console.ReadLine().ToUpper();
+    while (userInput != "Y" && userInput != "N")
+    {
+        TextHelper.TextGenerator("Invalid input. Please enter Y or N.", ConsoleColor.Red);
+        userInput = Console.ReadLine().ToUpper();
+    }
+
+    if (userInput == "N")
+    {
+        currentUser.IsActive = true;
+        await database.UpdateUserAsync(currentUser);
+        TextHelper.TextGenerator("Account deactivation cancelled.", ConsoleColor.Green);
+        Console.ReadKey();
+        await ShowManageAccountAsync(userManagerService, database);
+    }
+    else if (userInput == "Y")
+    {
+        await database.UpdateUserAsync(currentUser);
+        TextHelper.TextGenerator("Your account has been deactivated.", ConsoleColor.Red);
+        Console.ReadKey();
+        await ShowLoginMenu(userManagerService);
+    }
 }
 
-void ShowStatistics(IUserManagerService userManagerService)
+async Task ShowStatistics(IUserManagerService userManagerService)
 {
     TextHelper.TextGenerator(
         $"{StatisticsOptions.READING}.Reading\n" +
@@ -125,55 +313,55 @@ void ShowStatistics(IUserManagerService userManagerService)
     switch (statisticChosen)
     {
         case StatisticsOptions.READING:
-            ShowReadingStatistics(userManagerService);
+            await ShowReadingStatistics(userManagerService);
             break;
         case StatisticsOptions.EXERCISING:
-            ShowExercisingStatistics(userManagerService);
+            await ShowExercisingStatistics(userManagerService);
             break;
         case StatisticsOptions.WORKING:
-            ShowWorkingStatistics(userManagerService);
+            await ShowWorkingStatistics(userManagerService);
             break;
         case StatisticsOptions.HOBBIES:
-            ShowHobbiesStatistics(userManagerService);
+            await ShowHobbiesStatistics(userManagerService);
             break;
         case StatisticsOptions.GLOBAL:
-            ShowGlobalStatistics(userManagerService);
+            await ShowGlobalStatistics(userManagerService);
             break;
         case StatisticsOptions.BACK_TO_MAIN_MENU:
             break;
         default:
             TextHelper.TextGenerator("Invalid Input! Please enter one of the given options...", ConsoleColor.Red);
-            ShowStatistics(userManagerService);
+            await ShowStatistics(userManagerService);
             break;
     }
 }
 
-void ShowReadingStatistics(IUserManagerService userManagerService)
+async Task ShowReadingStatistics(IUserManagerService userManagerService)
 {
-
+    await Task.CompletedTask;
 }
 
-void ShowExercisingStatistics(IUserManagerService userManagerService)
+async Task ShowExercisingStatistics(IUserManagerService userManagerService)
 {
-
+    await Task.CompletedTask;
 }
 
-void ShowWorkingStatistics(IUserManagerService userManagerService)
+async Task ShowWorkingStatistics(IUserManagerService userManagerService)
 {
-
+    await Task.CompletedTask;
 }
 
-void ShowHobbiesStatistics(IUserManagerService userManagerService)
+async Task ShowHobbiesStatistics(IUserManagerService userManagerService)
 {
-
+    await Task.CompletedTask;
 }
 
-void ShowGlobalStatistics(IUserManagerService userManagerService)
+async Task ShowGlobalStatistics(IUserManagerService userManagerService)
 {
-
+    await Task.CompletedTask;
 }
 
-void ShowTrack(IUserManagerService userManagerService)
+async Task ShowTrack(IUserManagerService userManagerService)
 {
     TextHelper.TextGenerator(
         $"{TrackOptions.READING}.Reading\n" +
@@ -187,27 +375,27 @@ void ShowTrack(IUserManagerService userManagerService)
     switch (trackChosen)
     {
         case TrackOptions.READING:
-            ShowReadingActivity(userManagerService, timerService);
+            await ShowReadingActivity(userManagerService, timerService);
             break;
         case TrackOptions.EXERCISING:
-            ShowExercisingActivity(userManagerService, timerService);
+            await ShowExercisingActivity(userManagerService, timerService);
             break;
         case TrackOptions.WORKING:
-            ShowWorkingActivity(userManagerService, timerService);
+            await ShowWorkingActivity(userManagerService, timerService);
             break;
         case TrackOptions.OTHER_HOBBY:
-            ShowHobbyActivity(userManagerService, timerService);
+            await ShowHobbyActivity(userManagerService, timerService);
             break;
         case TrackOptions.BACK_TO_MAIN_MENU:
             break;
         default:
             TextHelper.TextGenerator("Invalid Input! Please enter one of the given options...", ConsoleColor.Red);
-            ShowTrack(userManagerService);
+            await ShowTrack(userManagerService);
             break;
     }
 }
 
-void ShowHobbyActivity(IUserManagerService userManagerService, ITimerTrackerService timerService)
+async Task ShowHobbyActivity(IUserManagerService userManagerService, ITimerTrackerService timerService)
 {
     TextHelper.TextGenerator("Timer has started! Start working on your hobby!", ConsoleColor.Green);
     timerService.StartTimer();
@@ -229,10 +417,10 @@ void ShowHobbyActivity(IUserManagerService userManagerService, ITimerTrackerServ
     TextHelper.TextGenerator($"Time spent: {time}\nPress ENTER to go back to the main menu", ConsoleColor.Cyan);
 
     Console.ReadLine();
-    StartAppAsync();
+    await ShowTrack(userManagerService);
 }
 
-void ShowWorkingActivity(IUserManagerService userManagerService, ITimerTrackerService timerService)
+async Task ShowWorkingActivity(IUserManagerService userManagerService, ITimerTrackerService timerService)
 {
     TextHelper.TextGenerator("Timer has started & Working has begun!", ConsoleColor.Green);
     timerService.StartTimer();
@@ -258,10 +446,10 @@ void ShowWorkingActivity(IUserManagerService userManagerService, ITimerTrackerSe
     TextHelper.TextGenerator($"Time spent: {time}\nPress ENTER to go back to the main menu", ConsoleColor.Cyan);
 
     Console.ReadLine();
-    StartAppAsync();
+    await ShowTrack(userManagerService);
 }
 
-void ShowExercisingActivity(IUserManagerService userManagerService, ITimerTrackerService timerService)
+async Task ShowExercisingActivity(IUserManagerService userManagerService, ITimerTrackerService timerService)
 {
     TextHelper.TextGenerator("Timer has started & Exercising has begun!", ConsoleColor.Green);
     timerService.StartTimer();
@@ -288,10 +476,10 @@ void ShowExercisingActivity(IUserManagerService userManagerService, ITimerTracke
     TextHelper.TextGenerator($"Time spent: {time}\nPress ENTER to go back to the main menu", ConsoleColor.Cyan);
 
     Console.ReadLine();
-    StartAppAsync();
+    await ShowTrack(userManagerService);
 }
 
-void ShowReadingActivity(IUserManagerService userManagerService, ITimerTrackerService timerService)
+async Task ShowReadingActivity(IUserManagerService userManagerService, ITimerTrackerService timerService)
 {
     TextHelper.TextGenerator("Timer has started & Reading has begun!", ConsoleColor.Green);
     timerService.StartTimer();
@@ -326,31 +514,30 @@ void ShowReadingActivity(IUserManagerService userManagerService, ITimerTrackerSe
     TextHelper.TextGenerator($"Time spent: {time}\nPress ENTER to go back to the main menu", ConsoleColor.Cyan);
 
     Console.ReadLine();
-    StartAppAsync();
+    await ShowTrack(userManagerService);
 }
 
-void ShowLoginMenu(IUserManagerService userManagerService)
+async Task ShowLoginMenu(IUserManagerService userManagerService)
 {
-    Console.WriteLine($"{UserLogIn.LOG_IN}.Log In\n{UserLogIn.REGISTER_USER}.Register");
+    Console.WriteLine($"\n{UserLogIn.LOG_IN}.Log In\n{UserLogIn.REGISTER_USER}.Register");
     string authChoice = Console.ReadLine();
 
     switch (authChoice)
     {
         case UserLogIn.LOG_IN:
-            ShowLogIn(userManagerService);
+            await ShowLogIn(userManagerService);
             break;
         case UserLogIn.REGISTER_USER:
-            ShowRegister(userManagerService);
+            await ShowRegister(userManagerService);
             break;
         default:
             TextHelper.TextGenerator("Invalid Input! Please enter one of the given options...", ConsoleColor.Red);
-            ShowLoginMenu(userManagerService);
+            await ShowLoginMenu(userManagerService);
             break;
     }
-
 }
 
-void ShowRegister(IUserManagerService userManagerService)
+async Task ShowRegister(IUserManagerService userManagerService)
 {
     TextHelper.TextGenerator("Enter your First Name:", ConsoleColor.Cyan);
     string firstName = Console.ReadLine();
@@ -370,7 +557,7 @@ void ShowRegister(IUserManagerService userManagerService)
     if (!int.TryParse(age, out int intAge))
     {
         TextHelper.TextGenerator("Enter a valid Age!", ConsoleColor.Red);
-        StartAppAsync();
+        await StartAppAsync();
     }
     else
     {
@@ -382,14 +569,14 @@ void ShowRegister(IUserManagerService userManagerService)
         catch (Exception ex)
         {
             TextHelper.TextGenerator(ex.Message, ConsoleColor.Red);
-            StartAppAsync();
+            await StartAppAsync();
         }
     }
 
-    StartAppAsync();
+    await StartAppAsync();
 }
 
-void ShowLogIn(IUserManagerService userManagerService)
+async Task ShowLogIn(IUserManagerService userManagerService)
 {
     for (int i = 0; i < 3; i++)
     {
@@ -403,9 +590,34 @@ void ShowLogIn(IUserManagerService userManagerService)
         {
             userManagerService.LogIn(username, password);
 
-            TextHelper.TextGenerator($"Success! Welcome {userManagerService.CurrentUser.FirstName}.", ConsoleColor.Green);
+            if (!userManagerService.CurrentUser.IsActive)
+            {
+                TextHelper.TextGenerator("Your account is deactivated. Do you want to reactivate it? (Y/N)", ConsoleColor.Cyan);
 
-            StartAppAsync();
+                string userInput = Console.ReadLine().ToUpper();
+                while (userInput != "Y" && userInput != "N")
+                {
+                    TextHelper.TextGenerator("Invalid input. Please enter Y or N.", ConsoleColor.Red);
+                    userInput = Console.ReadLine().ToUpper();
+                }
+
+                if (userInput == "N")
+                {
+                    userManagerService.LogOut();
+                    await ShowLoginMenu(userManagerService);
+                    return;
+                }
+                else if (userInput == "Y")
+                {
+                    userManagerService.CurrentUser.IsActive = true;
+                    await database.UpdateUserAsync(userManagerService.CurrentUser);
+                    Console.ReadKey();
+                }
+            }
+
+            TextHelper.TextGenerator($"\nSuccess! Welcome {userManagerService.CurrentUser.FirstName} {userManagerService.CurrentUser.LastName}.", ConsoleColor.Green);
+
+            await StartAppAsync();
         }
         catch (Exception ex)
         {
@@ -413,6 +625,6 @@ void ShowLogIn(IUserManagerService userManagerService)
         }
     }
 
-    TextHelper.TextGenerator("\nYou have tried to login 3 times! No more attempts left!", ConsoleColor.Red);
+    TextHelper.TextGenerator("\nYou have tried to login 3 times! No more attempts left. Exiting application...", ConsoleColor.Red);
     Environment.Exit(0);
 }

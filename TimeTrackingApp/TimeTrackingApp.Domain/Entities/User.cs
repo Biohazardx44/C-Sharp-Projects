@@ -8,6 +8,8 @@
         public string Username { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
 
+        public bool IsActive = true;
+
         private const int _validUsernameLenght = 5;
         private const int _validPasswordLenght = 6;
         private const int _validNameLenght = 2;
@@ -33,17 +35,13 @@
                 throw new Exception($"Username should not be shorter than {_validUsernameLenght} characters!");
             }
 
-            if (password.Length < _validPasswordLenght)
-            {
-                throw new Exception($"Password should not be shorter than {_validPasswordLenght} characters!");
-            }
             ValidatePassword(password);
 
             Password = password;
             Username = username;
         }
 
-        private void ValidatePassword(string password)
+        public void ValidatePassword(string password)
         {
             bool hasCapital = false;
             bool hasNum = false;
@@ -74,9 +72,14 @@
             {
                 throw new Exception("Password should contain at least one number!");
             }
+
+            if (password.Length < _validPasswordLenght)
+            {
+                throw new Exception($"Password should not be shorter than {_validPasswordLenght} characters!");
+            }
         }
 
-        private void ValidateNameInput(string input)
+        public void ValidateNameInput(string input)
         {
             if (input.Length < _validNameLenght)
             {

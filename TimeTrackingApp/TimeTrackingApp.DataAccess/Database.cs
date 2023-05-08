@@ -52,7 +52,7 @@ namespace TimeTrackingApp.DataAccess
             await WriteToFileAsync();
         }
 
-        private async Task LoadItemsAsync()
+        public async Task LoadItemsAsync()
         {
             using (StreamReader sr = new StreamReader(_filePath))
             {
@@ -65,7 +65,7 @@ namespace TimeTrackingApp.DataAccess
             }
         }
 
-        private async Task WriteToFileAsync()
+        public async Task WriteToFileAsync()
         {
             using (StreamWriter sw = new StreamWriter(_filePath))
             {

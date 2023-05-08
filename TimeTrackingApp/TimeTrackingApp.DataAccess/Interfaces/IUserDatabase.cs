@@ -7,5 +7,7 @@ namespace TimeTrackingApp.DataAccess.Interfaces
         User GetUserByUsernameAndPassword(string username, string password);
 
         bool CheckUsernameAvailable(string username);
+
+        Task UpdateUserAsync(User user);
     }
 }

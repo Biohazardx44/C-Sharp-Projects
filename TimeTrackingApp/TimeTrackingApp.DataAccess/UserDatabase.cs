@@ -29,5 +29,15 @@ namespace TimeTrackingApp.DataAccess
         {
             return Items.Any(user => user.Username == username);
         }
+
+        public async Task UpdateUserAsync(User user)
+        {
+            User existingUser = Items.FirstOrDefault(u => u.Id == user.Id);
+            if (existingUser != null)
+            {
+                existingUser.Password = user.Password;
+                await WriteToFileAsync();
+            }
+        }
     }
 }
