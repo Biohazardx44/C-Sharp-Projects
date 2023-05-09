@@ -7,6 +7,10 @@ using TimeTrackingApp.Services;
 using TimeTrackingApp.Services.Interfaces;
 
 IUserDatabase database = new UserDatabase();
+IReadingDatabase readingDatabase = new ReadingDatabase();
+IExercisingDatabase exercisingDatabase = new ExercisingDatabase();
+IHobbyDatabase hobbyDatabase = new HobbyDatabase();
+IWorkingDatabase workingDatabase = new WorkingDatabase();
 IUserManagerService userManagerService = new UserManagerService(database);
 ITimerTrackerService timerService = new TimeTrackerService();
 

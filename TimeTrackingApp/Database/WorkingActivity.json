@@ -1,0 +1,26 @@
+[
+  {
+    "UserId": 1,
+    "Duration": 4000,
+    "Working": 1,
+    "Id": 1
+  },
+  {
+    "UserId": 2,
+    "Duration": 2000,
+    "Working": 2,
+    "Id": 2
+  },
+  {
+    "UserId": 1,
+    "Duration": 1000,
+    "Working": 2,
+    "Id": 3
+  },
+  {
+    "UserId": 3,
+    "Duration": 5000,
+    "Working": 2,
+    "Id": 4
+  }
+]

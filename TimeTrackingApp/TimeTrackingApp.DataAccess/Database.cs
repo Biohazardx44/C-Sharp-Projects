@@ -20,7 +20,7 @@ namespace TimeTrackingApp.DataAccess
                 Directory.CreateDirectory(DATABASE_FOLDER_NAME);
             }
 
-            _filePath = Path.Combine(DATABASE_FOLDER_NAME, typeof(T).Name + "s" + DATABASE_FILE_EXTENSION);
+            _filePath = Path.Combine(DATABASE_FOLDER_NAME, typeof(T).Name + DATABASE_FILE_EXTENSION);
 
             if (!File.Exists(_filePath))
             {

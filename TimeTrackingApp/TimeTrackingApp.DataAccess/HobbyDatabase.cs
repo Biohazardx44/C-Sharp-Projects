@@ -15,9 +15,10 @@ namespace TimeTrackingApp.DataAccess
 
         private async Task SeedAsync()
         {
-            InsertAsync(new Hobby(1, 400, "Games"));
-            InsertAsync(new Hobby(2, 800, "Trading"));
-            InsertAsync(new Hobby(2, 100, "Music"));
+            await InsertAsync(new Hobby(1, 2000, "Collecting Rocks"));
+            await InsertAsync(new Hobby(2, 4000, "Sleeping"));
+            await InsertAsync(new Hobby(1, 3000, "Gaming"));
+            await InsertAsync(new Hobby(3, 5000, "Cooking"));
         }
 
         public Hobby GetActivityById(int id)
@@ -28,6 +29,33 @@ namespace TimeTrackingApp.DataAccess
         public List<Hobby> GetActivityByUserId(int id)
         {
             return Items.Where(item => item.UserId == id).ToList();
+        }
+
+        public async Task AddActivityAsync(Hobby activity)
+        {
+            await InsertAsync(activity);
+        }
+
+        public async Task DeleteActivityAsync(int id)
+        {
+            Hobby existingActivity = Items.FirstOrDefault(a => a.Id == id);
+            if (existingActivity != null)
+            {
+                Items.Remove(existingActivity);
+                await WriteToFileAsync();
+            }
+        }
+
+        public async Task UpdateActivityAsync(Hobby activity)
+        {
+            Hobby existingActivity = Items.FirstOrDefault(a => a.Id == activity.Id);
+            if (existingActivity != null)
+            {
+                existingActivity.UserId = activity.UserId;
+                existingActivity.Duration = activity.Duration;
+                existingActivity.HobbyName = activity.HobbyName;
+                await WriteToFileAsync();
+            }
         }
     }
 }

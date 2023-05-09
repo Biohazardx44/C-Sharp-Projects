@@ -16,12 +16,10 @@ namespace TimeTrackingApp.DataAccess
 
         private async Task SeedAsync()
         {
-            InsertAsync(new ReadingActivity(1, 1000, 10, ReadingType.Fiction));
-            InsertAsync(new ReadingActivity(2, 2000, 20, ReadingType.Romance));
-            InsertAsync(new ReadingActivity(3, 3000, 30, ReadingType.Fantasy));
-            InsertAsync(new ReadingActivity(4, 4000, 40, ReadingType.Fantasy));
-            InsertAsync(new ReadingActivity(5, 5000, 50, ReadingType.Fiction));
-            InsertAsync(new ReadingActivity(1, 6000, 60, ReadingType.Romance));
+            await InsertAsync(new ReadingActivity(1, 10000, 20, ReadingType.Fiction));
+            await InsertAsync(new ReadingActivity(2, 5000, 10, ReadingType.Romance));
+            await InsertAsync(new ReadingActivity(1, 3000, 3, ReadingType.Romance));
+            await InsertAsync(new ReadingActivity(3, 8000, 11, ReadingType.Fantasy));
         }
 
         public ReadingActivity GetActivityById(int id)
@@ -32,6 +30,34 @@ namespace TimeTrackingApp.DataAccess
         public List<ReadingActivity> GetActivityByUserId(int id)
         {
             return Items.Where(item => item.UserId == id).ToList();
+        }
+
+        public async Task AddActivityAsync(ReadingActivity activity)
+        {
+            await InsertAsync(activity);
+        }
+
+        public async Task DeleteActivityAsync(int id)
+        {
+            ReadingActivity existingActivity = Items.FirstOrDefault(a => a.Id == id);
+            if (existingActivity != null)
+            {
+                Items.Remove(existingActivity);
+                await WriteToFileAsync();
+            }
+        }
+
+        public async Task UpdateActivityAsync(ReadingActivity activity)
+        {
+            ReadingActivity existingActivity = Items.FirstOrDefault(a => a.Id == activity.Id);
+            if (existingActivity != null)
+            {
+                existingActivity.UserId = activity.UserId;
+                existingActivity.PageCount = activity.PageCount;
+                existingActivity.Duration = activity.Duration;
+                existingActivity.ReadingType = activity.ReadingType;
+                await WriteToFileAsync();
+            }
         }
     }
 }

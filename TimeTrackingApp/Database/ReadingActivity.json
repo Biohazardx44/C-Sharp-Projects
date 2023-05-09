@@ -1,0 +1,30 @@
+[
+  {
+    "UserId": 1,
+    "PageCount": 20,
+    "Duration": 10000,
+    "ReadingType": 2,
+    "Id": 1
+  },
+  {
+    "UserId": 2,
+    "PageCount": 10,
+    "Duration": 5000,
+    "ReadingType": 1,
+    "Id": 2
+  },
+  {
+    "UserId": 1,
+    "PageCount": 3,
+    "Duration": 3000,
+    "ReadingType": 1,
+    "Id": 3
+  },
+  {
+    "UserId": 3,
+    "PageCount": 11,
+    "Duration": 8000,
+    "ReadingType": 3,
+    "Id": 4
+  }
+]

@@ -4,13 +4,13 @@
     {
         public int UserId { get; set; }
         public int Duration { get; set; }
-        public string Name { get; set; } = string.Empty;
+        public string HobbyName { get; set; } = string.Empty;
 
-        public Hobby(int userId, int duration, string name) : base()
+        public Hobby(int userId, int duration, string hobbyName) : base()
         {
             UserId = userId;
             Duration = duration;
-            Name = name;
+            HobbyName = hobbyName;
         }
     }
 }

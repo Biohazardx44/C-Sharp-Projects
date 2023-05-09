@@ -1,0 +1,26 @@
+[
+  {
+    "UserId": 1,
+    "Duration": 2000,
+    "HobbyName": "Collecting Rocks",
+    "Id": 1
+  },
+  {
+    "UserId": 2,
+    "Duration": 4000,
+    "HobbyName": "Sleeping",
+    "Id": 2
+  },
+  {
+    "UserId": 1,
+    "Duration": 3000,
+    "HobbyName": "Gaming",
+    "Id": 3
+  },
+  {
+    "UserId": 3,
+    "Duration": 5000,
+    "HobbyName": "Cooking",
+    "Id": 4
+  }
+]

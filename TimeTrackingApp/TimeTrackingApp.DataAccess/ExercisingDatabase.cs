@@ -16,11 +16,10 @@ namespace TimeTrackingApp.DataAccess
 
         private async Task SeedAsync()
         {
-            InsertAsync(new ExercisingActivity(1, 200, ExercisingType.Running));
-            InsertAsync(new ExercisingActivity(1, 4500, ExercisingType.Swimming));
-            InsertAsync(new ExercisingActivity(2, 2500, ExercisingType.Yoga));
-            InsertAsync(new ExercisingActivity(5, 2500, ExercisingType.Swimming));
-            InsertAsync(new ExercisingActivity(1, 2030, ExercisingType.Running));
+            await InsertAsync(new ExercisingActivity(1, 6000, ExercisingType.Swimming));
+            await InsertAsync(new ExercisingActivity(2, 3000, ExercisingType.Running));
+            await InsertAsync(new ExercisingActivity(1, 2000, ExercisingType.Running));
+            await InsertAsync(new ExercisingActivity(3, 4000, ExercisingType.Yoga));
         }
 
         public ExercisingActivity GetActivityById(int id)
@@ -31,6 +30,33 @@ namespace TimeTrackingApp.DataAccess
         public List<ExercisingActivity> GetActivityByUserId(int id)
         {
             return Items.Where(item => item.UserId == id).ToList();
+        }
+
+        public async Task AddActivityAsync(ExercisingActivity activity)
+        {
+            await InsertAsync(activity);
+        }
+
+        public async Task DeleteActivityAsync(int id)
+        {
+            ExercisingActivity existingActivity = Items.FirstOrDefault(a => a.Id == id);
+            if (existingActivity != null)
+            {
+                Items.Remove(existingActivity);
+                await WriteToFileAsync();
+            }
+        }
+
+        public async Task UpdateActivityAsync(ExercisingActivity activity)
+        {
+            ExercisingActivity existingActivity = Items.FirstOrDefault(a => a.Id == activity.Id);
+            if (existingActivity != null)
+            {
+                existingActivity.UserId = activity.UserId;
+                existingActivity.Duration = activity.Duration;
+                existingActivity.ExercisingType = activity.ExercisingType;
+                await WriteToFileAsync();
+            }
         }
     }
 }
