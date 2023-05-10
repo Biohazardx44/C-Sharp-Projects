@@ -415,10 +415,19 @@ async Task ShowHobbyActivity(IUserManagerService userManagerService, ITimerTrack
         TextHelper.TextGenerator("Invalid input, please enter a valid hobby:", ConsoleColor.Yellow);
         hobby = Console.ReadLine();
     }
-    string hobbyList = hobby;
+    string currentHobby = hobby;
 
-    string time = timerService.GetTimeInMinutes();
-    TextHelper.TextGenerator($"Time spent: {time}\nPress ENTER to go back to the main menu", ConsoleColor.Cyan);
+    int durationInSeconds = timerService.GetTimeInSeconds();
+    string timeInMinutes = timerService.GetTimeInMinutes();
+    TextHelper.TextGenerator($"Time spent: {timeInMinutes}\nPress ENTER to go back to the main menu", ConsoleColor.Cyan);
+
+    int currentUser = userManagerService.CurrentUser.Id;
+    List<Hobby> hobbyActivities = hobbyDatabase.GetActivityByUserId(currentUser);
+
+    Hobby hobbyActivity = new Hobby(currentUser, durationInSeconds, currentHobby);
+    hobbyActivities.Add(hobbyActivity);
+
+    await hobbyDatabase.AddActivityAsync(hobbyActivity);
 
     Console.ReadLine();
     await ShowTrack(userManagerService);
@@ -446,8 +455,17 @@ async Task ShowWorkingActivity(IUserManagerService userManagerService, ITimerTra
     }
     Working workingPlace = (Working)typeValue;
 
-    string time = timerService.GetTimeInMinutes();
-    TextHelper.TextGenerator($"Time spent: {time}\nPress ENTER to go back to the main menu", ConsoleColor.Cyan);
+    int durationInSeconds = timerService.GetTimeInSeconds();
+    string timeInMinutes = timerService.GetTimeInMinutes();
+    TextHelper.TextGenerator($"Time spent: {timeInMinutes}\nPress ENTER to go back to the main menu", ConsoleColor.Cyan);
+
+    int currentUser = userManagerService.CurrentUser.Id;
+    List<WorkingActivity> workingActivities = workingDatabase.GetActivityByUserId(currentUser);
+
+    WorkingActivity workingActivity = new WorkingActivity(currentUser, durationInSeconds, workingPlace);
+    workingActivities.Add(workingActivity);
+
+    await workingDatabase.AddActivityAsync(workingActivity);
 
     Console.ReadLine();
     await ShowTrack(userManagerService);
@@ -476,8 +494,17 @@ async Task ShowExercisingActivity(IUserManagerService userManagerService, ITimer
     }
     ExercisingType exercisingType = (ExercisingType)typeValue;
 
-    string time = timerService.GetTimeInMinutes();
-    TextHelper.TextGenerator($"Time spent: {time}\nPress ENTER to go back to the main menu", ConsoleColor.Cyan);
+    int durationInSeconds = timerService.GetTimeInSeconds();
+    string timeInMinutes = timerService.GetTimeInMinutes();
+    TextHelper.TextGenerator($"Time spent: {timeInMinutes}\nPress ENTER to go back to the main menu", ConsoleColor.Cyan);
+
+    int currentUser = userManagerService.CurrentUser.Id;
+    List<ExercisingActivity> exercisingActivities = exercisingDatabase.GetActivityByUserId(currentUser);
+
+    ExercisingActivity exercisingActivity = new ExercisingActivity(currentUser, durationInSeconds, exercisingType);
+    exercisingActivities.Add(exercisingActivity);
+
+    await exercisingDatabase.AddActivityAsync(exercisingActivity);
 
     Console.ReadLine();
     await ShowTrack(userManagerService);
@@ -514,8 +541,17 @@ async Task ShowReadingActivity(IUserManagerService userManagerService, ITimerTra
     }
     ReadingType bookType = (ReadingType)typeValue;
 
-    string time = timerService.GetTimeInMinutes();
-    TextHelper.TextGenerator($"Time spent: {time}\nPress ENTER to go back to the main menu", ConsoleColor.Cyan);
+    int durationInSeconds = timerService.GetTimeInSeconds();
+    string timeInMinutes = timerService.GetTimeInMinutes();
+    TextHelper.TextGenerator($"Time spent: {timeInMinutes}\nPress ENTER to go back to the main menu", ConsoleColor.Cyan);
+
+    int currentUser = userManagerService.CurrentUser.Id;
+    List<ReadingActivity> readingActivities = readingDatabase.GetActivityByUserId(currentUser);
+
+    ReadingActivity readingActivity = new ReadingActivity(currentUser, durationInSeconds, pages, bookType);
+    readingActivities.Add(readingActivity);
+
+    await readingDatabase.AddActivityAsync(readingActivity);
 
     Console.ReadLine();
     await ShowTrack(userManagerService);

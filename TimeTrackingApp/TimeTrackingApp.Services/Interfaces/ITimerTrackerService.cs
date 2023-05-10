@@ -6,6 +6,10 @@
 
         void StopTimer();
 
+        int GetTimeInSeconds();
+
         string GetTimeInMinutes();
+
+        string GetTimeInHours();
     }
 }

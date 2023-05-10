@@ -32,12 +32,13 @@ namespace TimeTrackingApp.DataAccess
 
         public async Task UpdateUserAsync(User user)
         {
-            User existingUser = Items.FirstOrDefault(u => u.Id == user.Id);
-            if (existingUser != null)
+            User existingUser = await GetById(user.Id);
+            if (existingUser == null)
             {
-                existingUser.Password = user.Password;
-                await WriteToFileAsync();
+                throw new Exception ("An error occurred!");
             }
+            existingUser.Password = user.Password;
+            await WriteToFileAsync();
         }
     }
 }

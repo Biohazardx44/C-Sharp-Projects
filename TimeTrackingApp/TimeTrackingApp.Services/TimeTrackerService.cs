@@ -49,10 +49,21 @@ namespace TimeTrackingApp.Services
             Console.WriteLine(_seconds);
         }
 
+        public int GetTimeInSeconds()
+        {
+            return _seconds;
+        }
+
         public string GetTimeInMinutes()
         {
             TimeSpan timeSpan = TimeSpan.FromSeconds(_seconds);
-            return $"{timeSpan.TotalMinutes:F0} minutes";
+            return $"{timeSpan.Minutes:D2} minutes & {timeSpan.Seconds:D2} seconds.";
+        }
+
+        public string GetTimeInHours()
+        {
+            TimeSpan timeSpan = TimeSpan.FromSeconds(_seconds);
+            return $"{timeSpan.Hours:D2} hours, {timeSpan.Minutes:D2} minutes & {timeSpan.Seconds:D2} seconds.";
         }
     }
 }

@@ -22,5 +22,23 @@
     "Duration": 5000,
     "HobbyName": "Cooking",
     "Id": 4
+  },
+  {
+    "UserId": 2,
+    "Duration": 26,
+    "HobbyName": "Smoking crack",
+    "Id": 5
+  },
+  {
+    "UserId": 5,
+    "Duration": 2,
+    "HobbyName": "Camping",
+    "Id": 6
+  },
+  {
+    "UserId": 2,
+    "Duration": 152,
+    "HobbyName": "Testing",
+    "Id": 7
   }
 ]

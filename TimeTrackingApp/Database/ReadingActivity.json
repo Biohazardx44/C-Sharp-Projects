@@ -26,5 +26,26 @@
     "Duration": 8000,
     "ReadingType": 3,
     "Id": 4
+  },
+  {
+    "UserId": 2,
+    "PageCount": 222,
+    "Duration": 7,
+    "ReadingType": 3,
+    "Id": 5
+  },
+  {
+    "UserId": 4,
+    "PageCount": 213,
+    "Duration": 76,
+    "ReadingType": 3,
+    "Id": 6
+  },
+  {
+    "UserId": 2,
+    "PageCount": 222,
+    "Duration": 34,
+    "ReadingType": 3,
+    "Id": 7
   }
 ]

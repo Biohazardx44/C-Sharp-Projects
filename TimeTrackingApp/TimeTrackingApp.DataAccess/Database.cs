@@ -32,7 +32,10 @@ namespace TimeTrackingApp.DataAccess
 
         public List<T> GetAll() => Items;
 
-        public T GetById(int id) => Items.FirstOrDefault(i => i.Id == id);
+        public async Task<T> GetById(int id)
+        { 
+            return Items.FirstOrDefault(i => i.Id == id);
+        }
 
         public async Task InsertAsync(T data)
         {
