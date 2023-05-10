@@ -13,6 +13,7 @@ IHobbyDatabase hobbyDatabase = new HobbyDatabase();
 IWorkingDatabase workingDatabase = new WorkingDatabase();
 IUserManagerService userManagerService = new UserManagerService(database);
 ITimerTrackerService timerService = new TimeTrackerService();
+IReadingService<ReadingActivity> readingService = new ReadingService();
 
 await StartAppAsync();
 
@@ -317,16 +318,16 @@ async Task ShowStatistics(IUserManagerService userManagerService)
     switch (statisticChosen)
     {
         case StatisticsOptions.READING:
-            await ShowReadingStatistics(userManagerService);
+            await ShowReadingStatistics(userManagerService, readingDatabase);
             break;
         case StatisticsOptions.EXERCISING:
-            await ShowExercisingStatistics(userManagerService);
+            await ShowExercisingStatistics(userManagerService, exercisingDatabase);
             break;
         case StatisticsOptions.WORKING:
-            await ShowWorkingStatistics(userManagerService);
+            await ShowWorkingStatistics(userManagerService, workingDatabase);
             break;
         case StatisticsOptions.HOBBIES:
-            await ShowHobbiesStatistics(userManagerService);
+            await ShowHobbiesStatistics(userManagerService, hobbyDatabase);
             break;
         case StatisticsOptions.GLOBAL:
             await ShowGlobalStatistics(userManagerService);
@@ -340,29 +341,158 @@ async Task ShowStatistics(IUserManagerService userManagerService)
     }
 }
 
-async Task ShowReadingStatistics(IUserManagerService userManagerService)
+async Task ShowReadingStatistics(IUserManagerService userManagerService, IReadingDatabase readingDatabase)
 {
-    await Task.CompletedTask;
+    TextHelper.TextGenerator($"Total time: ", ConsoleColor.Cyan);
+    TextHelper.TextGenerator($"Average of all activity records: ", ConsoleColor.Cyan);
+
+    int totalPageCount = 0;
+    List<ReadingActivity> activities = readingDatabase.GetActivityByUserId(userManagerService.CurrentUser.Id);
+
+    foreach (ReadingActivity activity in activities)
+    {
+        totalPageCount += activity.PageCount;
+    }
+    TextHelper.TextGenerator($"Total number of pages: {totalPageCount}", ConsoleColor.Cyan);
+
+    Dictionary<ReadingType, int> typeCounts = new Dictionary<ReadingType, int>();
+    foreach (ReadingActivity activity in activities)
+    {
+        if (typeCounts.ContainsKey(activity.ReadingType))
+        {
+            typeCounts[activity.ReadingType]++;
+        }
+        else
+        {
+            typeCounts[activity.ReadingType] = 1;
+        }
+    }
+
+    int maxCount = 0;
+    List<ReadingType> favoriteTypes = new List<ReadingType>();
+    foreach (var key in typeCounts)
+    {
+        if (key.Value > maxCount)
+        {
+            maxCount = key.Value;
+            favoriteTypes.Clear();
+            favoriteTypes.Add(key.Key);
+        }
+        else if (key.Value == maxCount)
+        {
+            favoriteTypes.Add(key.Key);
+        }
+    }
+
+    if (favoriteTypes.Count > 0)
+    {
+        string typesString = String.Join(", ", favoriteTypes);
+        TextHelper.TextGenerator($"Favorite Types: {typesString}", ConsoleColor.Cyan);
+    }
+    else
+    {
+        TextHelper.TextGenerator($"Favorite Types: User does not have a favorite type!", ConsoleColor.Red);
+    }
+
+    TextHelper.TextGenerator($"\nPress ENTER to go back to the main menu", ConsoleColor.Cyan);
+    Console.ReadLine();
+    await ShowStatistics(userManagerService);
 }
 
-async Task ShowExercisingStatistics(IUserManagerService userManagerService)
+async Task ShowExercisingStatistics(IUserManagerService userManagerService, IExercisingDatabase exercisingDatabase)
 {
-    await Task.CompletedTask;
+    TextHelper.TextGenerator($"Total time: ", ConsoleColor.Cyan);
+    TextHelper.TextGenerator($"Average of all activity records: ", ConsoleColor.Cyan);
+
+    List<ExercisingActivity> activities = exercisingDatabase.GetActivityByUserId(userManagerService.CurrentUser.Id);
+
+    Dictionary<ExercisingType, int> typeCounts = new Dictionary<ExercisingType, int>();
+    foreach (ExercisingActivity activity in activities)
+    {
+        if (typeCounts.ContainsKey(activity.ExercisingType))
+        {
+            typeCounts[activity.ExercisingType]++;
+        }
+        else
+        {
+            typeCounts[activity.ExercisingType] = 1;
+        }
+    }
+
+    int maxCount = 0;
+    List<ExercisingType> favoriteTypes = new List<ExercisingType>();
+    foreach (var key in typeCounts)
+    {
+        if (key.Value > maxCount)
+        {
+            maxCount = key.Value;
+            favoriteTypes.Clear();
+            favoriteTypes.Add(key.Key);
+        }
+        else if (key.Value == maxCount)
+        {
+            favoriteTypes.Add(key.Key);
+        }
+    }
+
+    if (favoriteTypes.Count > 0)
+    {
+        string typesString = String.Join(", ", favoriteTypes);
+        TextHelper.TextGenerator($"Favorite Types: {typesString}", ConsoleColor.Cyan);
+    }
+    else
+    {
+        TextHelper.TextGenerator($"Favorite Types: User does not have a favorite type!", ConsoleColor.Red);
+    }
+
+    TextHelper.TextGenerator($"\nPress ENTER to go back to the main menu", ConsoleColor.Cyan);
+    Console.ReadLine();
+    await ShowStatistics(userManagerService);
 }
 
-async Task ShowWorkingStatistics(IUserManagerService userManagerService)
+async Task ShowWorkingStatistics(IUserManagerService userManagerService, IWorkingDatabase workingDatabase)
 {
-    await Task.CompletedTask;
+    TextHelper.TextGenerator($"Total time: ", ConsoleColor.Cyan);
+    TextHelper.TextGenerator($"Average of all activity records: ", ConsoleColor.Cyan);
+    TextHelper.TextGenerator($"Home VS Office working: ", ConsoleColor.Cyan);
+
+    TextHelper.TextGenerator($"\nPress ENTER to go back to the main menu", ConsoleColor.Cyan);
+    Console.ReadLine();
+    await ShowStatistics(userManagerService);
 }
 
-async Task ShowHobbiesStatistics(IUserManagerService userManagerService)
+async Task ShowHobbiesStatistics(IUserManagerService userManagerService, IHobbyDatabase hobbyDatabase)
 {
-    await Task.CompletedTask;
+    TextHelper.TextGenerator($"Total time: ", ConsoleColor.Cyan);
+
+    List<Hobby> hobbies = hobbyDatabase.GetActivityByUserId(userManagerService.CurrentUser.Id);
+    List<string> distinctNames = hobbies.Select(h => h.HobbyName).Distinct().ToList();
+    if (distinctNames.Count > 0)
+    {
+        TextHelper.TextGenerator($"List of all hobbies: ", ConsoleColor.Cyan);
+        foreach (string name in distinctNames)
+        {
+            TextHelper.TextGenerator($"- {name}", ConsoleColor.Yellow);
+        }
+    }
+    else
+    {
+        TextHelper.TextGenerator($"List of all hobbies: User does not have any recorded hobbies!", ConsoleColor.Red);
+    }
+
+    TextHelper.TextGenerator($"\nPress ENTER to go back to the main menu", ConsoleColor.Cyan);
+    Console.ReadLine();
+    await ShowStatistics(userManagerService);
 }
 
 async Task ShowGlobalStatistics(IUserManagerService userManagerService)
 {
-    await Task.CompletedTask;
+    TextHelper.TextGenerator($"Total time of all activities: ", ConsoleColor.Cyan);
+    TextHelper.TextGenerator($"User favorite activity: ", ConsoleColor.Cyan);
+
+    TextHelper.TextGenerator($"\nPress ENTER to go back to the main menu", ConsoleColor.Cyan);
+    Console.ReadLine();
+    await ShowStatistics(userManagerService);
 }
 
 async Task ShowTrack(IUserManagerService userManagerService)
