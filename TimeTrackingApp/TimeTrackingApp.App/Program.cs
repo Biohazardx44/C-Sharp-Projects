@@ -318,7 +318,7 @@ async Task ShowStatistics(IUserManagerService userManagerService)
     switch (statisticChosen)
     {
         case StatisticsOptions.READING:
-            await ShowReadingStatistics(userManagerService, readingDatabase);
+            await ShowReadingStatistics(userManagerService, readingDatabase, timerService);
             break;
         case StatisticsOptions.EXERCISING:
             await ShowExercisingStatistics(userManagerService, exercisingDatabase);
@@ -341,13 +341,16 @@ async Task ShowStatistics(IUserManagerService userManagerService)
     }
 }
 
-async Task ShowReadingStatistics(IUserManagerService userManagerService, IReadingDatabase readingDatabase)
+async Task ShowReadingStatistics(IUserManagerService userManagerService, IReadingDatabase readingDatabase, ITimerTrackerService timerService)
 {
-    TextHelper.TextGenerator($"Total time: ", ConsoleColor.Cyan);
+    List<ReadingActivity> activities = readingDatabase.GetActivityByUserId(userManagerService.CurrentUser.Id);
+
+    int totalDuration = activities.Sum(x => x.Duration);
+
+    TextHelper.TextGenerator($"Total time: {TimeSpan.FromSeconds(totalDuration).ToString(@"hh\:mm\:ss")}", ConsoleColor.Cyan);
     TextHelper.TextGenerator($"Average of all activity records: ", ConsoleColor.Cyan);
 
     int totalPageCount = 0;
-    List<ReadingActivity> activities = readingDatabase.GetActivityByUserId(userManagerService.CurrentUser.Id);
 
     foreach (ReadingActivity activity in activities)
     {
