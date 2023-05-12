@@ -13,7 +13,6 @@ IHobbyDatabase hobbyDatabase = new HobbyDatabase();
 IWorkingDatabase workingDatabase = new WorkingDatabase();
 IUserManagerService userManagerService = new UserManagerService(database);
 ITimerTrackerService timerService = new TimeTrackerService();
-IReadingService<ReadingActivity> readingService = new ReadingService();
 
 await StartAppAsync();
 
