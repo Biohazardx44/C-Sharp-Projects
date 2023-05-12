@@ -31,14 +31,8 @@
   },
   {
     "UserId": 2,
-    "Duration": 90,
+    "Duration": 9000,
     "ExercisingType": 2,
     "Id": 6
-  },
-  {
-    "UserId": 2,
-    "Duration": 94,
-    "ExercisingType": 3,
-    "Id": 7
   }
 ]

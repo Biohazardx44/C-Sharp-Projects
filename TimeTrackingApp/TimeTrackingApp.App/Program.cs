@@ -330,7 +330,7 @@ async Task ShowStatistics(IUserManagerService userManagerService)
             await ShowHobbiesStatistics(userManagerService, hobbyDatabase, timerService);
             break;
         case StatisticsOptions.GLOBAL:
-            await ShowGlobalStatistics(userManagerService);
+            await ShowGlobalStatistics(userManagerService, readingDatabase, exercisingDatabase, workingDatabase, hobbyDatabase, timerService);
             break;
         case StatisticsOptions.BACK_TO_MAIN_MENU:
             break;
@@ -353,7 +353,14 @@ async Task ShowReadingStatistics(IUserManagerService userManagerService, IReadin
     int remainingSeconds = totalDuration.Seconds;
 
     TextHelper.TextGenerator($"Total time: {totalHours} hours, {remainingMinutes} minutes, and {remainingSeconds} seconds", ConsoleColor.Cyan);
-    TextHelper.TextGenerator($"Average of all activity records: ", ConsoleColor.Cyan);
+
+    int averageDurationInSeconds = totalDurationInSeconds / readingActivities.Count;
+    TimeSpan averageDuration = TimeSpan.FromSeconds(averageDurationInSeconds);
+
+    int averageMinutes = (int)averageDuration.TotalMinutes;
+    int averageSeconds = averageDuration.Seconds;
+
+    TextHelper.TextGenerator($"Average of all activity records: {averageMinutes} minutes, and {averageSeconds} seconds", ConsoleColor.Cyan);
 
     int totalPageCount = 0;
 
@@ -419,7 +426,14 @@ async Task ShowExercisingStatistics(IUserManagerService userManagerService, IExe
     int remainingSeconds = totalDuration.Seconds;
 
     TextHelper.TextGenerator($"Total time: {totalHours} hours, {remainingMinutes} minutes, and {remainingSeconds} seconds", ConsoleColor.Cyan);
-    TextHelper.TextGenerator($"Average of all activity records: ", ConsoleColor.Cyan);
+
+    int averageDurationInSeconds = totalDurationInSeconds / exercisingActivities.Count;
+    TimeSpan averageDuration = TimeSpan.FromSeconds(averageDurationInSeconds);
+
+    int averageMinutes = (int)averageDuration.TotalMinutes;
+    int averageSeconds = averageDuration.Seconds;
+
+    TextHelper.TextGenerator($"Average of all activity records: {averageMinutes} minutes, and {averageSeconds} seconds", ConsoleColor.Cyan);
 
     Dictionary<ExercisingType, int> typeCounts = new Dictionary<ExercisingType, int>();
     foreach (ExercisingActivity activity in exercisingActivities)
@@ -477,8 +491,28 @@ async Task ShowWorkingStatistics(IUserManagerService userManagerService, IWorkin
     int remainingSeconds = totalDuration.Seconds;
 
     TextHelper.TextGenerator($"Total time: {totalHours} hours, {remainingMinutes} minutes, and {remainingSeconds} seconds", ConsoleColor.Cyan);
-    TextHelper.TextGenerator($"Average of all activity records: ", ConsoleColor.Cyan);
-    TextHelper.TextGenerator($"Home VS Office working: ", ConsoleColor.Cyan);
+
+    int averageDurationInSeconds = totalDurationInSeconds / workingActivities.Count;
+    TimeSpan averageDuration = TimeSpan.FromSeconds(averageDurationInSeconds);
+
+    int averageMinutes = (int)averageDuration.TotalMinutes;
+    int averageSeconds = averageDuration.Seconds;
+
+    TextHelper.TextGenerator($"Average of all activity records: {averageMinutes} minutes, and {averageSeconds} seconds", ConsoleColor.Cyan);
+
+    int totalDurationAtOffice = workingActivities.Where(x => x.Working == Working.Office).Sum(x => x.Duration);
+    TimeSpan totalDurationAtOfficeTimeSpan = TimeSpan.FromSeconds(totalDurationAtOffice);
+
+    int totalDurationAtHome = workingActivities.Where(x => x.Working == Working.Home).Sum(x => x.Duration);
+    TimeSpan totalDurationAtHomeTimeSpan = TimeSpan.FromSeconds(totalDurationAtHome);
+
+    int totalOfficeHours = (int)totalDurationAtOfficeTimeSpan.TotalHours;
+    int totaHomeHours = (int)totalDurationAtHomeTimeSpan.TotalHours;
+
+    string officeTime = $"{totalOfficeHours} hours, {totalDurationAtOfficeTimeSpan.Minutes} minutes, and {totalDurationAtOfficeTimeSpan.Seconds} seconds";
+    string homeTime = $"{totaHomeHours} hours, {totalDurationAtHomeTimeSpan.Minutes} minutes, and {totalDurationAtHomeTimeSpan.Seconds} seconds";
+
+    TextHelper.TextGenerator($"Total working time: Home({homeTime}) VS Office({officeTime})", ConsoleColor.Cyan);
 
     TextHelper.TextGenerator($"\nPress ENTER to go back to the main menu", ConsoleColor.Cyan);
     Console.ReadLine();
@@ -517,7 +551,7 @@ async Task ShowHobbiesStatistics(IUserManagerService userManagerService, IHobbyD
     await ShowStatistics(userManagerService);
 }
 
-async Task ShowGlobalStatistics(IUserManagerService userManagerService)
+async Task ShowGlobalStatistics(IUserManagerService userManagerService, IReadingDatabase readingDatabase, IExercisingDatabase exercisingDatabase, IWorkingDatabase workingDatabase, IHobbyDatabase hobbyDatabase, ITimerTrackerService timerService)
 {
     TextHelper.TextGenerator($"Total time of all activities: ", ConsoleColor.Cyan);
     TextHelper.TextGenerator($"User favorite activity: ", ConsoleColor.Cyan);
