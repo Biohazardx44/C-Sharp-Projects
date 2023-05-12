@@ -321,13 +321,13 @@ async Task ShowStatistics(IUserManagerService userManagerService)
             await ShowReadingStatistics(userManagerService, readingDatabase, timerService);
             break;
         case StatisticsOptions.EXERCISING:
-            await ShowExercisingStatistics(userManagerService, exercisingDatabase);
+            await ShowExercisingStatistics(userManagerService, exercisingDatabase, timerService);
             break;
         case StatisticsOptions.WORKING:
-            await ShowWorkingStatistics(userManagerService, workingDatabase);
+            await ShowWorkingStatistics(userManagerService, workingDatabase, timerService);
             break;
         case StatisticsOptions.HOBBIES:
-            await ShowHobbiesStatistics(userManagerService, hobbyDatabase);
+            await ShowHobbiesStatistics(userManagerService, hobbyDatabase, timerService);
             break;
         case StatisticsOptions.GLOBAL:
             await ShowGlobalStatistics(userManagerService);
@@ -343,23 +343,28 @@ async Task ShowStatistics(IUserManagerService userManagerService)
 
 async Task ShowReadingStatistics(IUserManagerService userManagerService, IReadingDatabase readingDatabase, ITimerTrackerService timerService)
 {
-    List<ReadingActivity> activities = readingDatabase.GetActivityByUserId(userManagerService.CurrentUser.Id);
+    List<ReadingActivity> readingActivities = readingDatabase.GetActivityByUserId(userManagerService.CurrentUser.Id);
 
-    int totalDuration = activities.Sum(x => x.Duration);
+    int totalDurationInSeconds = readingActivities.Sum(x => x.Duration);
+    TimeSpan totalDuration = TimeSpan.FromSeconds(totalDurationInSeconds);
 
-    TextHelper.TextGenerator($"Total time: {TimeSpan.FromSeconds(totalDuration).ToString(@"hh\:mm\:ss")}", ConsoleColor.Cyan);
+    int totalHours = (int)totalDuration.TotalHours;
+    int remainingMinutes = totalDuration.Minutes;
+    int remainingSeconds = totalDuration.Seconds;
+
+    TextHelper.TextGenerator($"Total time: {totalHours} hours, {remainingMinutes} minutes, and {remainingSeconds} seconds", ConsoleColor.Cyan);
     TextHelper.TextGenerator($"Average of all activity records: ", ConsoleColor.Cyan);
 
     int totalPageCount = 0;
 
-    foreach (ReadingActivity activity in activities)
+    foreach (ReadingActivity activity in readingActivities)
     {
         totalPageCount += activity.PageCount;
     }
     TextHelper.TextGenerator($"Total number of pages: {totalPageCount}", ConsoleColor.Cyan);
 
     Dictionary<ReadingType, int> typeCounts = new Dictionary<ReadingType, int>();
-    foreach (ReadingActivity activity in activities)
+    foreach (ReadingActivity activity in readingActivities)
     {
         if (typeCounts.ContainsKey(activity.ReadingType))
         {
@@ -402,15 +407,22 @@ async Task ShowReadingStatistics(IUserManagerService userManagerService, IReadin
     await ShowStatistics(userManagerService);
 }
 
-async Task ShowExercisingStatistics(IUserManagerService userManagerService, IExercisingDatabase exercisingDatabase)
+async Task ShowExercisingStatistics(IUserManagerService userManagerService, IExercisingDatabase exercisingDatabase, ITimerTrackerService timerService)
 {
-    TextHelper.TextGenerator($"Total time: ", ConsoleColor.Cyan);
+    List<ExercisingActivity> exercisingActivities = exercisingDatabase.GetActivityByUserId(userManagerService.CurrentUser.Id);
+
+    int totalDurationInSeconds = exercisingActivities.Sum(x => x.Duration);
+    TimeSpan totalDuration = TimeSpan.FromSeconds(totalDurationInSeconds);
+
+    int totalHours = (int)totalDuration.TotalHours;
+    int remainingMinutes = totalDuration.Minutes;
+    int remainingSeconds = totalDuration.Seconds;
+
+    TextHelper.TextGenerator($"Total time: {totalHours} hours, {remainingMinutes} minutes, and {remainingSeconds} seconds", ConsoleColor.Cyan);
     TextHelper.TextGenerator($"Average of all activity records: ", ConsoleColor.Cyan);
 
-    List<ExercisingActivity> activities = exercisingDatabase.GetActivityByUserId(userManagerService.CurrentUser.Id);
-
     Dictionary<ExercisingType, int> typeCounts = new Dictionary<ExercisingType, int>();
-    foreach (ExercisingActivity activity in activities)
+    foreach (ExercisingActivity activity in exercisingActivities)
     {
         if (typeCounts.ContainsKey(activity.ExercisingType))
         {
@@ -453,9 +465,18 @@ async Task ShowExercisingStatistics(IUserManagerService userManagerService, IExe
     await ShowStatistics(userManagerService);
 }
 
-async Task ShowWorkingStatistics(IUserManagerService userManagerService, IWorkingDatabase workingDatabase)
+async Task ShowWorkingStatistics(IUserManagerService userManagerService, IWorkingDatabase workingDatabase, ITimerTrackerService timerService)
 {
-    TextHelper.TextGenerator($"Total time: ", ConsoleColor.Cyan);
+    List<WorkingActivity> workingActivities = workingDatabase.GetActivityByUserId(userManagerService.CurrentUser.Id);
+
+    int totalDurationInSeconds = workingActivities.Sum(x => x.Duration);
+    TimeSpan totalDuration = TimeSpan.FromSeconds(totalDurationInSeconds);
+
+    int totalHours = (int)totalDuration.TotalHours;
+    int remainingMinutes = totalDuration.Minutes;
+    int remainingSeconds = totalDuration.Seconds;
+
+    TextHelper.TextGenerator($"Total time: {totalHours} hours, {remainingMinutes} minutes, and {remainingSeconds} seconds", ConsoleColor.Cyan);
     TextHelper.TextGenerator($"Average of all activity records: ", ConsoleColor.Cyan);
     TextHelper.TextGenerator($"Home VS Office working: ", ConsoleColor.Cyan);
 
@@ -464,11 +485,19 @@ async Task ShowWorkingStatistics(IUserManagerService userManagerService, IWorkin
     await ShowStatistics(userManagerService);
 }
 
-async Task ShowHobbiesStatistics(IUserManagerService userManagerService, IHobbyDatabase hobbyDatabase)
+async Task ShowHobbiesStatistics(IUserManagerService userManagerService, IHobbyDatabase hobbyDatabase, ITimerTrackerService timerService)
 {
-    TextHelper.TextGenerator($"Total time: ", ConsoleColor.Cyan);
-
     List<Hobby> hobbies = hobbyDatabase.GetActivityByUserId(userManagerService.CurrentUser.Id);
+
+    int totalDurationInSeconds = hobbies.Sum(x => x.Duration);
+    TimeSpan totalDuration = TimeSpan.FromSeconds(totalDurationInSeconds);
+
+    int totalHours = (int)totalDuration.TotalHours;
+    int remainingMinutes = totalDuration.Minutes;
+    int remainingSeconds = totalDuration.Seconds;
+
+    TextHelper.TextGenerator($"Total time: {totalHours} hours, {remainingMinutes} minutes, and {remainingSeconds} seconds", ConsoleColor.Cyan);
+
     List<string> distinctNames = hobbies.Select(h => h.HobbyName).Distinct().ToList();
     if (distinctNames.Count > 0)
     {
