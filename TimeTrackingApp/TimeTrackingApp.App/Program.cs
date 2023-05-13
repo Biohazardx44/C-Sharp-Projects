@@ -9,12 +9,11 @@ using TimeTrackingApp.Services.Interfaces;
 IUserDatabase database = new UserDatabase();
 IReadingDatabase readingDatabase = new ReadingDatabase();
 IExercisingDatabase exercisingDatabase = new ExercisingDatabase();
-IHobbyDatabase hobbyDatabase = new HobbyDatabase();
 IWorkingDatabase workingDatabase = new WorkingDatabase();
-IUserManagerService userManagerService = new UserManagerService(database);
-ITimerTrackerService timerService = new TimeTrackerService();
+IHobbyDatabase hobbyDatabase = new HobbyDatabase();
 
-await StartAppAsync();
+IUserManagerService userManagerService = new UserManagerService(database);
+ITimeTrackerService timerService = new TimeTrackerService();
 
 async Task StartAppAsync()
 {
@@ -28,6 +27,123 @@ async Task StartAppAsync()
     {
         await ShowMainMenu(userManagerService);
     }
+}
+
+await StartAppAsync();
+
+async Task ShowLoginMenu(IUserManagerService userManagerService)
+{
+    Console.WriteLine($"\n{UserLogIn.LOG_IN}.Log In\n{UserLogIn.REGISTER_USER}.Register\n{UserLogIn.EXIT_APP}.Exit App");
+    string authChoice = Console.ReadLine();
+
+    switch (authChoice)
+    {
+        case UserLogIn.LOG_IN:
+            await ShowLogIn(userManagerService);
+            break;
+        case UserLogIn.REGISTER_USER:
+            await ShowRegister(userManagerService);
+            break;
+        case UserLogIn.EXIT_APP:
+            Environment.Exit(0);
+            break;
+        default:
+            TextHelper.TextGenerator("Invalid Input! Please enter one of the given options...", ConsoleColor.Red);
+            await ShowLoginMenu(userManagerService);
+            break;
+    }
+}
+
+async Task ShowLogIn(IUserManagerService userManagerService)
+{
+    for (int i = 0; i < 3; i++)
+    {
+        TextHelper.TextGenerator("Enter your username:", ConsoleColor.Cyan);
+        string username = Console.ReadLine();
+
+        TextHelper.TextGenerator("Enter your password:", ConsoleColor.Cyan);
+        string password = Console.ReadLine();
+
+        try
+        {
+            userManagerService.LogIn(username, password);
+
+            if (!userManagerService.CurrentUser.IsActive)
+            {
+                TextHelper.TextGenerator("Your account is deactivated. Do you want to reactivate it? (Y/N)", ConsoleColor.Cyan);
+
+                string userInput = Console.ReadLine().ToUpper();
+                while (userInput != "Y" && userInput != "N")
+                {
+                    TextHelper.TextGenerator("Invalid input. Please enter Y or N.", ConsoleColor.Red);
+                    userInput = Console.ReadLine().ToUpper();
+                }
+
+                if (userInput == "N")
+                {
+                    userManagerService.LogOut();
+                    await ShowLoginMenu(userManagerService);
+                    return;
+                }
+                else if (userInput == "Y")
+                {
+                    userManagerService.CurrentUser.IsActive = true;
+                    await database.UpdateUserAsync(userManagerService.CurrentUser);
+                    Console.ReadKey();
+                }
+            }
+
+            TextHelper.TextGenerator($"\nSuccess! Welcome {userManagerService.CurrentUser.FirstName} {userManagerService.CurrentUser.LastName}.", ConsoleColor.Green);
+
+            await StartAppAsync();
+        }
+        catch (Exception ex)
+        {
+            TextHelper.TextGenerator($"Unsuccessful login! Try again...", ConsoleColor.Red);
+        }
+    }
+
+    TextHelper.TextGenerator("\nYou have tried to login 3 times! No more attempts left. Exiting application...", ConsoleColor.Red);
+    Environment.Exit(0);
+}
+
+async Task ShowRegister(IUserManagerService userManagerService)
+{
+    TextHelper.TextGenerator("Enter your First Name:", ConsoleColor.Cyan);
+    string firstName = Console.ReadLine();
+
+    TextHelper.TextGenerator("Enter your Last Name:", ConsoleColor.Cyan);
+    string lastName = Console.ReadLine();
+
+    TextHelper.TextGenerator("Enter your Age:", ConsoleColor.Cyan);
+    string age = Console.ReadLine();
+
+    TextHelper.TextGenerator("Enter Username:", ConsoleColor.Cyan);
+    string username = Console.ReadLine();
+
+    TextHelper.TextGenerator("Enter Password:", ConsoleColor.Cyan);
+    string password = Console.ReadLine();
+
+    if (!int.TryParse(age, out int intAge))
+    {
+        TextHelper.TextGenerator("Enter a valid Age!", ConsoleColor.Red);
+        await StartAppAsync();
+    }
+    else
+    {
+        try
+        {
+            userManagerService.Register(firstName, lastName, intAge, username, password);
+            TextHelper.TextGenerator("You have successfully registered!", ConsoleColor.Green);
+        }
+        catch (Exception ex)
+        {
+            TextHelper.TextGenerator(ex.Message, ConsoleColor.Red);
+            await StartAppAsync();
+        }
+    }
+
+    await StartAppAsync();
 }
 
 async Task ShowMainMenu(IUserManagerService userManagerService)
@@ -59,6 +175,456 @@ async Task ShowMainMenu(IUserManagerService userManagerService)
             await ShowMainMenu(userManagerService);
             break;
     }
+}
+
+async Task ShowTrack(IUserManagerService userManagerService)
+{
+    TextHelper.TextGenerator(
+        $"{TrackOptions.READING}.Reading\n" +
+        $"{TrackOptions.EXERCISING}.Exercising\n" +
+        $"{TrackOptions.WORKING}.Working\n" +
+        $"{TrackOptions.OTHER_HOBBY}.Other Hobby\n" +
+        $"{TrackOptions.BACK_TO_MAIN_MENU}.Back to main menu"
+        , ConsoleColor.Cyan);
+    string trackChosen = Console.ReadLine();
+
+    switch (trackChosen)
+    {
+        case TrackOptions.READING:
+            await ShowReadingActivity(userManagerService, timerService);
+            break;
+        case TrackOptions.EXERCISING:
+            await ShowExercisingActivity(userManagerService, timerService);
+            break;
+        case TrackOptions.WORKING:
+            await ShowWorkingActivity(userManagerService, timerService);
+            break;
+        case TrackOptions.OTHER_HOBBY:
+            await ShowHobbyActivity(userManagerService, timerService);
+            break;
+        case TrackOptions.BACK_TO_MAIN_MENU:
+            break;
+        default:
+            TextHelper.TextGenerator("Invalid Input! Please enter one of the given options...", ConsoleColor.Red);
+            await ShowTrack(userManagerService);
+            break;
+    }
+}
+
+async Task ShowReadingActivity(IUserManagerService userManagerService, ITimeTrackerService timerService)
+{
+    TextHelper.TextGenerator("Timer has started & Reading has begun!", ConsoleColor.Green);
+    timerService.StartTimer();
+
+    TextHelper.TextGenerator("Press ENTER when you want to stop the timer", ConsoleColor.Cyan);
+    Console.ReadLine();
+    timerService.StopTimer();
+
+    TextHelper.TextGenerator("Enter the number of pages you have read:", ConsoleColor.Cyan);
+    int pagesCount;
+    while (!int.TryParse(Console.ReadLine(), out pagesCount))
+    {
+        TextHelper.TextGenerator("Invalid input, please enter a valid integer:", ConsoleColor.Yellow);
+    }
+    int pages = pagesCount;
+
+    TextHelper.TextGenerator("Enter the type of book you are reading:", ConsoleColor.Cyan);
+    Console.WriteLine
+        (
+            $"1){ReadingType.Romance}\n" +
+            $"2){ReadingType.Fiction}\n" +
+            $"3){ReadingType.Fantasy}"
+        );
+    int typeValue;
+    while (!int.TryParse(Console.ReadLine(), out typeValue) || !Enum.IsDefined(typeof(ReadingType), typeValue))
+    {
+        TextHelper.TextGenerator("Invalid input, please enter a valid book type (1-3):", ConsoleColor.Yellow);
+    }
+    ReadingType bookType = (ReadingType)typeValue;
+
+    int durationInSeconds = timerService.GetTimeInSeconds();
+    string timeInMinutes = timerService.GetTimeInMinutes();
+    TextHelper.TextGenerator($"Time spent: {timeInMinutes}\nPress ENTER to go back to the main menu", ConsoleColor.Cyan);
+
+    int currentUser = userManagerService.CurrentUser.Id;
+    List<ReadingActivity> readingActivities = readingDatabase.GetActivityByUserId(currentUser);
+
+    ReadingActivity readingActivity = new ReadingActivity(currentUser, durationInSeconds, pages, bookType);
+    readingActivities.Add(readingActivity);
+
+    await readingDatabase.AddActivityAsync(readingActivity);
+
+    Console.ReadLine();
+    await ShowTrack(userManagerService);
+}
+
+async Task ShowExercisingActivity(IUserManagerService userManagerService, ITimeTrackerService timerService)
+{
+    TextHelper.TextGenerator("Timer has started & Exercising has begun!", ConsoleColor.Green);
+    timerService.StartTimer();
+
+    TextHelper.TextGenerator("Press ENTER when you want to stop the timer", ConsoleColor.Cyan);
+    Console.ReadLine();
+    timerService.StopTimer();
+
+    TextHelper.TextGenerator("Enter the type of exercise you are doing:", ConsoleColor.Cyan);
+    Console.WriteLine
+        (
+            $"1){ExercisingType.Yoga}\n" +
+            $"2){ExercisingType.Running}\n" +
+            $"3){ExercisingType.Swimming}"
+        );
+    int typeValue;
+    while (!int.TryParse(Console.ReadLine(), out typeValue) || !Enum.IsDefined(typeof(ExercisingType), typeValue))
+    {
+        TextHelper.TextGenerator("Invalid input, please enter a valid exercise type (1-3):", ConsoleColor.Yellow);
+    }
+    ExercisingType exercisingType = (ExercisingType)typeValue;
+
+    int durationInSeconds = timerService.GetTimeInSeconds();
+    string timeInMinutes = timerService.GetTimeInMinutes();
+    TextHelper.TextGenerator($"Time spent: {timeInMinutes}\nPress ENTER to go back to the main menu", ConsoleColor.Cyan);
+
+    int currentUser = userManagerService.CurrentUser.Id;
+    List<ExercisingActivity> exercisingActivities = exercisingDatabase.GetActivityByUserId(currentUser);
+
+    ExercisingActivity exercisingActivity = new ExercisingActivity(currentUser, durationInSeconds, exercisingType);
+    exercisingActivities.Add(exercisingActivity);
+
+    await exercisingDatabase.AddActivityAsync(exercisingActivity);
+
+    Console.ReadLine();
+    await ShowTrack(userManagerService);
+}
+
+async Task ShowWorkingActivity(IUserManagerService userManagerService, ITimeTrackerService timerService)
+{
+    TextHelper.TextGenerator("Timer has started & Working has begun!", ConsoleColor.Green);
+    timerService.StartTimer();
+
+    TextHelper.TextGenerator("Press ENTER when you want to stop the timer", ConsoleColor.Cyan);
+    Console.ReadLine();
+    timerService.StopTimer();
+
+    TextHelper.TextGenerator("Enter where you are working from:", ConsoleColor.Cyan);
+    Console.WriteLine
+        (
+            $"1){Working.Office}\n" +
+            $"2){Working.Home}"
+        );
+    int typeValue;
+    while (!int.TryParse(Console.ReadLine(), out typeValue) || !Enum.IsDefined(typeof(Working), typeValue))
+    {
+        TextHelper.TextGenerator("Invalid input, please enter a valid work place (1-2):", ConsoleColor.Yellow);
+    }
+    Working workingPlace = (Working)typeValue;
+
+    int durationInSeconds = timerService.GetTimeInSeconds();
+    string timeInMinutes = timerService.GetTimeInMinutes();
+    TextHelper.TextGenerator($"Time spent: {timeInMinutes}\nPress ENTER to go back to the main menu", ConsoleColor.Cyan);
+
+    int currentUser = userManagerService.CurrentUser.Id;
+    List<WorkingActivity> workingActivities = workingDatabase.GetActivityByUserId(currentUser);
+
+    WorkingActivity workingActivity = new WorkingActivity(currentUser, durationInSeconds, workingPlace);
+    workingActivities.Add(workingActivity);
+
+    await workingDatabase.AddActivityAsync(workingActivity);
+
+    Console.ReadLine();
+    await ShowTrack(userManagerService);
+}
+
+async Task ShowHobbyActivity(IUserManagerService userManagerService, ITimeTrackerService timerService)
+{
+    TextHelper.TextGenerator("Timer has started! Start working on your hobby!", ConsoleColor.Green);
+    timerService.StartTimer();
+
+    TextHelper.TextGenerator("Press ENTER when you want to stop the timer", ConsoleColor.Cyan);
+    Console.ReadLine();
+    timerService.StopTimer();
+
+    TextHelper.TextGenerator("Enter the name of the hobby you were doing:", ConsoleColor.Cyan);
+    string hobby = Console.ReadLine();
+    while (string.IsNullOrWhiteSpace(hobby))
+    {
+        TextHelper.TextGenerator("Invalid input, please enter a valid hobby:", ConsoleColor.Yellow);
+        hobby = Console.ReadLine();
+    }
+    string currentHobby = hobby;
+
+    int durationInSeconds = timerService.GetTimeInSeconds();
+    string timeInMinutes = timerService.GetTimeInMinutes();
+    TextHelper.TextGenerator($"Time spent: {timeInMinutes}\nPress ENTER to go back to the main menu", ConsoleColor.Cyan);
+
+    int currentUser = userManagerService.CurrentUser.Id;
+    List<Hobby> hobbyActivities = hobbyDatabase.GetActivityByUserId(currentUser);
+
+    Hobby hobbyActivity = new Hobby(currentUser, durationInSeconds, currentHobby);
+    hobbyActivities.Add(hobbyActivity);
+
+    await hobbyDatabase.AddActivityAsync(hobbyActivity);
+
+    Console.ReadLine();
+    await ShowTrack(userManagerService);
+}
+
+async Task ShowStatistics(IUserManagerService userManagerService)
+{
+    TextHelper.TextGenerator(
+        $"{StatisticsOptions.READING}.Reading\n" +
+        $"{StatisticsOptions.EXERCISING}.Exercising\n" +
+        $"{StatisticsOptions.WORKING}.Working\n" +
+        $"{StatisticsOptions.HOBBIES}.Hobbies\n" +
+        $"{StatisticsOptions.GLOBAL}.Global\n" +
+        $"{StatisticsOptions.BACK_TO_MAIN_MENU}.Back to main menu"
+        , ConsoleColor.Cyan);
+    string statisticChosen = Console.ReadLine();
+
+    switch (statisticChosen)
+    {
+        case StatisticsOptions.READING:
+            await ShowReadingStatistics(userManagerService, readingDatabase, timerService);
+            break;
+        case StatisticsOptions.EXERCISING:
+            await ShowExercisingStatistics(userManagerService, exercisingDatabase, timerService);
+            break;
+        case StatisticsOptions.WORKING:
+            await ShowWorkingStatistics(userManagerService, workingDatabase, timerService);
+            break;
+        case StatisticsOptions.HOBBIES:
+            await ShowHobbiesStatistics(userManagerService, hobbyDatabase, timerService);
+            break;
+        case StatisticsOptions.GLOBAL:
+            await ShowGlobalStatistics(userManagerService, readingDatabase, exercisingDatabase, workingDatabase, hobbyDatabase, timerService);
+            break;
+        case StatisticsOptions.BACK_TO_MAIN_MENU:
+            break;
+        default:
+            TextHelper.TextGenerator("Invalid Input! Please enter one of the given options...", ConsoleColor.Red);
+            await ShowStatistics(userManagerService);
+            break;
+    }
+}
+
+async Task ShowReadingStatistics(IUserManagerService userManagerService, IReadingDatabase readingDatabase, ITimeTrackerService timerService)
+{
+    List<ReadingActivity> readingActivities = readingDatabase.GetActivityByUserId(userManagerService.CurrentUser.Id);
+
+    int totalDurationInSeconds = readingActivities.Sum(x => x.Duration);
+    TimeSpan totalDuration = TimeSpan.FromSeconds(totalDurationInSeconds);
+
+    int totalHours = (int)totalDuration.TotalHours;
+    int remainingMinutes = totalDuration.Minutes;
+    int remainingSeconds = totalDuration.Seconds;
+
+    TextHelper.TextGenerator($"Total time: {totalHours} hours, {remainingMinutes} minutes, and {remainingSeconds} seconds", ConsoleColor.Cyan);
+
+    int averageDurationInSeconds = totalDurationInSeconds / readingActivities.Count;
+    TimeSpan averageDuration = TimeSpan.FromSeconds(averageDurationInSeconds);
+
+    int averageMinutes = (int)averageDuration.TotalMinutes;
+    int averageSeconds = averageDuration.Seconds;
+
+    TextHelper.TextGenerator($"Average of all activity records: {averageMinutes} minutes, and {averageSeconds} seconds", ConsoleColor.Cyan);
+
+    int totalPageCount = 0;
+
+    foreach (ReadingActivity activity in readingActivities)
+    {
+        totalPageCount += activity.PageCount;
+    }
+    TextHelper.TextGenerator($"Total number of pages: {totalPageCount}", ConsoleColor.Cyan);
+
+    Dictionary<ReadingType, int> typeCounts = new Dictionary<ReadingType, int>();
+    foreach (ReadingActivity activity in readingActivities)
+    {
+        if (typeCounts.ContainsKey(activity.ReadingType))
+        {
+            typeCounts[activity.ReadingType]++;
+        }
+        else
+        {
+            typeCounts[activity.ReadingType] = 1;
+        }
+    }
+
+    int maxCount = 0;
+    List<ReadingType> favoriteTypes = new List<ReadingType>();
+    foreach (var key in typeCounts)
+    {
+        if (key.Value > maxCount)
+        {
+            maxCount = key.Value;
+            favoriteTypes.Clear();
+            favoriteTypes.Add(key.Key);
+        }
+        else if (key.Value == maxCount)
+        {
+            favoriteTypes.Add(key.Key);
+        }
+    }
+
+    if (favoriteTypes.Count > 0)
+    {
+        string typesString = String.Join(", ", favoriteTypes);
+        TextHelper.TextGenerator($"Favorite Types: {typesString}", ConsoleColor.Cyan);
+    }
+    else
+    {
+        TextHelper.TextGenerator($"Favorite Types: User does not have a favorite type!", ConsoleColor.Red);
+    }
+
+    TextHelper.TextGenerator($"\nPress ENTER to go back to the main menu", ConsoleColor.Cyan);
+    Console.ReadLine();
+    await ShowStatistics(userManagerService);
+}
+
+async Task ShowExercisingStatistics(IUserManagerService userManagerService, IExercisingDatabase exercisingDatabase, ITimeTrackerService timerService)
+{
+    List<ExercisingActivity> exercisingActivities = exercisingDatabase.GetActivityByUserId(userManagerService.CurrentUser.Id);
+
+    int totalDurationInSeconds = exercisingActivities.Sum(x => x.Duration);
+    TimeSpan totalDuration = TimeSpan.FromSeconds(totalDurationInSeconds);
+
+    int totalHours = (int)totalDuration.TotalHours;
+    int remainingMinutes = totalDuration.Minutes;
+    int remainingSeconds = totalDuration.Seconds;
+
+    TextHelper.TextGenerator($"Total time: {totalHours} hours, {remainingMinutes} minutes, and {remainingSeconds} seconds", ConsoleColor.Cyan);
+
+    int averageDurationInSeconds = totalDurationInSeconds / exercisingActivities.Count;
+    TimeSpan averageDuration = TimeSpan.FromSeconds(averageDurationInSeconds);
+
+    int averageMinutes = (int)averageDuration.TotalMinutes;
+    int averageSeconds = averageDuration.Seconds;
+
+    TextHelper.TextGenerator($"Average of all activity records: {averageMinutes} minutes, and {averageSeconds} seconds", ConsoleColor.Cyan);
+
+    Dictionary<ExercisingType, int> typeCounts = new Dictionary<ExercisingType, int>();
+    foreach (ExercisingActivity activity in exercisingActivities)
+    {
+        if (typeCounts.ContainsKey(activity.ExercisingType))
+        {
+            typeCounts[activity.ExercisingType]++;
+        }
+        else
+        {
+            typeCounts[activity.ExercisingType] = 1;
+        }
+    }
+
+    int maxCount = 0;
+    List<ExercisingType> favoriteTypes = new List<ExercisingType>();
+    foreach (var key in typeCounts)
+    {
+        if (key.Value > maxCount)
+        {
+            maxCount = key.Value;
+            favoriteTypes.Clear();
+            favoriteTypes.Add(key.Key);
+        }
+        else if (key.Value == maxCount)
+        {
+            favoriteTypes.Add(key.Key);
+        }
+    }
+
+    if (favoriteTypes.Count > 0)
+    {
+        string typesString = String.Join(", ", favoriteTypes);
+        TextHelper.TextGenerator($"Favorite Types: {typesString}", ConsoleColor.Cyan);
+    }
+    else
+    {
+        TextHelper.TextGenerator($"Favorite Types: User does not have a favorite type!", ConsoleColor.Red);
+    }
+
+    TextHelper.TextGenerator($"\nPress ENTER to go back to the main menu", ConsoleColor.Cyan);
+    Console.ReadLine();
+    await ShowStatistics(userManagerService);
+}
+
+async Task ShowWorkingStatistics(IUserManagerService userManagerService, IWorkingDatabase workingDatabase, ITimeTrackerService timerService)
+{
+    List<WorkingActivity> workingActivities = workingDatabase.GetActivityByUserId(userManagerService.CurrentUser.Id);
+
+    int totalDurationInSeconds = workingActivities.Sum(x => x.Duration);
+    TimeSpan totalDuration = TimeSpan.FromSeconds(totalDurationInSeconds);
+
+    int totalHours = (int)totalDuration.TotalHours;
+    int remainingMinutes = totalDuration.Minutes;
+    int remainingSeconds = totalDuration.Seconds;
+
+    TextHelper.TextGenerator($"Total time: {totalHours} hours, {remainingMinutes} minutes, and {remainingSeconds} seconds", ConsoleColor.Cyan);
+
+    int averageDurationInSeconds = totalDurationInSeconds / workingActivities.Count;
+    TimeSpan averageDuration = TimeSpan.FromSeconds(averageDurationInSeconds);
+
+    int averageMinutes = (int)averageDuration.TotalMinutes;
+    int averageSeconds = averageDuration.Seconds;
+
+    TextHelper.TextGenerator($"Average of all activity records: {averageMinutes} minutes, and {averageSeconds} seconds", ConsoleColor.Cyan);
+
+    int totalDurationAtOffice = workingActivities.Where(x => x.Working == Working.Office).Sum(x => x.Duration);
+    TimeSpan totalDurationAtOfficeTimeSpan = TimeSpan.FromSeconds(totalDurationAtOffice);
+
+    int totalDurationAtHome = workingActivities.Where(x => x.Working == Working.Home).Sum(x => x.Duration);
+    TimeSpan totalDurationAtHomeTimeSpan = TimeSpan.FromSeconds(totalDurationAtHome);
+
+    int totalOfficeHours = (int)totalDurationAtOfficeTimeSpan.TotalHours;
+    int totaHomeHours = (int)totalDurationAtHomeTimeSpan.TotalHours;
+
+    string officeTime = $"{totalOfficeHours} hours, {totalDurationAtOfficeTimeSpan.Minutes} minutes, and {totalDurationAtOfficeTimeSpan.Seconds} seconds";
+    string homeTime = $"{totaHomeHours} hours, {totalDurationAtHomeTimeSpan.Minutes} minutes, and {totalDurationAtHomeTimeSpan.Seconds} seconds";
+
+    TextHelper.TextGenerator($"Total working time: Home({homeTime}) VS Office({officeTime})", ConsoleColor.Cyan);
+
+    TextHelper.TextGenerator($"\nPress ENTER to go back to the main menu", ConsoleColor.Cyan);
+    Console.ReadLine();
+    await ShowStatistics(userManagerService);
+}
+
+async Task ShowHobbiesStatistics(IUserManagerService userManagerService, IHobbyDatabase hobbyDatabase, ITimeTrackerService timerService)
+{
+    List<Hobby> hobbies = hobbyDatabase.GetActivityByUserId(userManagerService.CurrentUser.Id);
+
+    int totalDurationInSeconds = hobbies.Sum(x => x.Duration);
+    TimeSpan totalDuration = TimeSpan.FromSeconds(totalDurationInSeconds);
+
+    int totalHours = (int)totalDuration.TotalHours;
+    int remainingMinutes = totalDuration.Minutes;
+    int remainingSeconds = totalDuration.Seconds;
+
+    TextHelper.TextGenerator($"Total time: {totalHours} hours, {remainingMinutes} minutes, and {remainingSeconds} seconds", ConsoleColor.Cyan);
+
+    List<string> distinctNames = hobbies.Select(h => h.HobbyName).Distinct().ToList();
+    if (distinctNames.Count > 0)
+    {
+        TextHelper.TextGenerator($"List of all hobbies: ", ConsoleColor.Cyan);
+        foreach (string name in distinctNames)
+        {
+            TextHelper.TextGenerator($"- {name}", ConsoleColor.Yellow);
+        }
+    }
+    else
+    {
+        TextHelper.TextGenerator($"List of all hobbies: User does not have any recorded hobbies!", ConsoleColor.Red);
+    }
+
+    TextHelper.TextGenerator($"\nPress ENTER to go back to the main menu", ConsoleColor.Cyan);
+    Console.ReadLine();
+    await ShowStatistics(userManagerService);
+}
+
+async Task ShowGlobalStatistics(IUserManagerService userManagerService, IReadingDatabase readingDatabase, IExercisingDatabase exercisingDatabase, IWorkingDatabase workingDatabase, IHobbyDatabase hobbyDatabase, ITimeTrackerService timerService)
+{
+    TextHelper.TextGenerator($"Total time of all activities: ", ConsoleColor.Cyan);
+    TextHelper.TextGenerator($"User favorite activity: ", ConsoleColor.Cyan);
+
+    TextHelper.TextGenerator($"\nPress ENTER to go back to the main menu", ConsoleColor.Cyan);
+    Console.ReadLine();
+    await ShowStatistics(userManagerService);
 }
 
 async Task ShowManageAccountAsync(IUserManagerService userManagerService, IUserDatabase database)
@@ -300,569 +866,4 @@ async Task AccountDeactivationAsync(IUserManagerService userManagerService, IUse
         Console.ReadKey();
         await ShowLoginMenu(userManagerService);
     }
-}
-
-async Task ShowStatistics(IUserManagerService userManagerService)
-{
-    TextHelper.TextGenerator(
-        $"{StatisticsOptions.READING}.Reading\n" +
-        $"{StatisticsOptions.EXERCISING}.Exercising\n" +
-        $"{StatisticsOptions.WORKING}.Working\n" +
-        $"{StatisticsOptions.HOBBIES}.Hobbies\n" +
-        $"{StatisticsOptions.GLOBAL}.Global\n" +
-        $"{StatisticsOptions.BACK_TO_MAIN_MENU}.Back to main menu"
-        , ConsoleColor.Cyan);
-    string statisticChosen = Console.ReadLine();
-
-    switch (statisticChosen)
-    {
-        case StatisticsOptions.READING:
-            await ShowReadingStatistics(userManagerService, readingDatabase, timerService);
-            break;
-        case StatisticsOptions.EXERCISING:
-            await ShowExercisingStatistics(userManagerService, exercisingDatabase, timerService);
-            break;
-        case StatisticsOptions.WORKING:
-            await ShowWorkingStatistics(userManagerService, workingDatabase, timerService);
-            break;
-        case StatisticsOptions.HOBBIES:
-            await ShowHobbiesStatistics(userManagerService, hobbyDatabase, timerService);
-            break;
-        case StatisticsOptions.GLOBAL:
-            await ShowGlobalStatistics(userManagerService, readingDatabase, exercisingDatabase, workingDatabase, hobbyDatabase, timerService);
-            break;
-        case StatisticsOptions.BACK_TO_MAIN_MENU:
-            break;
-        default:
-            TextHelper.TextGenerator("Invalid Input! Please enter one of the given options...", ConsoleColor.Red);
-            await ShowStatistics(userManagerService);
-            break;
-    }
-}
-
-async Task ShowReadingStatistics(IUserManagerService userManagerService, IReadingDatabase readingDatabase, ITimerTrackerService timerService)
-{
-    List<ReadingActivity> readingActivities = readingDatabase.GetActivityByUserId(userManagerService.CurrentUser.Id);
-
-    int totalDurationInSeconds = readingActivities.Sum(x => x.Duration);
-    TimeSpan totalDuration = TimeSpan.FromSeconds(totalDurationInSeconds);
-
-    int totalHours = (int)totalDuration.TotalHours;
-    int remainingMinutes = totalDuration.Minutes;
-    int remainingSeconds = totalDuration.Seconds;
-
-    TextHelper.TextGenerator($"Total time: {totalHours} hours, {remainingMinutes} minutes, and {remainingSeconds} seconds", ConsoleColor.Cyan);
-
-    int averageDurationInSeconds = totalDurationInSeconds / readingActivities.Count;
-    TimeSpan averageDuration = TimeSpan.FromSeconds(averageDurationInSeconds);
-
-    int averageMinutes = (int)averageDuration.TotalMinutes;
-    int averageSeconds = averageDuration.Seconds;
-
-    TextHelper.TextGenerator($"Average of all activity records: {averageMinutes} minutes, and {averageSeconds} seconds", ConsoleColor.Cyan);
-
-    int totalPageCount = 0;
-
-    foreach (ReadingActivity activity in readingActivities)
-    {
-        totalPageCount += activity.PageCount;
-    }
-    TextHelper.TextGenerator($"Total number of pages: {totalPageCount}", ConsoleColor.Cyan);
-
-    Dictionary<ReadingType, int> typeCounts = new Dictionary<ReadingType, int>();
-    foreach (ReadingActivity activity in readingActivities)
-    {
-        if (typeCounts.ContainsKey(activity.ReadingType))
-        {
-            typeCounts[activity.ReadingType]++;
-        }
-        else
-        {
-            typeCounts[activity.ReadingType] = 1;
-        }
-    }
-
-    int maxCount = 0;
-    List<ReadingType> favoriteTypes = new List<ReadingType>();
-    foreach (var key in typeCounts)
-    {
-        if (key.Value > maxCount)
-        {
-            maxCount = key.Value;
-            favoriteTypes.Clear();
-            favoriteTypes.Add(key.Key);
-        }
-        else if (key.Value == maxCount)
-        {
-            favoriteTypes.Add(key.Key);
-        }
-    }
-
-    if (favoriteTypes.Count > 0)
-    {
-        string typesString = String.Join(", ", favoriteTypes);
-        TextHelper.TextGenerator($"Favorite Types: {typesString}", ConsoleColor.Cyan);
-    }
-    else
-    {
-        TextHelper.TextGenerator($"Favorite Types: User does not have a favorite type!", ConsoleColor.Red);
-    }
-
-    TextHelper.TextGenerator($"\nPress ENTER to go back to the main menu", ConsoleColor.Cyan);
-    Console.ReadLine();
-    await ShowStatistics(userManagerService);
-}
-
-async Task ShowExercisingStatistics(IUserManagerService userManagerService, IExercisingDatabase exercisingDatabase, ITimerTrackerService timerService)
-{
-    List<ExercisingActivity> exercisingActivities = exercisingDatabase.GetActivityByUserId(userManagerService.CurrentUser.Id);
-
-    int totalDurationInSeconds = exercisingActivities.Sum(x => x.Duration);
-    TimeSpan totalDuration = TimeSpan.FromSeconds(totalDurationInSeconds);
-
-    int totalHours = (int)totalDuration.TotalHours;
-    int remainingMinutes = totalDuration.Minutes;
-    int remainingSeconds = totalDuration.Seconds;
-
-    TextHelper.TextGenerator($"Total time: {totalHours} hours, {remainingMinutes} minutes, and {remainingSeconds} seconds", ConsoleColor.Cyan);
-
-    int averageDurationInSeconds = totalDurationInSeconds / exercisingActivities.Count;
-    TimeSpan averageDuration = TimeSpan.FromSeconds(averageDurationInSeconds);
-
-    int averageMinutes = (int)averageDuration.TotalMinutes;
-    int averageSeconds = averageDuration.Seconds;
-
-    TextHelper.TextGenerator($"Average of all activity records: {averageMinutes} minutes, and {averageSeconds} seconds", ConsoleColor.Cyan);
-
-    Dictionary<ExercisingType, int> typeCounts = new Dictionary<ExercisingType, int>();
-    foreach (ExercisingActivity activity in exercisingActivities)
-    {
-        if (typeCounts.ContainsKey(activity.ExercisingType))
-        {
-            typeCounts[activity.ExercisingType]++;
-        }
-        else
-        {
-            typeCounts[activity.ExercisingType] = 1;
-        }
-    }
-
-    int maxCount = 0;
-    List<ExercisingType> favoriteTypes = new List<ExercisingType>();
-    foreach (var key in typeCounts)
-    {
-        if (key.Value > maxCount)
-        {
-            maxCount = key.Value;
-            favoriteTypes.Clear();
-            favoriteTypes.Add(key.Key);
-        }
-        else if (key.Value == maxCount)
-        {
-            favoriteTypes.Add(key.Key);
-        }
-    }
-
-    if (favoriteTypes.Count > 0)
-    {
-        string typesString = String.Join(", ", favoriteTypes);
-        TextHelper.TextGenerator($"Favorite Types: {typesString}", ConsoleColor.Cyan);
-    }
-    else
-    {
-        TextHelper.TextGenerator($"Favorite Types: User does not have a favorite type!", ConsoleColor.Red);
-    }
-
-    TextHelper.TextGenerator($"\nPress ENTER to go back to the main menu", ConsoleColor.Cyan);
-    Console.ReadLine();
-    await ShowStatistics(userManagerService);
-}
-
-async Task ShowWorkingStatistics(IUserManagerService userManagerService, IWorkingDatabase workingDatabase, ITimerTrackerService timerService)
-{
-    List<WorkingActivity> workingActivities = workingDatabase.GetActivityByUserId(userManagerService.CurrentUser.Id);
-
-    int totalDurationInSeconds = workingActivities.Sum(x => x.Duration);
-    TimeSpan totalDuration = TimeSpan.FromSeconds(totalDurationInSeconds);
-
-    int totalHours = (int)totalDuration.TotalHours;
-    int remainingMinutes = totalDuration.Minutes;
-    int remainingSeconds = totalDuration.Seconds;
-
-    TextHelper.TextGenerator($"Total time: {totalHours} hours, {remainingMinutes} minutes, and {remainingSeconds} seconds", ConsoleColor.Cyan);
-
-    int averageDurationInSeconds = totalDurationInSeconds / workingActivities.Count;
-    TimeSpan averageDuration = TimeSpan.FromSeconds(averageDurationInSeconds);
-
-    int averageMinutes = (int)averageDuration.TotalMinutes;
-    int averageSeconds = averageDuration.Seconds;
-
-    TextHelper.TextGenerator($"Average of all activity records: {averageMinutes} minutes, and {averageSeconds} seconds", ConsoleColor.Cyan);
-
-    int totalDurationAtOffice = workingActivities.Where(x => x.Working == Working.Office).Sum(x => x.Duration);
-    TimeSpan totalDurationAtOfficeTimeSpan = TimeSpan.FromSeconds(totalDurationAtOffice);
-
-    int totalDurationAtHome = workingActivities.Where(x => x.Working == Working.Home).Sum(x => x.Duration);
-    TimeSpan totalDurationAtHomeTimeSpan = TimeSpan.FromSeconds(totalDurationAtHome);
-
-    int totalOfficeHours = (int)totalDurationAtOfficeTimeSpan.TotalHours;
-    int totaHomeHours = (int)totalDurationAtHomeTimeSpan.TotalHours;
-
-    string officeTime = $"{totalOfficeHours} hours, {totalDurationAtOfficeTimeSpan.Minutes} minutes, and {totalDurationAtOfficeTimeSpan.Seconds} seconds";
-    string homeTime = $"{totaHomeHours} hours, {totalDurationAtHomeTimeSpan.Minutes} minutes, and {totalDurationAtHomeTimeSpan.Seconds} seconds";
-
-    TextHelper.TextGenerator($"Total working time: Home({homeTime}) VS Office({officeTime})", ConsoleColor.Cyan);
-
-    TextHelper.TextGenerator($"\nPress ENTER to go back to the main menu", ConsoleColor.Cyan);
-    Console.ReadLine();
-    await ShowStatistics(userManagerService);
-}
-
-async Task ShowHobbiesStatistics(IUserManagerService userManagerService, IHobbyDatabase hobbyDatabase, ITimerTrackerService timerService)
-{
-    List<Hobby> hobbies = hobbyDatabase.GetActivityByUserId(userManagerService.CurrentUser.Id);
-
-    int totalDurationInSeconds = hobbies.Sum(x => x.Duration);
-    TimeSpan totalDuration = TimeSpan.FromSeconds(totalDurationInSeconds);
-
-    int totalHours = (int)totalDuration.TotalHours;
-    int remainingMinutes = totalDuration.Minutes;
-    int remainingSeconds = totalDuration.Seconds;
-
-    TextHelper.TextGenerator($"Total time: {totalHours} hours, {remainingMinutes} minutes, and {remainingSeconds} seconds", ConsoleColor.Cyan);
-
-    List<string> distinctNames = hobbies.Select(h => h.HobbyName).Distinct().ToList();
-    if (distinctNames.Count > 0)
-    {
-        TextHelper.TextGenerator($"List of all hobbies: ", ConsoleColor.Cyan);
-        foreach (string name in distinctNames)
-        {
-            TextHelper.TextGenerator($"- {name}", ConsoleColor.Yellow);
-        }
-    }
-    else
-    {
-        TextHelper.TextGenerator($"List of all hobbies: User does not have any recorded hobbies!", ConsoleColor.Red);
-    }
-
-    TextHelper.TextGenerator($"\nPress ENTER to go back to the main menu", ConsoleColor.Cyan);
-    Console.ReadLine();
-    await ShowStatistics(userManagerService);
-}
-
-async Task ShowGlobalStatistics(IUserManagerService userManagerService, IReadingDatabase readingDatabase, IExercisingDatabase exercisingDatabase, IWorkingDatabase workingDatabase, IHobbyDatabase hobbyDatabase, ITimerTrackerService timerService)
-{
-    TextHelper.TextGenerator($"Total time of all activities: ", ConsoleColor.Cyan);
-    TextHelper.TextGenerator($"User favorite activity: ", ConsoleColor.Cyan);
-
-    TextHelper.TextGenerator($"\nPress ENTER to go back to the main menu", ConsoleColor.Cyan);
-    Console.ReadLine();
-    await ShowStatistics(userManagerService);
-}
-
-async Task ShowTrack(IUserManagerService userManagerService)
-{
-    TextHelper.TextGenerator(
-        $"{TrackOptions.READING}.Reading\n" +
-        $"{TrackOptions.EXERCISING}.Exercising\n" +
-        $"{TrackOptions.WORKING}.Working\n" +
-        $"{TrackOptions.OTHER_HOBBY}.Other Hobby\n" +
-        $"{TrackOptions.BACK_TO_MAIN_MENU}.Back to main menu"
-        , ConsoleColor.Cyan);
-    string trackChosen = Console.ReadLine();
-
-    switch (trackChosen)
-    {
-        case TrackOptions.READING:
-            await ShowReadingActivity(userManagerService, timerService);
-            break;
-        case TrackOptions.EXERCISING:
-            await ShowExercisingActivity(userManagerService, timerService);
-            break;
-        case TrackOptions.WORKING:
-            await ShowWorkingActivity(userManagerService, timerService);
-            break;
-        case TrackOptions.OTHER_HOBBY:
-            await ShowHobbyActivity(userManagerService, timerService);
-            break;
-        case TrackOptions.BACK_TO_MAIN_MENU:
-            break;
-        default:
-            TextHelper.TextGenerator("Invalid Input! Please enter one of the given options...", ConsoleColor.Red);
-            await ShowTrack(userManagerService);
-            break;
-    }
-}
-
-async Task ShowHobbyActivity(IUserManagerService userManagerService, ITimerTrackerService timerService)
-{
-    TextHelper.TextGenerator("Timer has started! Start working on your hobby!", ConsoleColor.Green);
-    timerService.StartTimer();
-
-    TextHelper.TextGenerator("Press ENTER when you want to stop the timer", ConsoleColor.Cyan);
-    Console.ReadLine();
-    timerService.StopTimer();
-
-    TextHelper.TextGenerator("Enter the name of the hobby you were doing:", ConsoleColor.Cyan);
-    string hobby = Console.ReadLine();
-    while (string.IsNullOrWhiteSpace(hobby))
-    {
-        TextHelper.TextGenerator("Invalid input, please enter a valid hobby:", ConsoleColor.Yellow);
-        hobby = Console.ReadLine();
-    }
-    string currentHobby = hobby;
-
-    int durationInSeconds = timerService.GetTimeInSeconds();
-    string timeInMinutes = timerService.GetTimeInMinutes();
-    TextHelper.TextGenerator($"Time spent: {timeInMinutes}\nPress ENTER to go back to the main menu", ConsoleColor.Cyan);
-
-    int currentUser = userManagerService.CurrentUser.Id;
-    List<Hobby> hobbyActivities = hobbyDatabase.GetActivityByUserId(currentUser);
-
-    Hobby hobbyActivity = new Hobby(currentUser, durationInSeconds, currentHobby);
-    hobbyActivities.Add(hobbyActivity);
-
-    await hobbyDatabase.AddActivityAsync(hobbyActivity);
-
-    Console.ReadLine();
-    await ShowTrack(userManagerService);
-}
-
-async Task ShowWorkingActivity(IUserManagerService userManagerService, ITimerTrackerService timerService)
-{
-    TextHelper.TextGenerator("Timer has started & Working has begun!", ConsoleColor.Green);
-    timerService.StartTimer();
-
-    TextHelper.TextGenerator("Press ENTER when you want to stop the timer", ConsoleColor.Cyan);
-    Console.ReadLine();
-    timerService.StopTimer();
-
-    TextHelper.TextGenerator("Enter where you are working from:", ConsoleColor.Cyan);
-    Console.WriteLine
-        (
-            $"1){Working.Office}\n" +
-            $"2){Working.Home}"
-        );
-    int typeValue;
-    while (!int.TryParse(Console.ReadLine(), out typeValue) || !Enum.IsDefined(typeof(Working), typeValue))
-    {
-        TextHelper.TextGenerator("Invalid input, please enter a valid work place (1-2):", ConsoleColor.Yellow);
-    }
-    Working workingPlace = (Working)typeValue;
-
-    int durationInSeconds = timerService.GetTimeInSeconds();
-    string timeInMinutes = timerService.GetTimeInMinutes();
-    TextHelper.TextGenerator($"Time spent: {timeInMinutes}\nPress ENTER to go back to the main menu", ConsoleColor.Cyan);
-
-    int currentUser = userManagerService.CurrentUser.Id;
-    List<WorkingActivity> workingActivities = workingDatabase.GetActivityByUserId(currentUser);
-
-    WorkingActivity workingActivity = new WorkingActivity(currentUser, durationInSeconds, workingPlace);
-    workingActivities.Add(workingActivity);
-
-    await workingDatabase.AddActivityAsync(workingActivity);
-
-    Console.ReadLine();
-    await ShowTrack(userManagerService);
-}
-
-async Task ShowExercisingActivity(IUserManagerService userManagerService, ITimerTrackerService timerService)
-{
-    TextHelper.TextGenerator("Timer has started & Exercising has begun!", ConsoleColor.Green);
-    timerService.StartTimer();
-
-    TextHelper.TextGenerator("Press ENTER when you want to stop the timer", ConsoleColor.Cyan);
-    Console.ReadLine();
-    timerService.StopTimer();
-
-    TextHelper.TextGenerator("Enter the type of exercise you are doing:", ConsoleColor.Cyan);
-    Console.WriteLine
-        (
-            $"1){ExercisingType.Yoga}\n" +
-            $"2){ExercisingType.Running}\n" +
-            $"3){ExercisingType.Swimming}"
-        );
-    int typeValue;
-    while (!int.TryParse(Console.ReadLine(), out typeValue) || !Enum.IsDefined(typeof(ExercisingType), typeValue))
-    {
-        TextHelper.TextGenerator("Invalid input, please enter a valid exercise type (1-3):", ConsoleColor.Yellow);
-    }
-    ExercisingType exercisingType = (ExercisingType)typeValue;
-
-    int durationInSeconds = timerService.GetTimeInSeconds();
-    string timeInMinutes = timerService.GetTimeInMinutes();
-    TextHelper.TextGenerator($"Time spent: {timeInMinutes}\nPress ENTER to go back to the main menu", ConsoleColor.Cyan);
-
-    int currentUser = userManagerService.CurrentUser.Id;
-    List<ExercisingActivity> exercisingActivities = exercisingDatabase.GetActivityByUserId(currentUser);
-
-    ExercisingActivity exercisingActivity = new ExercisingActivity(currentUser, durationInSeconds, exercisingType);
-    exercisingActivities.Add(exercisingActivity);
-
-    await exercisingDatabase.AddActivityAsync(exercisingActivity);
-
-    Console.ReadLine();
-    await ShowTrack(userManagerService);
-}
-
-async Task ShowReadingActivity(IUserManagerService userManagerService, ITimerTrackerService timerService)
-{
-    TextHelper.TextGenerator("Timer has started & Reading has begun!", ConsoleColor.Green);
-    timerService.StartTimer();
-
-    TextHelper.TextGenerator("Press ENTER when you want to stop the timer", ConsoleColor.Cyan);
-    Console.ReadLine();
-    timerService.StopTimer();
-
-    TextHelper.TextGenerator("Enter the number of pages you have read:", ConsoleColor.Cyan);
-    int pagesCount;
-    while (!int.TryParse(Console.ReadLine(), out pagesCount))
-    {
-        TextHelper.TextGenerator("Invalid input, please enter a valid integer:", ConsoleColor.Yellow);
-    }
-    int pages = pagesCount;
-
-    TextHelper.TextGenerator("Enter the type of book you are reading:", ConsoleColor.Cyan);
-    Console.WriteLine
-        (
-            $"1){ReadingType.Romance}\n" +
-            $"2){ReadingType.Fiction}\n" +
-            $"3){ReadingType.Fantasy}"
-        );
-    int typeValue;
-    while (!int.TryParse(Console.ReadLine(), out typeValue) || !Enum.IsDefined(typeof(ReadingType), typeValue))
-    {
-        TextHelper.TextGenerator("Invalid input, please enter a valid book type (1-3):", ConsoleColor.Yellow);
-    }
-    ReadingType bookType = (ReadingType)typeValue;
-
-    int durationInSeconds = timerService.GetTimeInSeconds();
-    string timeInMinutes = timerService.GetTimeInMinutes();
-    TextHelper.TextGenerator($"Time spent: {timeInMinutes}\nPress ENTER to go back to the main menu", ConsoleColor.Cyan);
-
-    int currentUser = userManagerService.CurrentUser.Id;
-    List<ReadingActivity> readingActivities = readingDatabase.GetActivityByUserId(currentUser);
-
-    ReadingActivity readingActivity = new ReadingActivity(currentUser, durationInSeconds, pages, bookType);
-    readingActivities.Add(readingActivity);
-
-    await readingDatabase.AddActivityAsync(readingActivity);
-
-    Console.ReadLine();
-    await ShowTrack(userManagerService);
-}
-
-async Task ShowLoginMenu(IUserManagerService userManagerService)
-{
-    Console.WriteLine($"\n{UserLogIn.LOG_IN}.Log In\n{UserLogIn.REGISTER_USER}.Register\n{UserLogIn.EXIT_APP}.Exit App");
-    string authChoice = Console.ReadLine();
-
-    switch (authChoice)
-    {
-        case UserLogIn.LOG_IN:
-            await ShowLogIn(userManagerService);
-            break;
-        case UserLogIn.REGISTER_USER:
-            await ShowRegister(userManagerService);
-            break;
-        case UserLogIn.EXIT_APP:
-            Environment.Exit(0);
-            break;
-        default:
-            TextHelper.TextGenerator("Invalid Input! Please enter one of the given options...", ConsoleColor.Red);
-            await ShowLoginMenu(userManagerService);
-            break;
-    }
-}
-
-async Task ShowRegister(IUserManagerService userManagerService)
-{
-    TextHelper.TextGenerator("Enter your First Name:", ConsoleColor.Cyan);
-    string firstName = Console.ReadLine();
-
-    TextHelper.TextGenerator("Enter your Last Name:", ConsoleColor.Cyan);
-    string lastName = Console.ReadLine();
-
-    TextHelper.TextGenerator("Enter your Age:", ConsoleColor.Cyan);
-    string age = Console.ReadLine();
-
-    TextHelper.TextGenerator("Enter Username:", ConsoleColor.Cyan);
-    string username = Console.ReadLine();
-
-    TextHelper.TextGenerator("Enter Password:", ConsoleColor.Cyan);
-    string password = Console.ReadLine();
-
-    if (!int.TryParse(age, out int intAge))
-    {
-        TextHelper.TextGenerator("Enter a valid Age!", ConsoleColor.Red);
-        await StartAppAsync();
-    }
-    else
-    {
-        try
-        {
-            userManagerService.Register(firstName, lastName, intAge, username, password);
-            TextHelper.TextGenerator("You have successfully registered!", ConsoleColor.Green);
-        }
-        catch (Exception ex)
-        {
-            TextHelper.TextGenerator(ex.Message, ConsoleColor.Red);
-            await StartAppAsync();
-        }
-    }
-
-    await StartAppAsync();
-}
-
-async Task ShowLogIn(IUserManagerService userManagerService)
-{
-    for (int i = 0; i < 3; i++)
-    {
-        TextHelper.TextGenerator("Enter your username:", ConsoleColor.Cyan);
-        string username = Console.ReadLine();
-
-        TextHelper.TextGenerator("Enter your password:", ConsoleColor.Cyan);
-        string password = Console.ReadLine();
-
-        try
-        {
-            userManagerService.LogIn(username, password);
-
-            if (!userManagerService.CurrentUser.IsActive)
-            {
-                TextHelper.TextGenerator("Your account is deactivated. Do you want to reactivate it? (Y/N)", ConsoleColor.Cyan);
-
-                string userInput = Console.ReadLine().ToUpper();
-                while (userInput != "Y" && userInput != "N")
-                {
-                    TextHelper.TextGenerator("Invalid input. Please enter Y or N.", ConsoleColor.Red);
-                    userInput = Console.ReadLine().ToUpper();
-                }
-
-                if (userInput == "N")
-                {
-                    userManagerService.LogOut();
-                    await ShowLoginMenu(userManagerService);
-                    return;
-                }
-                else if (userInput == "Y")
-                {
-                    userManagerService.CurrentUser.IsActive = true;
-                    await database.UpdateUserAsync(userManagerService.CurrentUser);
-                    Console.ReadKey();
-                }
-            }
-
-            TextHelper.TextGenerator($"\nSuccess! Welcome {userManagerService.CurrentUser.FirstName} {userManagerService.CurrentUser.LastName}.", ConsoleColor.Green);
-
-            await StartAppAsync();
-        }
-        catch (Exception ex)
-        {
-            TextHelper.TextGenerator($"Unsuccessful login! Try again...", ConsoleColor.Red);
-        }
-    }
-
-    TextHelper.TextGenerator("\nYou have tried to login 3 times! No more attempts left. Exiting application...", ConsoleColor.Red);
-    Environment.Exit(0);
 }

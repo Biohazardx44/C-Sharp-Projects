@@ -3,7 +3,7 @@ using TimeTrackingApp.Services.Interfaces;
 
 namespace TimeTrackingApp.Services
 {
-    public class TimeTrackerService : ITimerTrackerService
+    public class TimeTrackerService : ITimeTrackerService
     {
         private readonly System.Timers.Timer _timer = new System.Timers.Timer(1000);
         private int _seconds;

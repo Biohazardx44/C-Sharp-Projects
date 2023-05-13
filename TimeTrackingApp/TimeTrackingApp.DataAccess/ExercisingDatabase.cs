@@ -50,13 +50,14 @@ namespace TimeTrackingApp.DataAccess
         public async Task UpdateActivityAsync(ExercisingActivity activity)
         {
             ExercisingActivity existingActivity = Items.FirstOrDefault(a => a.Id == activity.Id);
-            if (existingActivity != null)
+            if (existingActivity == null)
             {
-                existingActivity.UserId = activity.UserId;
-                existingActivity.Duration = activity.Duration;
-                existingActivity.ExercisingType = activity.ExercisingType;
-                await UpdateAsync(existingActivity);
+                throw new Exception("An error occurred!");
             }
+            existingActivity.UserId = activity.UserId;
+            existingActivity.Duration = activity.Duration;
+            existingActivity.ExercisingType = activity.ExercisingType;
+            await UpdateAsync(existingActivity);
         }
     }
 }

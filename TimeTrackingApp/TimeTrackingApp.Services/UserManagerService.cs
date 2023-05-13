@@ -6,7 +6,7 @@ namespace TimeTrackingApp.Services
 {
     public class UserManagerService : IUserManagerService
     {
-        private static IUserDatabase _database;
+        private IUserDatabase _database;
 
         public User CurrentUser { get; private set; }
 

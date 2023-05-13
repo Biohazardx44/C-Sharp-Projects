@@ -15,9 +15,9 @@ namespace TimeTrackingApp.DataAccess
 
         private async Task SeedAsync()
         {
-            await InsertAsync(new User("Test", "Test", 18, "test", "Test"));
-            await InsertAsync(new User("NewTest", "Test", 20, "test", "Test"));
-            await InsertAsync(new User("AnotherTest", "Test", 22, "test", "Test"));
+            await InsertAsync(new User("Test", "Test", 18, "Test1", "A12345"));
+            await InsertAsync(new User("admin", "admin", 28, "admin", "A12345"));
+            await InsertAsync(new User("newuser", "newuser", 20, "newuser", "A12345"));
         }
 
         public User GetUserByUsernameAndPassword(string username, string password)

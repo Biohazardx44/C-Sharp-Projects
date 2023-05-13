@@ -34,5 +34,11 @@
     "Duration": 9000,
     "ExercisingType": 2,
     "Id": 6
+  },
+  {
+    "UserId": 4,
+    "Duration": 13,
+    "ExercisingType": 3,
+    "Id": 7
   }
 ]

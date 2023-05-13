@@ -1,6 +1,6 @@
 ﻿namespace TimeTrackingApp.Services.Interfaces
 {
-    public interface ITimerTrackerService
+    public interface ITimeTrackerService
     {
         void StartTimer();
 

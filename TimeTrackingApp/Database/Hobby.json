@@ -46,5 +46,17 @@
     "Duration": 14,
     "HobbyName": "Testing",
     "Id": 8
+  },
+  {
+    "UserId": 2,
+    "Duration": 24,
+    "HobbyName": "Coding",
+    "Id": 9
+  },
+  {
+    "UserId": 1,
+    "Duration": 56,
+    "HobbyName": "Coding",
+    "Id": 10
   }
 ]
