@@ -754,7 +754,7 @@ async Task ShowReadingActivity(IUserManagerService userManagerService, ITimerTra
 
 async Task ShowLoginMenu(IUserManagerService userManagerService)
 {
-    Console.WriteLine($"\n{UserLogIn.LOG_IN}.Log In\n{UserLogIn.REGISTER_USER}.Register");
+    Console.WriteLine($"\n{UserLogIn.LOG_IN}.Log In\n{UserLogIn.REGISTER_USER}.Register\n{UserLogIn.EXIT_APP}.Exit App");
     string authChoice = Console.ReadLine();
 
     switch (authChoice)
@@ -764,6 +764,9 @@ async Task ShowLoginMenu(IUserManagerService userManagerService)
             break;
         case UserLogIn.REGISTER_USER:
             await ShowRegister(userManagerService);
+            break;
+        case UserLogIn.EXIT_APP:
+            Environment.Exit(0);
             break;
         default:
             TextHelper.TextGenerator("Invalid Input! Please enter one of the given options...", ConsoleColor.Red);

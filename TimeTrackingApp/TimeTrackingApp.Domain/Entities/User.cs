@@ -24,21 +24,51 @@
             ValidateNameInput(lastName);
             LastName = lastName;
 
+            ValidateAge(age);
+            Age = age;
+
+            ValidateUsername(username);
+            Username = username;
+
+            ValidatePassword(password);
+            Password = password;
+        }
+
+        public void ValidateNameInput(string input)
+        {
+            if (input.Length < _validNameLenght)
+            {
+                throw new Exception($"First and Last Name should not be shorter than {_validNameLenght} characters!");
+            }
+
+            foreach (char c in input)
+            {
+                if (char.IsDigit(c))
+                {
+                    throw new Exception("First and Last Name should not contain numbers!");
+                }
+            }
+        }
+
+        public void ValidateAge(int age)
+        {
             if (age < _validMinAge || age > _validMaxAge)
             {
                 throw new Exception($"Age should not be less than {_validMinAge} or over {_validMaxAge} years!");
             }
-            Age = age;
+        }
 
-            if (username.Length < _validUsernameLenght)
+        public void ValidateUsername(string username)
+        {
+            if (string.IsNullOrWhiteSpace(username) || username.Length < _validUsernameLenght)
             {
                 throw new Exception($"Username should not be shorter than {_validUsernameLenght} characters!");
             }
 
-            ValidatePassword(password);
-
-            Password = password;
-            Username = username;
+            if (!username.All(char.IsLetterOrDigit))
+            {
+                throw new Exception($"Username should contain only letters and digits!");
+            }
         }
 
         public void ValidatePassword(string password)
@@ -76,22 +106,6 @@
             if (password.Length < _validPasswordLenght)
             {
                 throw new Exception($"Password should not be shorter than {_validPasswordLenght} characters!");
-            }
-        }
-
-        public void ValidateNameInput(string input)
-        {
-            if (input.Length < _validNameLenght)
-            {
-                throw new Exception($"First and Last Name should not be shorter than {_validNameLenght} characters!");
-            }
-
-            foreach (char c in input)
-            {
-                if (char.IsDigit(c))
-                {
-                    throw new Exception("First and Last Name should not contain numbers!");
-                }
             }
         }
     }
