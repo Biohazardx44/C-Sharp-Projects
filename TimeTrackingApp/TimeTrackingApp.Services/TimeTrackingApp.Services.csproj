@@ -9,6 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="..\TimeTrackingApp.DataAccess\TimeTrackingApp.DataAccess.csproj" />
     <ProjectReference Include="..\TimeTrackingApp.Domain\TimeTrackingApp.Domain.csproj" />
+    <ProjectReference Include="..\TimeTrackingApp.Helpers\TimeTrackingApp.Helpers.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,5 @@
 ﻿using System.Timers;
+using TimeTrackingApp.Helpers;
 using TimeTrackingApp.Services.Interfaces;
 
 namespace TimeTrackingApp.Services
@@ -64,6 +65,16 @@ namespace TimeTrackingApp.Services
         {
             TimeSpan timeSpan = TimeSpan.FromSeconds(_seconds);
             return $"{(int)timeSpan.TotalHours} hours, {timeSpan.Minutes:D2} minutes & {timeSpan.Seconds:D2} seconds.";
+        }
+
+        public void ActivityTimeTracker(string activity)
+        {
+            TextHelper.TextGenerator($"Timer has started & {activity} has begun!", ConsoleColor.Green);
+            StartTimer();
+
+            TextHelper.TextGenerator($"Press ENTER when you want to stop {activity}", ConsoleColor.Cyan);
+            Console.ReadLine();
+            StopTimer();
         }
     }
 }

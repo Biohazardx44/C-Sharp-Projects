@@ -54,7 +54,8 @@
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
           "TimeTrackingApp.DataAccess": "1.0.0",
-          "TimeTrackingApp.Domain": "1.0.0"
+          "TimeTrackingApp.Domain": "1.0.0",
+          "TimeTrackingApp.Helpers": "1.0.0"
         },
         "compile": {
           "bin/placeholder/TimeTrackingApp.Services.dll": {}

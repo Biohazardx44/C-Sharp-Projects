@@ -9,7 +9,8 @@
       "TimeTrackingApp.Services/1.0.0": {
         "dependencies": {
           "TimeTrackingApp.DataAccess": "1.0.0",
-          "TimeTrackingApp.Domain": "1.0.0"
+          "TimeTrackingApp.Domain": "1.0.0",
+          "TimeTrackingApp.Helpers": "1.0.0"
         },
         "runtime": {
           "TimeTrackingApp.Services.dll": {}
@@ -36,6 +37,11 @@
         "runtime": {
           "TimeTrackingApp.Domain.dll": {}
         }
+      },
+      "TimeTrackingApp.Helpers/1.0.0": {
+        "runtime": {
+          "TimeTrackingApp.Helpers.dll": {}
+        }
       }
     }
   },
@@ -58,6 +64,11 @@
       "sha512": ""
     },
     "TimeTrackingApp.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "TimeTrackingApp.Helpers/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

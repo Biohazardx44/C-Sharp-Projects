@@ -47,5 +47,33 @@
     "Duration": 4,
     "ReadingType": 3,
     "Id": 7
+  },
+  {
+    "UserId": 2,
+    "PageCount": 20,
+    "Duration": 24,
+    "ReadingType": 3,
+    "Id": 8
+  },
+  {
+    "UserId": 2,
+    "PageCount": 20,
+    "Duration": 11,
+    "ReadingType": 3,
+    "Id": 9
+  },
+  {
+    "UserId": 2,
+    "PageCount": 200,
+    "Duration": 2,
+    "ReadingType": 1,
+    "Id": 10
+  },
+  {
+    "UserId": 2,
+    "PageCount": 10,
+    "Duration": 1,
+    "ReadingType": 1,
+    "Id": 11
   }
 ]

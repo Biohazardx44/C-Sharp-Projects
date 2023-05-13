@@ -11,5 +11,7 @@
         string GetTimeInMinutes();
 
         string GetTimeInHours();
+
+        void ActivityTimeTracker(string activity);
     }
 }

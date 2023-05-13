@@ -45,7 +45,8 @@
       "TimeTrackingApp.Services/1.0.0": {
         "dependencies": {
           "TimeTrackingApp.DataAccess": "1.0.0",
-          "TimeTrackingApp.Domain": "1.0.0"
+          "TimeTrackingApp.Domain": "1.0.0",
+          "TimeTrackingApp.Helpers": "1.0.0"
         },
         "runtime": {
           "TimeTrackingApp.Services.dll": {}

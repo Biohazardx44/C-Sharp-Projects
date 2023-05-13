@@ -38,6 +38,16 @@
         "runtime": {
           "bin/placeholder/TimeTrackingApp.Domain.dll": {}
         }
+      },
+      "TimeTrackingApp.Helpers/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/TimeTrackingApp.Helpers.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/TimeTrackingApp.Helpers.dll": {}
+        }
       }
     }
   },
@@ -81,12 +91,18 @@
       "type": "project",
       "path": "../TimeTrackingApp.Domain/TimeTrackingApp.Domain.csproj",
       "msbuildProject": "../TimeTrackingApp.Domain/TimeTrackingApp.Domain.csproj"
+    },
+    "TimeTrackingApp.Helpers/1.0.0": {
+      "type": "project",
+      "path": "../TimeTrackingApp.Helpers/TimeTrackingApp.Helpers.csproj",
+      "msbuildProject": "../TimeTrackingApp.Helpers/TimeTrackingApp.Helpers.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net6.0": [
       "TimeTrackingApp.DataAccess >= 1.0.0",
-      "TimeTrackingApp.Domain >= 1.0.0"
+      "TimeTrackingApp.Domain >= 1.0.0",
+      "TimeTrackingApp.Helpers >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -127,6 +143,9 @@
             },
             "C:\\Users\\nikol\\Desktop\\Code\\C-Sharp-Projects\\TimeTrackingApp\\TimeTrackingApp.Domain\\TimeTrackingApp.Domain.csproj": {
               "projectPath": "C:\\Users\\nikol\\Desktop\\Code\\C-Sharp-Projects\\TimeTrackingApp\\TimeTrackingApp.Domain\\TimeTrackingApp.Domain.csproj"
+            },
+            "C:\\Users\\nikol\\Desktop\\Code\\C-Sharp-Projects\\TimeTrackingApp\\TimeTrackingApp.Helpers\\TimeTrackingApp.Helpers.csproj": {
+              "projectPath": "C:\\Users\\nikol\\Desktop\\Code\\C-Sharp-Projects\\TimeTrackingApp\\TimeTrackingApp.Helpers\\TimeTrackingApp.Helpers.csproj"
             }
           }
         }

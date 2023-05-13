@@ -34,5 +34,23 @@
     "Duration": 7,
     "Working": 2,
     "Id": 6
+  },
+  {
+    "UserId": 2,
+    "Duration": 10,
+    "Working": 1,
+    "Id": 7
+  },
+  {
+    "UserId": 2,
+    "Duration": 9,
+    "Working": 2,
+    "Id": 8
+  },
+  {
+    "UserId": 2,
+    "Duration": 2,
+    "Working": 1,
+    "Id": 9
   }
 ]

@@ -15,3 +15,5 @@ C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.Ser
 C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.Services\obj\Debug\net6.0\refint\TimeTrackingApp.Services.dll
 C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.Services\obj\Debug\net6.0\TimeTrackingApp.Services.pdb
 C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.Services\obj\Debug\net6.0\ref\TimeTrackingApp.Services.dll
+C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.Services\bin\Debug\net6.0\TimeTrackingApp.Helpers.dll
+C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.Services\bin\Debug\net6.0\TimeTrackingApp.Helpers.pdb

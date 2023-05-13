@@ -6,36 +6,49 @@ using TimeTrackingApp.Helpers;
 using TimeTrackingApp.Services;
 using TimeTrackingApp.Services.Interfaces;
 
+// Time Tracking App
+// Created by Nikola Ilievski
+// Version: 0.4.4 BETA
+
 IUserDatabase database = new UserDatabase();
 IReadingDatabase readingDatabase = new ReadingDatabase();
 IExercisingDatabase exercisingDatabase = new ExercisingDatabase();
 IWorkingDatabase workingDatabase = new WorkingDatabase();
 IHobbyDatabase hobbyDatabase = new HobbyDatabase();
 
-IUserManagerService userManagerService = new UserManagerService(database);
+IActivityService activityService = new ActivityService();
 ITimeTrackerService timerService = new TimeTrackerService();
+IUserManagerService userManagerService = new UserManagerService(database);
 
+// Displays a welcome message and either shows the login screen or takes the user to the main menu, depending on whether the user is logged in or not
 async Task StartAppAsync()
 {
+    // Display welcome message
     TextHelper.TextGenerator("Welcome to Time Tracking APP", ConsoleColor.Green);
 
+    // Determine whether user is logged in
     if (userManagerService.CurrentUser == null)
     {
+        // Show login screen if user is not logged in
         await ShowLoginMenu(userManagerService);
     }
     else
     {
+        // Take user to main menu if user is logged in
         await ShowMainMenu(userManagerService);
     }
 }
 
 await StartAppAsync();
 
+// Displays the login screen and prompts the user to either log in, register a new user, or exit the app
 async Task ShowLoginMenu(IUserManagerService userManagerService)
 {
+    // Display the available options to the user
     Console.WriteLine($"\n{UserLogIn.LOG_IN}.Log In\n{UserLogIn.REGISTER_USER}.Register\n{UserLogIn.EXIT_APP}.Exit App");
     string authChoice = Console.ReadLine();
 
+    // Handle user's choice
     switch (authChoice)
     {
         case UserLogIn.LOG_IN:
@@ -54,10 +67,12 @@ async Task ShowLoginMenu(IUserManagerService userManagerService)
     }
 }
 
+// Asks the user for their username and password and attempts to log them in
 async Task ShowLogIn(IUserManagerService userManagerService)
 {
     for (int i = 0; i < 3; i++)
     {
+        // Prompt the user for their username and password
         TextHelper.TextGenerator("Enter your username:", ConsoleColor.Cyan);
         string username = Console.ReadLine();
 
@@ -66,8 +81,10 @@ async Task ShowLogIn(IUserManagerService userManagerService)
 
         try
         {
+            // Attempt to log in the user using the provided credentials
             userManagerService.LogIn(username, password);
 
+            // If the user's account is deactivated, prompt them to reactivate it
             if (!userManagerService.CurrentUser.IsActive)
             {
                 TextHelper.TextGenerator("Your account is deactivated. Do you want to reactivate it? (Y/N)", ConsoleColor.Cyan);
@@ -81,34 +98,40 @@ async Task ShowLogIn(IUserManagerService userManagerService)
 
                 if (userInput == "N")
                 {
+                    // If the user chooses not to reactivate their account, log them out and show the login menu again
                     userManagerService.LogOut();
                     await ShowLoginMenu(userManagerService);
                     return;
                 }
                 else if (userInput == "Y")
                 {
+                    // If the user chooses to reactivate their account, set IsActive to true and update the user in the database
                     userManagerService.CurrentUser.IsActive = true;
                     await database.UpdateUserAsync(userManagerService.CurrentUser);
-                    Console.ReadKey();
                 }
             }
 
+            // If the user is successfully logged in, show the main menu
             TextHelper.TextGenerator($"\nSuccess! Welcome {userManagerService.CurrentUser.FirstName} {userManagerService.CurrentUser.LastName}.", ConsoleColor.Green);
 
             await StartAppAsync();
         }
         catch (Exception ex)
         {
+            // If the login attempt is unsuccessful, show an error message and allow the user to try again
             TextHelper.TextGenerator($"Unsuccessful login! Try again...", ConsoleColor.Red);
         }
     }
 
+    // If the user has failed to log in three times, exit the application
     TextHelper.TextGenerator("\nYou have tried to login 3 times! No more attempts left. Exiting application...", ConsoleColor.Red);
     Environment.Exit(0);
 }
 
+// Asks the user for their information and attempts to register a new account
 async Task ShowRegister(IUserManagerService userManagerService)
 {
+    // Prompt the user for their information
     TextHelper.TextGenerator("Enter your First Name:", ConsoleColor.Cyan);
     string firstName = Console.ReadLine();
 
@@ -126,6 +149,7 @@ async Task ShowRegister(IUserManagerService userManagerService)
 
     if (!int.TryParse(age, out int intAge))
     {
+        // If the user enters an invalid age, show an error message and return to the start menu
         TextHelper.TextGenerator("Enter a valid Age!", ConsoleColor.Red);
         await StartAppAsync();
     }
@@ -133,24 +157,31 @@ async Task ShowRegister(IUserManagerService userManagerService)
     {
         try
         {
+            // Attempt to register a new user with the provided information
             userManagerService.Register(firstName, lastName, intAge, username, password);
+
+            // Show a success message to the user
             TextHelper.TextGenerator("You have successfully registered!", ConsoleColor.Green);
         }
         catch (Exception ex)
         {
+            // If there was an error during registration, show an error message and return to the start menu
             TextHelper.TextGenerator(ex.Message, ConsoleColor.Red);
             await StartAppAsync();
         }
     }
 
+    // Return to the start menu
     await StartAppAsync();
 }
 
 async Task ShowMainMenu(IUserManagerService userManagerService)
 {
+    // Display the available options to the user
     Console.WriteLine($"{UserLogOut.LOG_OUT}.Log Out\n{UserLogOut.TRACK}.Track Activity\n{UserLogOut.STATISTICS}.Statistics\n{UserLogOut.MANAGE_ACCOUNT}.Manage Account");
     string actionChoise = Console.ReadLine();
 
+    // Handle the user's choice
     switch (actionChoise)
     {
         case UserLogOut.LOG_OUT:
@@ -179,6 +210,7 @@ async Task ShowMainMenu(IUserManagerService userManagerService)
 
 async Task ShowTrack(IUserManagerService userManagerService)
 {
+    // Display the available track options to the user
     TextHelper.TextGenerator(
         $"{TrackOptions.READING}.Reading\n" +
         $"{TrackOptions.EXERCISING}.Exercising\n" +
@@ -188,6 +220,7 @@ async Task ShowTrack(IUserManagerService userManagerService)
         , ConsoleColor.Cyan);
     string trackChosen = Console.ReadLine();
 
+    // Handle the user's choice
     switch (trackChosen)
     {
         case TrackOptions.READING:
@@ -213,12 +246,7 @@ async Task ShowTrack(IUserManagerService userManagerService)
 
 async Task ShowReadingActivity(IUserManagerService userManagerService, ITimeTrackerService timerService)
 {
-    TextHelper.TextGenerator("Timer has started & Reading has begun!", ConsoleColor.Green);
-    timerService.StartTimer();
-
-    TextHelper.TextGenerator("Press ENTER when you want to stop the timer", ConsoleColor.Cyan);
-    Console.ReadLine();
-    timerService.StopTimer();
+    timerService.ActivityTimeTracker("reading");
 
     TextHelper.TextGenerator("Enter the number of pages you have read:", ConsoleColor.Cyan);
     int pagesCount;
@@ -228,19 +256,11 @@ async Task ShowReadingActivity(IUserManagerService userManagerService, ITimeTrac
     }
     int pages = pagesCount;
 
-    TextHelper.TextGenerator("Enter the type of book you are reading:", ConsoleColor.Cyan);
-    Console.WriteLine
-        (
-            $"1){ReadingType.Romance}\n" +
-            $"2){ReadingType.Fiction}\n" +
-            $"3){ReadingType.Fantasy}"
-        );
-    int typeValue;
-    while (!int.TryParse(Console.ReadLine(), out typeValue) || !Enum.IsDefined(typeof(ReadingType), typeValue))
-    {
-        TextHelper.TextGenerator("Invalid input, please enter a valid book type (1-3):", ConsoleColor.Yellow);
-    }
-    ReadingType bookType = (ReadingType)typeValue;
+    ReadingType bookType = activityService.GetActivityType<ReadingType>(
+        "Enter the type of book you are reading:",
+        new List<ReadingType> { ReadingType.Romance, ReadingType.Fiction, ReadingType.Fantasy },
+        "Invalid input, please enter a valid book type (1-3):"
+    );
 
     int durationInSeconds = timerService.GetTimeInSeconds();
     string timeInMinutes = timerService.GetTimeInMinutes();
@@ -260,26 +280,13 @@ async Task ShowReadingActivity(IUserManagerService userManagerService, ITimeTrac
 
 async Task ShowExercisingActivity(IUserManagerService userManagerService, ITimeTrackerService timerService)
 {
-    TextHelper.TextGenerator("Timer has started & Exercising has begun!", ConsoleColor.Green);
-    timerService.StartTimer();
+    timerService.ActivityTimeTracker("exercising");
 
-    TextHelper.TextGenerator("Press ENTER when you want to stop the timer", ConsoleColor.Cyan);
-    Console.ReadLine();
-    timerService.StopTimer();
-
-    TextHelper.TextGenerator("Enter the type of exercise you are doing:", ConsoleColor.Cyan);
-    Console.WriteLine
-        (
-            $"1){ExercisingType.Yoga}\n" +
-            $"2){ExercisingType.Running}\n" +
-            $"3){ExercisingType.Swimming}"
-        );
-    int typeValue;
-    while (!int.TryParse(Console.ReadLine(), out typeValue) || !Enum.IsDefined(typeof(ExercisingType), typeValue))
-    {
-        TextHelper.TextGenerator("Invalid input, please enter a valid exercise type (1-3):", ConsoleColor.Yellow);
-    }
-    ExercisingType exercisingType = (ExercisingType)typeValue;
+    ExercisingType exercisingType = activityService.GetActivityType<ExercisingType>(
+        "Enter the type of exercise you are doing:",
+        new List<ExercisingType> { ExercisingType.Yoga, ExercisingType.Running, ExercisingType.Swimming },
+        "Invalid input, please enter a valid exercise type (1-3):"
+    );
 
     int durationInSeconds = timerService.GetTimeInSeconds();
     string timeInMinutes = timerService.GetTimeInMinutes();
@@ -299,25 +306,13 @@ async Task ShowExercisingActivity(IUserManagerService userManagerService, ITimeT
 
 async Task ShowWorkingActivity(IUserManagerService userManagerService, ITimeTrackerService timerService)
 {
-    TextHelper.TextGenerator("Timer has started & Working has begun!", ConsoleColor.Green);
-    timerService.StartTimer();
+    timerService.ActivityTimeTracker("work");
 
-    TextHelper.TextGenerator("Press ENTER when you want to stop the timer", ConsoleColor.Cyan);
-    Console.ReadLine();
-    timerService.StopTimer();
-
-    TextHelper.TextGenerator("Enter where you are working from:", ConsoleColor.Cyan);
-    Console.WriteLine
-        (
-            $"1){Working.Office}\n" +
-            $"2){Working.Home}"
-        );
-    int typeValue;
-    while (!int.TryParse(Console.ReadLine(), out typeValue) || !Enum.IsDefined(typeof(Working), typeValue))
-    {
-        TextHelper.TextGenerator("Invalid input, please enter a valid work place (1-2):", ConsoleColor.Yellow);
-    }
-    Working workingPlace = (Working)typeValue;
+    Working workingPlace = activityService.GetActivityType<Working>(
+        "Enter where you are working from:",
+        new List<Working> { Working.Office, Working.Home },
+        "Invalid input, please enter a valid work place (1-2):"
+    );
 
     int durationInSeconds = timerService.GetTimeInSeconds();
     string timeInMinutes = timerService.GetTimeInMinutes();
@@ -337,12 +332,7 @@ async Task ShowWorkingActivity(IUserManagerService userManagerService, ITimeTrac
 
 async Task ShowHobbyActivity(IUserManagerService userManagerService, ITimeTrackerService timerService)
 {
-    TextHelper.TextGenerator("Timer has started! Start working on your hobby!", ConsoleColor.Green);
-    timerService.StartTimer();
-
-    TextHelper.TextGenerator("Press ENTER when you want to stop the timer", ConsoleColor.Cyan);
-    Console.ReadLine();
-    timerService.StopTimer();
+    timerService.ActivityTimeTracker("your hobby");
 
     TextHelper.TextGenerator("Enter the name of the hobby you were doing:", ConsoleColor.Cyan);
     string hobby = Console.ReadLine();
