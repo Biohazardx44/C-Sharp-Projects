@@ -43,7 +43,7 @@ namespace TimeTrackingApp.DataAccess
             if (existingActivity != null)
             {
                 Items.Remove(existingActivity);
-                await WriteToFileAsync();
+                await UpdateAsync(existingActivity);
             }
         }
 
@@ -55,7 +55,7 @@ namespace TimeTrackingApp.DataAccess
                 existingActivity.UserId = activity.UserId;
                 existingActivity.Duration = activity.Duration;
                 existingActivity.Working = activity.Working;
-                await WriteToFileAsync();
+                await UpdateAsync(existingActivity);
             }
         }
     }

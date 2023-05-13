@@ -38,7 +38,7 @@ namespace TimeTrackingApp.DataAccess
                 throw new Exception ("An error occurred!");
             }
             existingUser.Password = user.Password;
-            await WriteToFileAsync();
+            await UpdateAsync(existingUser);
         }
     }
 }

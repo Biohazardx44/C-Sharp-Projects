@@ -28,5 +28,11 @@
     "Duration": 33,
     "Working": 2,
     "Id": 5
+  },
+  {
+    "UserId": 1,
+    "Duration": 7,
+    "Working": 2,
+    "Id": 6
   }
 ]
