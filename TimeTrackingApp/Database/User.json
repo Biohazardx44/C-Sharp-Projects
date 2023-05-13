@@ -52,5 +52,14 @@
     "Username": "FinalTest",
     "Password": "A12345",
     "Id": 6
+  },
+  {
+    "IsActive": false,
+    "FirstName": "Testing",
+    "LastName": "Testing",
+    "Age": 18,
+    "Username": "Testing",
+    "Password": "A12345",
+    "Id": 7
   }
 ]

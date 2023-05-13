@@ -57,13 +57,13 @@ namespace TimeTrackingApp.Services
         public string GetTimeInMinutes()
         {
             TimeSpan timeSpan = TimeSpan.FromSeconds(_seconds);
-            return $"{timeSpan.Minutes:D2} minutes & {timeSpan.Seconds:D2} seconds.";
+            return $"{(int)timeSpan.TotalMinutes} minutes & {timeSpan.Seconds:D2} seconds.";
         }
 
         public string GetTimeInHours()
         {
             TimeSpan timeSpan = TimeSpan.FromSeconds(_seconds);
-            return $"{timeSpan.Hours:D2} hours, {timeSpan.Minutes:D2} minutes & {timeSpan.Seconds:D2} seconds.";
+            return $"{(int)timeSpan.TotalHours} hours, {timeSpan.Minutes:D2} minutes & {timeSpan.Seconds:D2} seconds.";
         }
     }
 }

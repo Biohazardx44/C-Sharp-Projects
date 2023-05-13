@@ -32,7 +32,7 @@ namespace TimeTrackingApp.DataAccess
 
         public async Task UpdateUserAsync(User user)
         {
-            User existingUser = await GetById(user.Id);
+            User existingUser = await GetByIdAsync(user.Id);
             if (existingUser == null)
             {
                 throw new Exception ("An error occurred!");

@@ -40,5 +40,12 @@
     "Duration": 76,
     "ReadingType": 3,
     "Id": 6
+  },
+  {
+    "UserId": 7,
+    "PageCount": 25,
+    "Duration": 4,
+    "ReadingType": 3,
+    "Id": 7
   }
 ]
