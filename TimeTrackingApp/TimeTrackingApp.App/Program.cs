@@ -8,7 +8,7 @@ using TimeTrackingApp.Services.Interfaces;
 
 // Time Tracking App
 // Created by Nikola Ilievski
-// Version: 0.4.4 BETA
+// Version: 0.5.1 BETA
 
 IUserDatabase database = new UserDatabase();
 IReadingDatabase readingDatabase = new ReadingDatabase();
