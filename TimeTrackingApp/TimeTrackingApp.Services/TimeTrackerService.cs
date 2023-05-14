@@ -26,8 +26,8 @@ namespace TimeTrackingApp.Services
         private void OnTimerElapsed(object sender, ElapsedEventArgs e)
         {
             ClearConsoleLineIfNecessary();
-            IncrementTimer();
-            PrintTimeInSeconds();
+            _seconds++;
+            Console.WriteLine(_seconds);
         }
 
         private void ClearConsoleLineIfNecessary()
@@ -38,16 +38,6 @@ namespace TimeTrackingApp.Services
                 Console.Write(new string(' ', Console.WindowWidth));
                 Console.SetCursorPosition(0, Console.CursorTop);
             }
-        }
-
-        private void IncrementTimer()
-        {
-            _seconds++;
-        }
-
-        private void PrintTimeInSeconds()
-        {
-            Console.WriteLine(_seconds);
         }
 
         public int GetTimeInSeconds()

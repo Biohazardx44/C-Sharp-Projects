@@ -8,7 +8,7 @@ using TimeTrackingApp.Services.Interfaces;
 
 // Time Tracking App
 // Created by Nikola Ilievski
-// Version: 0.5.1 BETA
+// Version: 1.0.0 Stable
 
 IUserDatabase database = new UserDatabase();
 IReadingDatabase readingDatabase = new ReadingDatabase();
@@ -19,6 +19,7 @@ IHobbyDatabase hobbyDatabase = new HobbyDatabase();
 IActivityService activityService = new ActivityService();
 ITimeTrackerService timerService = new TimeTrackerService();
 IUserManagerService userManagerService = new UserManagerService(database);
+IUserService userService = new UserService(readingDatabase, exercisingDatabase, workingDatabase, hobbyDatabase, userManagerService);
 
 // Displays a welcome message and either shows the login screen or takes the user to the main menu, depending on whether the user is logged in or not
 async Task StartAppAsync()
@@ -153,6 +154,12 @@ async Task ShowRegister(IUserManagerService userManagerService)
         TextHelper.TextGenerator("Enter a valid Age!", ConsoleColor.Red);
         await StartAppAsync();
     }
+    else if (database.CheckUsernameAvailable(username))
+    {
+        // If the username is not available, show an error message and return to the start menu
+        TextHelper.TextGenerator("Username is already taken. Please choose another one.", ConsoleColor.Red);
+        await StartAppAsync();
+    }
     else
     {
         try
@@ -244,6 +251,7 @@ async Task ShowTrack(IUserManagerService userManagerService)
     }
 }
 
+// This method is responsible for showing the reading activity menu and adding a reading activity to the database
 async Task ShowReadingActivity(IUserManagerService userManagerService, ITimeTrackerService timerService)
 {
     timerService.ActivityTimeTracker("reading");
@@ -278,6 +286,7 @@ async Task ShowReadingActivity(IUserManagerService userManagerService, ITimeTrac
     await ShowTrack(userManagerService);
 }
 
+// This method is responsible for showing the exercising activity menu and adding an exercising activity to the database
 async Task ShowExercisingActivity(IUserManagerService userManagerService, ITimeTrackerService timerService)
 {
     timerService.ActivityTimeTracker("exercising");
@@ -304,6 +313,7 @@ async Task ShowExercisingActivity(IUserManagerService userManagerService, ITimeT
     await ShowTrack(userManagerService);
 }
 
+// This method is responsible for showing the working activity menu and adding a working activity to the database
 async Task ShowWorkingActivity(IUserManagerService userManagerService, ITimeTrackerService timerService)
 {
     timerService.ActivityTimeTracker("work");
@@ -330,6 +340,7 @@ async Task ShowWorkingActivity(IUserManagerService userManagerService, ITimeTrac
     await ShowTrack(userManagerService);
 }
 
+// This method is responsible for showing the hobby activity menu and adding a hobby activity to the database
 async Task ShowHobbyActivity(IUserManagerService userManagerService, ITimeTrackerService timerService)
 {
     timerService.ActivityTimeTracker("your hobby");
@@ -361,6 +372,7 @@ async Task ShowHobbyActivity(IUserManagerService userManagerService, ITimeTracke
 
 async Task ShowStatistics(IUserManagerService userManagerService)
 {
+    // Display the available track options to the user
     TextHelper.TextGenerator(
         $"{StatisticsOptions.READING}.Reading\n" +
         $"{StatisticsOptions.EXERCISING}.Exercising\n" +
@@ -371,6 +383,7 @@ async Task ShowStatistics(IUserManagerService userManagerService)
         , ConsoleColor.Cyan);
     string statisticChosen = Console.ReadLine();
 
+    // Handle the user's choice
     switch (statisticChosen)
     {
         case StatisticsOptions.READING:
@@ -400,6 +413,15 @@ async Task ShowStatistics(IUserManagerService userManagerService)
 async Task ShowReadingStatistics(IUserManagerService userManagerService, IReadingDatabase readingDatabase, ITimeTrackerService timerService)
 {
     List<ReadingActivity> readingActivities = readingDatabase.GetActivityByUserId(userManagerService.CurrentUser.Id);
+
+    if (readingActivities == null || readingActivities.Count == 0)
+    {
+        TextHelper.TextGenerator($"User does not have any reading activities yet!", ConsoleColor.Yellow);
+        TextHelper.TextGenerator($"\nPress ENTER to go back to the main menu", ConsoleColor.Cyan);
+        Console.ReadLine();
+        await ShowStatistics(userManagerService);
+        return;
+    }
 
     int totalDurationInSeconds = readingActivities.Sum(x => x.Duration);
     TimeSpan totalDuration = TimeSpan.FromSeconds(totalDurationInSeconds);
@@ -474,6 +496,15 @@ async Task ShowExercisingStatistics(IUserManagerService userManagerService, IExe
 {
     List<ExercisingActivity> exercisingActivities = exercisingDatabase.GetActivityByUserId(userManagerService.CurrentUser.Id);
 
+    if (exercisingActivities == null || exercisingActivities.Count == 0)
+    {
+        TextHelper.TextGenerator($"User does not have any reading activities yet!", ConsoleColor.Yellow);
+        TextHelper.TextGenerator($"\nPress ENTER to go back to the main menu", ConsoleColor.Cyan);
+        Console.ReadLine();
+        await ShowStatistics(userManagerService);
+        return;
+    }
+
     int totalDurationInSeconds = exercisingActivities.Sum(x => x.Duration);
     TimeSpan totalDuration = TimeSpan.FromSeconds(totalDurationInSeconds);
 
@@ -539,6 +570,15 @@ async Task ShowWorkingStatistics(IUserManagerService userManagerService, IWorkin
 {
     List<WorkingActivity> workingActivities = workingDatabase.GetActivityByUserId(userManagerService.CurrentUser.Id);
 
+    if (workingActivities == null || workingActivities.Count == 0)
+    {
+        TextHelper.TextGenerator($"User does not have any reading activities yet!", ConsoleColor.Yellow);
+        TextHelper.TextGenerator($"\nPress ENTER to go back to the main menu", ConsoleColor.Cyan);
+        Console.ReadLine();
+        await ShowStatistics(userManagerService);
+        return;
+    }
+
     int totalDurationInSeconds = workingActivities.Sum(x => x.Duration);
     TimeSpan totalDuration = TimeSpan.FromSeconds(totalDurationInSeconds);
 
@@ -579,6 +619,15 @@ async Task ShowHobbiesStatistics(IUserManagerService userManagerService, IHobbyD
 {
     List<Hobby> hobbies = hobbyDatabase.GetActivityByUserId(userManagerService.CurrentUser.Id);
 
+    if (hobbies == null || hobbies.Count == 0)
+    {
+        TextHelper.TextGenerator($"User does not have any reading activities yet!", ConsoleColor.Yellow);
+        TextHelper.TextGenerator($"\nPress ENTER to go back to the main menu", ConsoleColor.Cyan);
+        Console.ReadLine();
+        await ShowStatistics(userManagerService);
+        return;
+    }
+
     int totalDurationInSeconds = hobbies.Sum(x => x.Duration);
     TimeSpan totalDuration = TimeSpan.FromSeconds(totalDurationInSeconds);
 
@@ -594,7 +643,7 @@ async Task ShowHobbiesStatistics(IUserManagerService userManagerService, IHobbyD
         TextHelper.TextGenerator($"List of all hobbies: ", ConsoleColor.Cyan);
         foreach (string name in distinctNames)
         {
-            TextHelper.TextGenerator($"- {name}", ConsoleColor.Yellow);
+            TextHelper.TextGenerator($"- {name}", ConsoleColor.Blue);
         }
     }
     else
@@ -609,8 +658,28 @@ async Task ShowHobbiesStatistics(IUserManagerService userManagerService, IHobbyD
 
 async Task ShowGlobalStatistics(IUserManagerService userManagerService, IReadingDatabase readingDatabase, IExercisingDatabase exercisingDatabase, IWorkingDatabase workingDatabase, IHobbyDatabase hobbyDatabase, ITimeTrackerService timerService)
 {
-    TextHelper.TextGenerator($"Total time of all activities: ", ConsoleColor.Cyan);
-    TextHelper.TextGenerator($"User favorite activity: ", ConsoleColor.Cyan);
+    List<ReadingActivity> readingActivities = readingDatabase.GetActivityByUserId(userManagerService.CurrentUser.Id);
+    int readingTotalDurationInSeconds = readingActivities.Sum(x => x.Duration);
+
+    List<ExercisingActivity> exercisingActivities = exercisingDatabase.GetActivityByUserId(userManagerService.CurrentUser.Id);
+    int exercisingTotalDurationInSeconds = exercisingActivities.Sum(x => x.Duration);
+
+    List<WorkingActivity> workingActivities = workingDatabase.GetActivityByUserId(userManagerService.CurrentUser.Id);
+    int workingTotalDurationInSeconds = workingActivities.Sum(x => x.Duration);
+
+    List<Hobby> hobbyActivities = hobbyDatabase.GetActivityByUserId(userManagerService.CurrentUser.Id);
+    int hobbyTotalDurationInSeconds = hobbyActivities.Sum(x => x.Duration);
+
+    int totalDurationInSeconds = readingTotalDurationInSeconds + exercisingTotalDurationInSeconds + workingTotalDurationInSeconds + hobbyTotalDurationInSeconds;
+    TimeSpan totalDuration = TimeSpan.FromSeconds(totalDurationInSeconds);
+
+    int totalHours = (int)totalDuration.TotalHours;
+    int remainingMinutes = totalDuration.Minutes;
+    int remainingSeconds = totalDuration.Seconds;
+
+    TextHelper.TextGenerator($"Total time of all activities: {totalHours} hours, {remainingMinutes} minutes, and {remainingSeconds} seconds", ConsoleColor.Cyan);
+
+    string favoriteActivity = userService.GetFavoriteActivity();
 
     TextHelper.TextGenerator($"\nPress ENTER to go back to the main menu", ConsoleColor.Cyan);
     Console.ReadLine();
@@ -619,6 +688,7 @@ async Task ShowGlobalStatistics(IUserManagerService userManagerService, IReading
 
 async Task ShowManageAccountAsync(IUserManagerService userManagerService, IUserDatabase database)
 {
+    // Display the available options to the user
     TextHelper.TextGenerator(
     $"{ManageAccountOptions.CHANGE_PASSWORD}.Change password\n" +
     $"{ManageAccountOptions.CHANGE_FIRST_NAME}.Change First Name\n" +
@@ -628,6 +698,7 @@ async Task ShowManageAccountAsync(IUserManagerService userManagerService, IUserD
     , ConsoleColor.Cyan);
     string accountOptionChosen = Console.ReadLine();
 
+    // Handle the user's choice
     switch (accountOptionChosen)
     {
         case ManageAccountOptions.CHANGE_PASSWORD:
@@ -712,7 +783,6 @@ async Task AccountChangePasswordAsync(IUserManagerService userManagerService, IU
 async Task AccountChangeFirstNameAsync(IUserManagerService userManagerService, IUserDatabase database)
 {
     User currentUser = userManagerService.CurrentUser;
-
     int incorrectAttempts = 0;
 
     while (incorrectAttempts < 3)
@@ -771,7 +841,6 @@ async Task AccountChangeFirstNameAsync(IUserManagerService userManagerService, I
 async Task AccountChangeLastNameAsync(IUserManagerService userManagerService, IUserDatabase database)
 {
     User currentUser = userManagerService.CurrentUser;
-
     int incorrectAttempts = 0;
 
     while (incorrectAttempts < 3)
