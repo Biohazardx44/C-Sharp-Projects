@@ -1,4 +1,4 @@
-# C-Sharp-Projects
+# C#-Projects
 * Here i will upload some Projects made using C#
 
 ## TimeTrackingApp
