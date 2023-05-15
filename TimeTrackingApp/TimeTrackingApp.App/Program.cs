@@ -22,7 +22,7 @@ ITimeTrackerService timerService = new TimeTrackerService();
 ////////////////////////////////////////
 // * Time Tracking App                //
 // * Created by Nikola Ilievski       //
-// * Version: 1.1.0 Stable            //
+// * Version: 1.1.1 Stable            //
 ////////////////////////////////////////
 
 async Task StartAppAsync()
