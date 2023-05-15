@@ -1,4 +1,5 @@
-﻿using TimeTrackingApp.DataAccess;
+﻿#region Setup
+using TimeTrackingApp.DataAccess;
 using TimeTrackingApp.DataAccess.Interfaces;
 using TimeTrackingApp.Domain.Entities;
 using TimeTrackingApp.Domain.Enums;
@@ -6,50 +7,45 @@ using TimeTrackingApp.Helpers;
 using TimeTrackingApp.Services;
 using TimeTrackingApp.Services.Interfaces;
 
-// Time Tracking App
-// Created by Nikola Ilievski
-// Version: 1.0.0 Stable
-
 IUserDatabase database = new UserDatabase();
 IReadingDatabase readingDatabase = new ReadingDatabase();
 IExercisingDatabase exercisingDatabase = new ExercisingDatabase();
 IWorkingDatabase workingDatabase = new WorkingDatabase();
 IHobbyDatabase hobbyDatabase = new HobbyDatabase();
 
-IActivityService activityService = new ActivityService();
-ITimeTrackerService timerService = new TimeTrackerService();
 IUserManagerService userManagerService = new UserManagerService(database);
-IUserService userService = new UserService(readingDatabase, exercisingDatabase, workingDatabase, hobbyDatabase, userManagerService);
+IActivityService activityService = new ActivityService();
+IActivityService newActivityService = new ActivityService(readingDatabase, exercisingDatabase, workingDatabase, hobbyDatabase, userManagerService);
+ITimeTrackerService timerService = new TimeTrackerService();
+#endregion
 
-// Displays a welcome message and either shows the login screen or takes the user to the main menu, depending on whether the user is logged in or not
+////////////////////////////////////////
+// * Time Tracking App                //
+// * Created by Nikola Ilievski       //
+// * Version: 1.1.0 Stable            //
+////////////////////////////////////////
+
 async Task StartAppAsync()
 {
-    // Display welcome message
     TextHelper.TextGenerator("Welcome to Time Tracking APP", ConsoleColor.Green);
 
-    // Determine whether user is logged in
     if (userManagerService.CurrentUser == null)
     {
-        // Show login screen if user is not logged in
         await ShowLoginMenu(userManagerService);
     }
     else
     {
-        // Take user to main menu if user is logged in
         await ShowMainMenu(userManagerService);
     }
 }
 
 await StartAppAsync();
 
-// Displays the login screen and prompts the user to either log in, register a new user, or exit the app
 async Task ShowLoginMenu(IUserManagerService userManagerService)
 {
-    // Display the available options to the user
     Console.WriteLine($"\n{UserLogIn.LOG_IN}.Log In\n{UserLogIn.REGISTER_USER}.Register\n{UserLogIn.EXIT_APP}.Exit App");
     string authChoice = Console.ReadLine();
 
-    // Handle user's choice
     switch (authChoice)
     {
         case UserLogIn.LOG_IN:
@@ -68,12 +64,10 @@ async Task ShowLoginMenu(IUserManagerService userManagerService)
     }
 }
 
-// Asks the user for their username and password and attempts to log them in
 async Task ShowLogIn(IUserManagerService userManagerService)
 {
     for (int i = 0; i < 3; i++)
     {
-        // Prompt the user for their username and password
         TextHelper.TextGenerator("Enter your username:", ConsoleColor.Cyan);
         string username = Console.ReadLine();
 
@@ -82,10 +76,8 @@ async Task ShowLogIn(IUserManagerService userManagerService)
 
         try
         {
-            // Attempt to log in the user using the provided credentials
             userManagerService.LogIn(username, password);
 
-            // If the user's account is deactivated, prompt them to reactivate it
             if (!userManagerService.CurrentUser.IsActive)
             {
                 TextHelper.TextGenerator("Your account is deactivated. Do you want to reactivate it? (Y/N)", ConsoleColor.Cyan);
@@ -99,40 +91,33 @@ async Task ShowLogIn(IUserManagerService userManagerService)
 
                 if (userInput == "N")
                 {
-                    // If the user chooses not to reactivate their account, log them out and show the login menu again
                     userManagerService.LogOut();
                     await ShowLoginMenu(userManagerService);
                     return;
                 }
                 else if (userInput == "Y")
                 {
-                    // If the user chooses to reactivate their account, set IsActive to true and update the user in the database
                     userManagerService.CurrentUser.IsActive = true;
                     await database.UpdateUserAsync(userManagerService.CurrentUser);
                 }
             }
 
-            // If the user is successfully logged in, show the main menu
             TextHelper.TextGenerator($"\nSuccess! Welcome {userManagerService.CurrentUser.FirstName} {userManagerService.CurrentUser.LastName}.", ConsoleColor.Green);
 
             await StartAppAsync();
         }
         catch (Exception ex)
         {
-            // If the login attempt is unsuccessful, show an error message and allow the user to try again
             TextHelper.TextGenerator($"Unsuccessful login! Try again...", ConsoleColor.Red);
         }
     }
 
-    // If the user has failed to log in three times, exit the application
     TextHelper.TextGenerator("\nYou have tried to login 3 times! No more attempts left. Exiting application...", ConsoleColor.Red);
     Environment.Exit(0);
 }
 
-// Asks the user for their information and attempts to register a new account
 async Task ShowRegister(IUserManagerService userManagerService)
 {
-    // Prompt the user for their information
     TextHelper.TextGenerator("Enter your First Name:", ConsoleColor.Cyan);
     string firstName = Console.ReadLine();
 
@@ -150,13 +135,11 @@ async Task ShowRegister(IUserManagerService userManagerService)
 
     if (!int.TryParse(age, out int intAge))
     {
-        // If the user enters an invalid age, show an error message and return to the start menu
         TextHelper.TextGenerator("Enter a valid Age!", ConsoleColor.Red);
         await StartAppAsync();
     }
     else if (database.CheckUsernameAvailable(username))
     {
-        // If the username is not available, show an error message and return to the start menu
         TextHelper.TextGenerator("Username is already taken. Please choose another one.", ConsoleColor.Red);
         await StartAppAsync();
     }
@@ -164,31 +147,25 @@ async Task ShowRegister(IUserManagerService userManagerService)
     {
         try
         {
-            // Attempt to register a new user with the provided information
             userManagerService.Register(firstName, lastName, intAge, username, password);
 
-            // Show a success message to the user
             TextHelper.TextGenerator("You have successfully registered!", ConsoleColor.Green);
         }
         catch (Exception ex)
         {
-            // If there was an error during registration, show an error message and return to the start menu
             TextHelper.TextGenerator(ex.Message, ConsoleColor.Red);
             await StartAppAsync();
         }
     }
 
-    // Return to the start menu
     await StartAppAsync();
 }
 
 async Task ShowMainMenu(IUserManagerService userManagerService)
 {
-    // Display the available options to the user
     Console.WriteLine($"{UserLogOut.LOG_OUT}.Log Out\n{UserLogOut.TRACK}.Track Activity\n{UserLogOut.STATISTICS}.Statistics\n{UserLogOut.MANAGE_ACCOUNT}.Manage Account");
     string actionChoise = Console.ReadLine();
 
-    // Handle the user's choice
     switch (actionChoise)
     {
         case UserLogOut.LOG_OUT:
@@ -217,7 +194,6 @@ async Task ShowMainMenu(IUserManagerService userManagerService)
 
 async Task ShowTrack(IUserManagerService userManagerService)
 {
-    // Display the available track options to the user
     TextHelper.TextGenerator(
         $"{TrackOptions.READING}.Reading\n" +
         $"{TrackOptions.EXERCISING}.Exercising\n" +
@@ -227,7 +203,6 @@ async Task ShowTrack(IUserManagerService userManagerService)
         , ConsoleColor.Cyan);
     string trackChosen = Console.ReadLine();
 
-    // Handle the user's choice
     switch (trackChosen)
     {
         case TrackOptions.READING:
@@ -251,7 +226,6 @@ async Task ShowTrack(IUserManagerService userManagerService)
     }
 }
 
-// This method is responsible for showing the reading activity menu and adding a reading activity to the database
 async Task ShowReadingActivity(IUserManagerService userManagerService, ITimeTrackerService timerService)
 {
     timerService.ActivityTimeTracker("reading");
@@ -286,7 +260,6 @@ async Task ShowReadingActivity(IUserManagerService userManagerService, ITimeTrac
     await ShowTrack(userManagerService);
 }
 
-// This method is responsible for showing the exercising activity menu and adding an exercising activity to the database
 async Task ShowExercisingActivity(IUserManagerService userManagerService, ITimeTrackerService timerService)
 {
     timerService.ActivityTimeTracker("exercising");
@@ -313,7 +286,6 @@ async Task ShowExercisingActivity(IUserManagerService userManagerService, ITimeT
     await ShowTrack(userManagerService);
 }
 
-// This method is responsible for showing the working activity menu and adding a working activity to the database
 async Task ShowWorkingActivity(IUserManagerService userManagerService, ITimeTrackerService timerService)
 {
     timerService.ActivityTimeTracker("work");
@@ -340,7 +312,6 @@ async Task ShowWorkingActivity(IUserManagerService userManagerService, ITimeTrac
     await ShowTrack(userManagerService);
 }
 
-// This method is responsible for showing the hobby activity menu and adding a hobby activity to the database
 async Task ShowHobbyActivity(IUserManagerService userManagerService, ITimeTrackerService timerService)
 {
     timerService.ActivityTimeTracker("your hobby");
@@ -372,7 +343,6 @@ async Task ShowHobbyActivity(IUserManagerService userManagerService, ITimeTracke
 
 async Task ShowStatistics(IUserManagerService userManagerService)
 {
-    // Display the available track options to the user
     TextHelper.TextGenerator(
         $"{StatisticsOptions.READING}.Reading\n" +
         $"{StatisticsOptions.EXERCISING}.Exercising\n" +
@@ -383,7 +353,6 @@ async Task ShowStatistics(IUserManagerService userManagerService)
         , ConsoleColor.Cyan);
     string statisticChosen = Console.ReadLine();
 
-    // Handle the user's choice
     switch (statisticChosen)
     {
         case StatisticsOptions.READING:
@@ -679,7 +648,7 @@ async Task ShowGlobalStatistics(IUserManagerService userManagerService, IReading
 
     TextHelper.TextGenerator($"Total time of all activities: {totalHours} hours, {remainingMinutes} minutes, and {remainingSeconds} seconds", ConsoleColor.Cyan);
 
-    string favoriteActivity = userService.GetFavoriteActivity();
+    string favoriteActivity = newActivityService.GetFavoriteActivity();
 
     TextHelper.TextGenerator($"\nPress ENTER to go back to the main menu", ConsoleColor.Cyan);
     Console.ReadLine();
@@ -688,27 +657,33 @@ async Task ShowGlobalStatistics(IUserManagerService userManagerService, IReading
 
 async Task ShowManageAccountAsync(IUserManagerService userManagerService, IUserDatabase database)
 {
-    // Display the available options to the user
     TextHelper.TextGenerator(
-    $"{ManageAccountOptions.CHANGE_PASSWORD}.Change password\n" +
     $"{ManageAccountOptions.CHANGE_FIRST_NAME}.Change First Name\n" +
     $"{ManageAccountOptions.CHANGE_LAST_NAME}.Change Last Name\n" +
-    $"{ManageAccountOptions.DEACTIVATE_ACCOUNT}.Deactivate account\n" +
+    $"{ManageAccountOptions.CHANGE_AGE}.Change Age\n" +
+    $"{ManageAccountOptions.CHANGE_USERNAME}.Change Username\n" +
+    $"{ManageAccountOptions.CHANGE_PASSWORD}.Change Password\n" +
+    $"{ManageAccountOptions.DEACTIVATE_ACCOUNT}.Deactivate Account\n" +
     $"{ManageAccountOptions.BACK_TO_MAIN_MENU}.Back to main menu"
     , ConsoleColor.Cyan);
     string accountOptionChosen = Console.ReadLine();
 
-    // Handle the user's choice
     switch (accountOptionChosen)
     {
-        case ManageAccountOptions.CHANGE_PASSWORD:
-            await AccountChangePasswordAsync(userManagerService, database);
-            break;
         case ManageAccountOptions.CHANGE_FIRST_NAME:
             await AccountChangeFirstNameAsync(userManagerService, database);
             break;
         case ManageAccountOptions.CHANGE_LAST_NAME:
             await AccountChangeLastNameAsync(userManagerService, database);
+            break;
+        case ManageAccountOptions.CHANGE_AGE:
+            await AccountChangeAgeAsync(userManagerService, database);
+            break;
+        case ManageAccountOptions.CHANGE_USERNAME:
+            await AccountChangeUsernameAsync(userManagerService, database);
+            break;
+        case ManageAccountOptions.CHANGE_PASSWORD:
+            await AccountChangePasswordAsync(userManagerService, database);
             break;
         case ManageAccountOptions.DEACTIVATE_ACCOUNT:
             await AccountDeactivationAsync(userManagerService, database);
@@ -722,114 +697,13 @@ async Task ShowManageAccountAsync(IUserManagerService userManagerService, IUserD
     }
 }
 
-async Task AccountChangePasswordAsync(IUserManagerService userManagerService, IUserDatabase database)
-{
-    User currentUser = userManagerService.CurrentUser;
-    int incorrectAttempts = 0;
-
-    while (incorrectAttempts < 3)
-    {
-        TextHelper.TextGenerator("Enter your current password:", ConsoleColor.Cyan);
-        string currentPassword = Console.ReadLine();
-
-        if (currentUser.Password != currentPassword)
-        {
-            TextHelper.TextGenerator("The current password you entered is incorrect.", ConsoleColor.Red);
-            incorrectAttempts++;
-        }
-        else
-        {
-            break;
-        }
-    }
-
-    if (incorrectAttempts == 3)
-    {
-        TextHelper.TextGenerator("\nYou have tried to enter your current password 3 times! No more attempts left. Exiting application...", ConsoleColor.Red);
-        Environment.Exit(0);
-    }
-
-    string newPassword;
-    while (true)
-    {
-        TextHelper.TextGenerator("Enter the new password:", ConsoleColor.Cyan);
-        newPassword = Console.ReadLine();
-
-        try
-        {
-            currentUser.ValidatePassword(newPassword);
-            break;
-        }
-        catch (Exception ex)
-        {
-            TextHelper.TextGenerator(ex.Message, ConsoleColor.Red);
-            incorrectAttempts++;
-        }
-
-        if (incorrectAttempts == 3)
-        {
-            TextHelper.TextGenerator("\nYou have tried to enter a valid password 3 times! No more attempts left. Exiting application...", ConsoleColor.Red);
-            Environment.Exit(0);
-        }
-    }
-
-    currentUser.Password = newPassword;
-    await database.UpdateUserAsync(currentUser);
-
-    TextHelper.TextGenerator("Password updated successfully!", ConsoleColor.Green);
-    await ShowManageAccountAsync(userManagerService, database);
-}
-
 async Task AccountChangeFirstNameAsync(IUserManagerService userManagerService, IUserDatabase database)
 {
     User currentUser = userManagerService.CurrentUser;
-    int incorrectAttempts = 0;
 
-    while (incorrectAttempts < 3)
-    {
-        TextHelper.TextGenerator("Enter your current first name:", ConsoleColor.Cyan);
-        string currentFirstName = Console.ReadLine();
+    Task<string> currentFirstName = userManagerService.GetCurrentValidInputFromUser("first name", currentUser.FirstName, Console.ReadLine);
 
-        if (currentUser.FirstName != currentFirstName)
-        {
-            TextHelper.TextGenerator("The current first name you entered is incorrect.", ConsoleColor.Red);
-            incorrectAttempts++;
-        }
-        else
-        {
-            break;
-        }
-    }
-
-    if (incorrectAttempts == 3)
-    {
-        TextHelper.TextGenerator("\nYou have tried to enter your current first name 3 times! No more attempts left. Exiting application...", ConsoleColor.Red);
-        Environment.Exit(0);
-    }
-
-    string newFirstName;
-    while (true)
-    {
-        TextHelper.TextGenerator("Enter the new first name:", ConsoleColor.Cyan);
-        newFirstName = Console.ReadLine();
-
-        try
-        {
-            currentUser.ValidateNameInput(newFirstName);
-            break;
-        }
-        catch (Exception ex)
-        {
-            TextHelper.TextGenerator(ex.Message, ConsoleColor.Red);
-            incorrectAttempts++;
-        }
-
-        if (incorrectAttempts == 3)
-        {
-            TextHelper.TextGenerator("\nYou have tried to enter a valid first name 3 times! No more attempts left. Exiting application...", ConsoleColor.Red);
-            Environment.Exit(0);
-        }
-    }
+    string newFirstName = await userManagerService.GetNewValidInputFromUser("first name");
 
     currentUser.FirstName = newFirstName;
     await database.UpdateUserAsync(currentUser);
@@ -841,58 +715,60 @@ async Task AccountChangeFirstNameAsync(IUserManagerService userManagerService, I
 async Task AccountChangeLastNameAsync(IUserManagerService userManagerService, IUserDatabase database)
 {
     User currentUser = userManagerService.CurrentUser;
-    int incorrectAttempts = 0;
 
-    while (incorrectAttempts < 3)
-    {
-        TextHelper.TextGenerator("Enter your current last name:", ConsoleColor.Cyan);
-        string currentLastName = Console.ReadLine();
+    Task<string> currentLastName = userManagerService.GetCurrentValidInputFromUser("last name", currentUser.LastName, Console.ReadLine);
 
-        if (currentUser.LastName != currentLastName)
-        {
-            TextHelper.TextGenerator("The current last name you entered is incorrect.", ConsoleColor.Red);
-            incorrectAttempts++;
-        }
-        else
-        {
-            break;
-        }
-    }
-
-    if (incorrectAttempts == 3)
-    {
-        TextHelper.TextGenerator("\nYou have tried to enter your current last name 3 times! No more attempts left. Exiting application...", ConsoleColor.Red);
-        Environment.Exit(0);
-    }
-
-    string newLastName;
-    while (true)
-    {
-        TextHelper.TextGenerator("Enter the new last name:", ConsoleColor.Cyan);
-        newLastName = Console.ReadLine();
-
-        try
-        {
-            currentUser.ValidateNameInput(newLastName);
-            break;
-        }
-        catch (Exception ex)
-        {
-            TextHelper.TextGenerator(ex.Message, ConsoleColor.Red);
-            incorrectAttempts++;
-        }
-
-        if (incorrectAttempts == 3)
-        {
-            TextHelper.TextGenerator("\nYou have tried to enter a valid last name 3 times! No more attempts left. Exiting application...", ConsoleColor.Red);
-            Environment.Exit(0);
-        }
-    }
+    string newLastName = await userManagerService.GetNewValidInputFromUser("last name");
 
     currentUser.LastName = newLastName;
     await database.UpdateUserAsync(currentUser);
 
     TextHelper.TextGenerator("Last name updated successfully!", ConsoleColor.Green);
+    await ShowManageAccountAsync(userManagerService, database);
+}
+
+async Task AccountChangeAgeAsync(IUserManagerService userManagerService, IUserDatabase database)
+{
+    User currentUser = userManagerService.CurrentUser;
+
+    Task<string> currentAge = userManagerService.GetCurrentValidInputFromUser("age", currentUser.Age.ToString(), Console.ReadLine);
+
+    string newAge = await userManagerService.GetNewValidInputFromUser("age");
+
+    currentUser.Age = int.Parse(newAge);
+    await database.UpdateUserAsync(currentUser);
+
+    TextHelper.TextGenerator("Age updated successfully!", ConsoleColor.Green);
+    await ShowManageAccountAsync(userManagerService, database);
+}
+
+async Task AccountChangeUsernameAsync(IUserManagerService userManagerService, IUserDatabase database)
+{
+    User currentUser = userManagerService.CurrentUser;
+
+    Task<string> currentUsername = userManagerService.GetCurrentValidInputFromUser("username", currentUser.Username, Console.ReadLine);
+
+    string newUsername = await userManagerService.GetNewValidInputFromUser("username");
+
+    currentUser.Username = newUsername;
+    await database.UpdateUserAsync(currentUser);
+
+    TextHelper.TextGenerator("Username updated successfully!", ConsoleColor.Green);
+    await ShowManageAccountAsync(userManagerService, database);
+}
+
+async Task AccountChangePasswordAsync(IUserManagerService userManagerService, IUserDatabase database)
+{
+    User currentUser = userManagerService.CurrentUser;
+
+    Task<string> currentPassword = userManagerService.GetCurrentValidInputFromUser("password", currentUser.Password, Console.ReadLine);
+
+    string newPassword = await userManagerService.GetNewValidInputFromUser("password");
+
+    currentUser.Password = newPassword;
+    await database.UpdateUserAsync(currentUser);
+
+    TextHelper.TextGenerator("Password updated successfully!", ConsoleColor.Green);
     await ShowManageAccountAsync(userManagerService, database);
 }
 

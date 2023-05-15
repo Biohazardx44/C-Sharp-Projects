@@ -1,5 +1,6 @@
 ﻿using TimeTrackingApp.DataAccess.Interfaces;
 using TimeTrackingApp.Domain.Entities;
+using TimeTrackingApp.Helpers;
 using TimeTrackingApp.Services.Interfaces;
 
 namespace TimeTrackingApp.Services
@@ -13,28 +14,6 @@ namespace TimeTrackingApp.Services
         public UserManagerService(IUserDatabase database)
         {
             _database = database ?? throw new ArgumentNullException(nameof(database));
-        }
-
-        public void LogIn(string username, string password)
-        {
-            if (string.IsNullOrEmpty(username))
-            {
-                throw new ArgumentNullException("Username can't be empty!", nameof(username));
-            }
-
-            if (string.IsNullOrEmpty(password))
-            {
-                throw new ArgumentNullException("Password can't be empty!", nameof(password));
-            }
-
-            User currentUser = _database.GetUserByUsernameAndPassword(username, password);
-
-            if (currentUser == null)
-            {
-                throw new ArgumentException("User does not exist!", nameof(username));
-            }
-
-            CurrentUser = currentUser;
         }
 
         public void Register(string firstName, string lastName, int age, string username, string password)
@@ -63,9 +42,114 @@ namespace TimeTrackingApp.Services
             _database.InsertAsync(user);
         }
 
+        public void LogIn(string username, string password)
+        {
+            if (string.IsNullOrEmpty(username))
+            {
+                throw new ArgumentNullException("Username can't be empty!", nameof(username));
+            }
+
+            if (string.IsNullOrEmpty(password))
+            {
+                throw new ArgumentNullException("Password can't be empty!", nameof(password));
+            }
+
+            User currentUser = _database.GetUserByUsernameAndPassword(username, password);
+
+            if (currentUser == null)
+            {
+                throw new ArgumentException("User does not exist!", nameof(username));
+            }
+
+            CurrentUser = currentUser;
+        }
+
         public void LogOut()
         {
             CurrentUser = null;
+        }
+
+        public async Task<string> GetCurrentValidInputFromUser(string inputType, string expectedValue, Func<string> inputReader)
+        {
+            int incorrectAttempts = 0;
+
+            while (incorrectAttempts < 3)
+            {
+                TextHelper.TextGenerator($"Enter your current {inputType}:", ConsoleColor.Cyan);
+                string currentValue = inputReader();
+
+                if (currentValue != expectedValue)
+                {
+                    TextHelper.TextGenerator($"The current {inputType} you entered is incorrect.", ConsoleColor.Red);
+                    incorrectAttempts++;
+                }
+                else
+                {
+                    return currentValue;
+                }
+            }
+
+            TextHelper.TextGenerator($"\nYou have tried to enter your current {inputType} 3 times! No more attempts left. Exiting application...", ConsoleColor.Red);
+            Environment.Exit(0);
+            return null;
+        }
+
+        public async Task<string> GetNewValidInputFromUser(string inputType)
+        {
+            int incorrectAttempts = 0;
+            string currentValue;
+
+            while (incorrectAttempts < 3)
+            {
+                TextHelper.TextGenerator($"Enter the new {inputType}:", ConsoleColor.Cyan);
+                currentValue = Console.ReadLine();
+
+                try
+                {
+                    switch (inputType)
+                    {
+                        case "first name":
+                            CurrentUser.ValidateNameInput(currentValue);
+                            break;
+                        case "last name":
+                            CurrentUser.ValidateNameInput(currentValue);
+                            break;
+                        case "age":
+                            if (int.TryParse(currentValue, out int age))
+                            {
+                                CurrentUser.ValidateAge(age);
+                            }
+                            else
+                            {
+                                throw new ArgumentException("Invalid age format!");
+                            }
+                            break;
+                        case "username":
+                            CurrentUser.ValidateUsername(currentValue);
+                            break;
+                        case "password":
+                            CurrentUser.ValidatePassword(currentValue);
+                            break;
+                        default:
+                            throw new ArgumentException($"Invalid input type: {inputType}");
+                    }
+
+                    return currentValue;
+                }
+                catch (Exception ex)
+                {
+                    TextHelper.TextGenerator(ex.Message, ConsoleColor.Red);
+                    incorrectAttempts++;
+                }
+
+                if (incorrectAttempts == 3)
+                {
+                    TextHelper.TextGenerator($"\nYou have tried to enter a valid {inputType} 3 times! No more attempts left. Exiting application...", ConsoleColor.Red);
+                    Environment.Exit(0);
+                }
+            }
+
+            return null;
         }
     }
 }

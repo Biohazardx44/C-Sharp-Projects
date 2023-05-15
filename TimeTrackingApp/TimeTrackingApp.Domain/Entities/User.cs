@@ -67,7 +67,7 @@
 
             if (!username.All(char.IsLetterOrDigit))
             {
-                throw new Exception($"Username should contain only letters and digits!");
+                throw new Exception($"Username should contain only letters and numbers!");
             }
         }
 
