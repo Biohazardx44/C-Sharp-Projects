@@ -1,4 +1,5 @@
-﻿using TimeTrackingApp.DataAccess.Interfaces;
+﻿using TimeTrackingApp.DataAccess;
+using TimeTrackingApp.DataAccess.Interfaces;
 using TimeTrackingApp.Domain.Entities;
 using TimeTrackingApp.Helpers;
 using TimeTrackingApp.Services.Interfaces;
@@ -16,6 +17,15 @@ namespace TimeTrackingApp.Services
             _database = database ?? throw new ArgumentNullException(nameof(database));
         }
 
+        /// <summary>
+        /// Registers a new user with the specified first name, last name, age, username, and password.
+        /// </summary>
+        /// <param name="firstName">The first name of the user.</param>
+        /// <param name="lastName">The last name of the user.</param>
+        /// <param name="age">The age of the user.</param>
+        /// <param name="username">The username of the user.</param>
+        /// <param name="password">The password of the user.</param>
+        /// <exception cref="ArgumentNullException">Thrown when any of the input parameters are null or empty.</exception>
         public void Register(string firstName, string lastName, int age, string username, string password)
         {
             if (string.IsNullOrEmpty(firstName))
@@ -42,6 +52,13 @@ namespace TimeTrackingApp.Services
             _database.InsertAsync(user);
         }
 
+        /// <summary>
+        /// Logs in the user with the specified username and password.
+        /// </summary>
+        /// <param name="username">The username of the user.</param>
+        /// <param name="password">The password of the user.</param>
+        /// <exception cref="ArgumentNullException">Thrown when any of the input parameters are null or empty.</exception>
+        /// <exception cref="ArgumentException">Thrown when the specified user does not exist.</exception>
         public void LogIn(string username, string password)
         {
             if (string.IsNullOrEmpty(username))
@@ -64,23 +81,34 @@ namespace TimeTrackingApp.Services
             CurrentUser = currentUser;
         }
 
+        /// <summary>
+        /// Logs out the current user.
+        /// </summary>
         public void LogOut()
         {
             CurrentUser = null;
         }
 
+        /// <summary>
+        /// Gets the current valid input from the user of the specified type, expected value, and input reader function.
+        /// </summary>
+        /// <param name="inputType">The type of the input (e.g., "username").</param>
+        /// <param name="expectedValue">The expected value of the input.</param>
+        /// <param name="inputReader">The function used to read the user input.</param>
+        /// <returns>The current valid input from the user.</returns>
+        /// <exception cref="ArgumentException">Thrown when the user enters an incorrect input value more than 3 times.</exception>
         public async Task<string> GetCurrentValidInputFromUser(string inputType, string expectedValue, Func<string> inputReader)
         {
             int incorrectAttempts = 0;
 
             while (incorrectAttempts < 3)
             {
-                TextHelper.TextGenerator($"Enter your current {inputType}:", ConsoleColor.Cyan);
+                TextHelper.TextGenerator($"\nEnter your current {inputType}:", ConsoleColor.Cyan);
                 string currentValue = inputReader();
 
                 if (currentValue != expectedValue)
                 {
-                    TextHelper.TextGenerator($"The current {inputType} you entered is incorrect.", ConsoleColor.Red);
+                    TextHelper.TextGenerator($"The current {inputType} you entered is incorrect.\n", ConsoleColor.Red);
                     incorrectAttempts++;
                 }
                 else
@@ -94,6 +122,12 @@ namespace TimeTrackingApp.Services
             return null;
         }
 
+        /// <summary>
+        /// Gets the new valid input from the user of the specified type.
+        /// </summary>
+        /// <param name="inputType">The type of the input (e.g., "username").</param>
+        /// <returns>The new valid input from the user.</returns>
+        /// <exception cref="ArgumentException">Thrown when the user enters an incorrect input value more than 3 times.</exception>
         public async Task<string> GetNewValidInputFromUser(string inputType)
         {
             int incorrectAttempts = 0;
@@ -125,6 +159,11 @@ namespace TimeTrackingApp.Services
                             }
                             break;
                         case "username":
+                            if (!CurrentUser.Username.Equals(currentValue, StringComparison.OrdinalIgnoreCase) && _database.CheckUsernameAvailable(currentValue))
+                            {
+                                throw new ArgumentException("Username already exists. Please choose a different username.");
+                            }
+                            CurrentUser.Username = currentValue;
                             CurrentUser.ValidateUsername(currentValue);
                             break;
                         case "password":

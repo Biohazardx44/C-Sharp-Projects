@@ -22,21 +22,39 @@ namespace TimeTrackingApp.DataAccess
             await InsertAsync(new ReadingActivity(3, 8000, 11, ReadingType.Fantasy));
         }
 
+        /// <summary>
+        /// Gets a Reading Activity by its id.
+        /// </summary>
+        /// <param name="id">The id of the activity.</param>
+        /// <returns>The Reading Activity with the specified id, or null if not found.</returns>
         public ReadingActivity GetActivityById(int id)
         {
             return Items.FirstOrDefault(item => item.Id == id);
         }
 
+        /// <summary>
+        /// Gets all Reading Activities for a specific user.
+        /// </summary>
+        /// <param name="id">The id of the user.</param>
+        /// <returns>A List of Reading Activities for the specified user.</returns>
         public List<ReadingActivity> GetActivityByUserId(int id)
         {
             return Items.Where(item => item.UserId == id).ToList();
         }
 
+        /// <summary>
+        /// Adds a new Reading Activity to the database.
+        /// </summary>
+        /// <param name="activity">The Reading Activity to add.</param>
         public async Task AddActivityAsync(ReadingActivity activity)
         {
             await InsertAsync(activity);
         }
 
+        /// <summary>
+        /// Deletes a Reading Activity from the database.
+        /// </summary>
+        /// <param name="id">The id of the activity to delete.</param>
         public async Task DeleteActivityAsync(int id)
         {
             ReadingActivity existingActivity = Items.FirstOrDefault(a => a.Id == id);
@@ -47,6 +65,10 @@ namespace TimeTrackingApp.DataAccess
             }
         }
 
+        /// <summary>
+        /// Updates a Reading Activity in the database.
+        /// </summary>
+        /// <param name="activity">The updated Reading Activity to save.</param>
         public async Task UpdateActivityAsync(ReadingActivity activity)
         {
             ReadingActivity existingActivity = Items.FirstOrDefault(a => a.Id == activity.Id);

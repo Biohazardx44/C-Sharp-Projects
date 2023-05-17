@@ -64,5 +64,23 @@
     "Duration": 3,
     "HobbyName": "Testing",
     "Id": 11
+  },
+  {
+    "UserId": 9,
+    "Duration": 3,
+    "HobbyName": "Testing",
+    "Id": 12
+  },
+  {
+    "UserId": 9,
+    "Duration": 1,
+    "HobbyName": "Coding",
+    "Id": 13
+  },
+  {
+    "UserId": 13,
+    "Duration": 1,
+    "HobbyName": "Something i guess",
+    "Id": 14
   }
 ]

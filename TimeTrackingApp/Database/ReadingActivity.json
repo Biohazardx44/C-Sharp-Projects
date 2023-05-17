@@ -1,79 +1,219 @@
 [
   {
     "UserId": 1,
-    "PageCount": 20,
     "Duration": 10000,
+    "PageCount": 20,
     "ReadingType": 2,
     "Id": 1
   },
   {
     "UserId": 2,
-    "PageCount": 10,
     "Duration": 5000,
+    "PageCount": 10,
     "ReadingType": 1,
     "Id": 2
   },
   {
     "UserId": 1,
-    "PageCount": 3,
     "Duration": 3000,
+    "PageCount": 3,
     "ReadingType": 1,
     "Id": 3
   },
   {
     "UserId": 3,
-    "PageCount": 11,
     "Duration": 8000,
+    "PageCount": 11,
     "ReadingType": 3,
     "Id": 4
   },
   {
     "UserId": 2,
-    "PageCount": 222,
     "Duration": 7,
+    "PageCount": 222,
     "ReadingType": 3,
     "Id": 5
   },
   {
     "UserId": 4,
-    "PageCount": 213,
     "Duration": 76,
+    "PageCount": 213,
     "ReadingType": 3,
     "Id": 6
   },
   {
     "UserId": 7,
-    "PageCount": 25,
     "Duration": 4,
+    "PageCount": 25,
     "ReadingType": 3,
     "Id": 7
   },
   {
     "UserId": 2,
-    "PageCount": 20,
     "Duration": 24,
+    "PageCount": 20,
     "ReadingType": 3,
     "Id": 8
   },
   {
     "UserId": 2,
-    "PageCount": 20,
     "Duration": 11,
+    "PageCount": 20,
     "ReadingType": 3,
     "Id": 9
   },
   {
     "UserId": 2,
-    "PageCount": 200,
     "Duration": 2,
+    "PageCount": 200,
     "ReadingType": 1,
     "Id": 10
   },
   {
     "UserId": 2,
-    "PageCount": 10,
     "Duration": 1,
+    "PageCount": 10,
     "ReadingType": 1,
     "Id": 11
+  },
+  {
+    "UserId": 9,
+    "Duration": 3,
+    "PageCount": 222,
+    "ReadingType": 1,
+    "Id": 12
+  },
+  {
+    "UserId": 9,
+    "Duration": 3,
+    "PageCount": 2,
+    "ReadingType": 2,
+    "Id": 13
+  },
+  {
+    "UserId": 9,
+    "Duration": 3,
+    "PageCount": 222,
+    "ReadingType": 1,
+    "Id": 14
+  },
+  {
+    "UserId": 9,
+    "Duration": 2,
+    "PageCount": 1,
+    "ReadingType": 1,
+    "Id": 15
+  },
+  {
+    "UserId": 9,
+    "Duration": 1,
+    "PageCount": 2,
+    "ReadingType": 1,
+    "Id": 16
+  },
+  {
+    "UserId": 9,
+    "Duration": 1,
+    "PageCount": 2,
+    "ReadingType": 3,
+    "Id": 17
+  },
+  {
+    "UserId": 9,
+    "Duration": 3,
+    "PageCount": 333,
+    "ReadingType": 1,
+    "Id": 18
+  },
+  {
+    "UserId": 9,
+    "Duration": 2,
+    "PageCount": 3,
+    "ReadingType": 2,
+    "Id": 19
+  },
+  {
+    "UserId": 9,
+    "Duration": 2,
+    "PageCount": 3,
+    "ReadingType": 2,
+    "Id": 20
+  },
+  {
+    "UserId": 9,
+    "Duration": 3,
+    "PageCount": 1,
+    "ReadingType": 1,
+    "Id": 21
+  },
+  {
+    "UserId": 9,
+    "Duration": 2,
+    "PageCount": 3,
+    "ReadingType": 1,
+    "Id": 22
+  },
+  {
+    "UserId": 10,
+    "Duration": 3,
+    "PageCount": 111,
+    "ReadingType": 1,
+    "Id": 23
+  },
+  {
+    "UserId": 10,
+    "Duration": 9,
+    "PageCount": 222,
+    "ReadingType": 1,
+    "Id": 24
+  },
+  {
+    "UserId": 10,
+    "Duration": 1,
+    "PageCount": 2,
+    "ReadingType": 2,
+    "Id": 25
+  },
+  {
+    "UserId": 10,
+    "Duration": 0,
+    "PageCount": 2,
+    "ReadingType": 2,
+    "Id": 26
+  },
+  {
+    "UserId": 10,
+    "Duration": 5,
+    "PageCount": 222,
+    "ReadingType": 1,
+    "Id": 27
+  },
+  {
+    "UserId": 9,
+    "Duration": 5,
+    "PageCount": 3,
+    "ReadingType": 1,
+    "Id": 28
+  },
+  {
+    "UserId": 9,
+    "Duration": 4,
+    "PageCount": 222,
+    "ReadingType": 1,
+    "Id": 29
+  },
+  {
+    "UserId": 9,
+    "Duration": 4,
+    "PageCount": 3,
+    "ReadingType": 3,
+    "Id": 30
+  },
+  {
+    "UserId": 13,
+    "Duration": 1,
+    "PageCount": 2,
+    "ReadingType": 3,
+    "Id": 31
   }
 ]

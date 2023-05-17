@@ -58,5 +58,35 @@
     "Duration": 3,
     "Working": 1,
     "Id": 10
+  },
+  {
+    "UserId": 9,
+    "Duration": 1,
+    "Working": 2,
+    "Id": 11
+  },
+  {
+    "UserId": 9,
+    "Duration": 2,
+    "Working": 2,
+    "Id": 12
+  },
+  {
+    "UserId": 9,
+    "Duration": 2,
+    "Working": 1,
+    "Id": 13
+  },
+  {
+    "UserId": 9,
+    "Duration": 1,
+    "Working": 1,
+    "Id": 14
+  },
+  {
+    "UserId": 13,
+    "Duration": 1,
+    "Working": 2,
+    "Id": 15
   }
 ]

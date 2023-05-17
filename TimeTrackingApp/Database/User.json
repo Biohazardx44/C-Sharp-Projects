@@ -61,5 +61,59 @@
     "Username": "Testing",
     "Password": "A12345",
     "Id": 7
+  },
+  {
+    "IsActive": true,
+    "FirstName": "FinalTesting",
+    "LastName": "FinalTesting",
+    "Age": 69,
+    "Username": "FinalTest123",
+    "Password": "A12345",
+    "Id": 8
+  },
+  {
+    "IsActive": true,
+    "FirstName": "test",
+    "LastName": "test",
+    "Age": 20,
+    "Username": "JustTesting",
+    "Password": "A12345",
+    "Id": 9
+  },
+  {
+    "IsActive": true,
+    "FirstName": "JustTesting",
+    "LastName": "JustTesting",
+    "Age": 18,
+    "Username": "JustTesting420",
+    "Password": "A12345",
+    "Id": 10
+  },
+  {
+    "IsActive": true,
+    "FirstName": "randomuser",
+    "LastName": "randomuser",
+    "Age": 69,
+    "Username": "randomuser",
+    "Password": "A12345",
+    "Id": 11
+  },
+  {
+    "IsActive": true,
+    "FirstName": "randomuser",
+    "LastName": "randomuser",
+    "Age": 21,
+    "Username": "randomuser123",
+    "Password": "A12345",
+    "Id": 12
+  },
+  {
+    "IsActive": true,
+    "FirstName": "finaltest",
+    "LastName": "finaltest",
+    "Age": 19,
+    "Username": "finaltest",
+    "Password": "A12345",
+    "Id": 13
   }
 ]

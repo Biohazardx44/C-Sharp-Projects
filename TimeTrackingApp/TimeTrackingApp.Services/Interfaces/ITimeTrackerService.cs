@@ -8,9 +8,9 @@
 
         int GetTimeInSeconds();
 
-        string GetTimeInMinutes();
+        string GetTimeInMinutes(int durationInSeconds);
 
-        string GetTimeInHours();
+        string GetTimeInHours(int durationInSeconds);
 
         void ActivityTimeTracker(string activity);
     }

@@ -34,6 +34,10 @@
             Password = password;
         }
 
+        /// <summary>
+        /// Validates the input for a name.
+        /// </summary>
+        /// <param name="input">The name input to be validated.</param>
         public void ValidateNameInput(string input)
         {
             if (input.Length < _validNameLenght)
@@ -50,6 +54,10 @@
             }
         }
 
+        /// <summary>
+        /// Validates the age input.
+        /// </summary>
+        /// <param name="age">The age to be validated.</param>
         public void ValidateAge(int age)
         {
             if (age < _validMinAge || age > _validMaxAge)
@@ -58,6 +66,10 @@
             }
         }
 
+        /// <summary>
+        /// Validates the input for a username.
+        /// </summary>
+        /// <param name="username">The username input to be validated.</param>
         public void ValidateUsername(string username)
         {
             if (string.IsNullOrWhiteSpace(username) || username.Length < _validUsernameLenght)
@@ -71,6 +83,10 @@
             }
         }
 
+        /// <summary>
+        /// Validates the input for a password.
+        /// </summary>
+        /// <param name="password">The password input to be validated.</param>
         public void ValidatePassword(string password)
         {
             bool hasCapital = false;

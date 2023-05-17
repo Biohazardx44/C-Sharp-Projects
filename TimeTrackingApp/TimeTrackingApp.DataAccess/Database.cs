@@ -30,14 +30,10 @@ namespace TimeTrackingApp.DataAccess
             LoadItemsAsync().Wait();
         }
 
-        public List<T> GetAll() => Items;
-
-        public async Task<T> GetByIdAsync(int id)
-        {
-            await Task.Yield();
-            return Items.FirstOrDefault(i => i.Id == id);
-        }
-
+        /// <summary>
+        /// Inserts the specified data into the database.
+        /// </summary>
+        /// <param name="data">The data to be inserted.</param>
         public async Task InsertAsync(T data)
         {
             data.Id = Items.Count > 0 ? Items.Max(i => i.Id) + 1 : 1;
@@ -45,17 +41,39 @@ namespace TimeTrackingApp.DataAccess
             await WriteToFileAsync();
         }
 
+        /// <summary>
+        /// Updates the specified data in the database.
+        /// </summary>
+        /// <param name="data">The data to be updated.</param>
         public async Task UpdateAsync(T data)
         {
             await WriteToFileAsync();
         }
 
+        /// <summary>
+        /// Deletes the specified data from the database.
+        /// </summary>
+        /// <param name="data">The data to be deleted.</param>
         public async Task DeleteAsync(T data)
         {
             Items.RemoveAll(i => i.Id == data.Id);
             await WriteToFileAsync();
         }
 
+        /// <summary>
+        /// Gets the data with the specified ID from the database.
+        /// </summary>
+        /// <param name="id">The ID of the data to get.</param>
+        /// <returns>The data with the specified ID, or null if not found.</returns>
+        public async Task<T> GetByIdAsync(int id)
+        {
+            await Task.Yield();
+            return Items.FirstOrDefault(i => i.Id == id);
+        }
+
+        /// <summary>
+        /// Loads the items from the file asynchronously.
+        /// </summary>
         private async Task LoadItemsAsync()
         {
             using (StreamReader sr = new StreamReader(_filePath))
@@ -69,6 +87,9 @@ namespace TimeTrackingApp.DataAccess
             }
         }
 
+        /// <summary>
+        /// Writes the items to the file asynchronously.
+        /// </summary>
         private async Task WriteToFileAsync()
         {
             using (StreamWriter sw = new StreamWriter(_filePath))

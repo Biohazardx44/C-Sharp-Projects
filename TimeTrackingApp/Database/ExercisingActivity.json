@@ -64,5 +64,35 @@
     "Duration": 1,
     "ExercisingType": 1,
     "Id": 11
+  },
+  {
+    "UserId": 9,
+    "Duration": 2,
+    "ExercisingType": 3,
+    "Id": 12
+  },
+  {
+    "UserId": 9,
+    "Duration": 1,
+    "ExercisingType": 2,
+    "Id": 13
+  },
+  {
+    "UserId": 9,
+    "Duration": 2,
+    "ExercisingType": 3,
+    "Id": 14
+  },
+  {
+    "UserId": 9,
+    "Duration": 1,
+    "ExercisingType": 1,
+    "Id": 15
+  },
+  {
+    "UserId": 13,
+    "Duration": 1,
+    "ExercisingType": 3,
+    "Id": 16
   }
 ]

@@ -9,6 +9,9 @@ namespace TimeTrackingApp.Services
         private readonly System.Timers.Timer _timer = new System.Timers.Timer(1000);
         private int _seconds;
 
+        /// <summary>
+        /// Starts the timer and sets the seconds count to 0.
+        /// </summary>
         public void StartTimer()
         {
             _seconds = 0;
@@ -18,11 +21,19 @@ namespace TimeTrackingApp.Services
             _timer.Start();
         }
 
+        /// <summary>
+        /// Stops the timer.
+        /// </summary>
         public void StopTimer()
         {
             _timer.Stop();
         }
 
+        /// <summary>
+        /// Callback function for the timer elapsed event. Increases the seconds count and prints it to the console.
+        /// </summary>
+        /// <param name="sender">The object that raised the event.</param>
+        /// <param name="e">The event arguments.</param>
         private void OnTimerElapsed(object sender, ElapsedEventArgs e)
         {
             ClearConsoleLineIfNecessary();
@@ -30,6 +41,9 @@ namespace TimeTrackingApp.Services
             Console.WriteLine(_seconds);
         }
 
+        /// <summary>
+        /// Clears the current console line if the timer has been running for at least 1 second.
+        /// </summary>
         private void ClearConsoleLineIfNecessary()
         {
             if (_seconds >= 1)
@@ -40,26 +54,45 @@ namespace TimeTrackingApp.Services
             }
         }
 
+        /// <summary>
+        /// Gets the current time count in seconds.
+        /// </summary>
+        /// <returns>The current time count in seconds.</returns>
         public int GetTimeInSeconds()
         {
             return _seconds;
         }
 
-        public string GetTimeInMinutes()
+        /// <summary>
+        /// Gets the current time count in minutes and seconds.
+        /// </summary>
+        /// <param name="durationInSeconds">The duration of the activity in seconds.</param>
+        /// <returns>A string representing the current time count in minutes and seconds.</returns>
+        public string GetTimeInMinutes(int durationInSeconds)
         {
-            TimeSpan timeSpan = TimeSpan.FromSeconds(_seconds);
-            return $"{(int)timeSpan.TotalMinutes} minutes & {timeSpan.Seconds:D2} seconds.";
+            TimeSpan timeSpan = TimeSpan.FromSeconds(durationInSeconds);
+            return $"{(int)timeSpan.TotalMinutes} minutes & {timeSpan.Seconds:D2} seconds";
         }
 
-        public string GetTimeInHours()
+        /// <summary>
+        /// Gets the current time count in hours, minutes and seconds.
+        /// </summary>
+        /// <param name="durationInSeconds">The duration of the activity in seconds.</param>
+        /// <returns>A string representing the current time count in hours, minutes, and seconds.</returns>
+        public string GetTimeInHours(int durationInSeconds)
         {
-            TimeSpan timeSpan = TimeSpan.FromSeconds(_seconds);
-            return $"{(int)timeSpan.TotalHours} hours, {timeSpan.Minutes:D2} minutes & {timeSpan.Seconds:D2} seconds.";
+            TimeSpan timeSpan = TimeSpan.FromSeconds(durationInSeconds);
+            return $"{(int)timeSpan.TotalHours} hours, {timeSpan.Minutes:D2} minutes & {timeSpan.Seconds:D2} seconds";
         }
 
+        /// <summary>
+        /// Starts the timer and displays a message indicating that the activity has begun.
+        /// Stops the timer and displays a message indicating that the activity has ended when the user presses ENTER.
+        /// </summary>
+        /// <param name="activity">The name of the activity to track.</param>
         public void ActivityTimeTracker(string activity)
         {
-            TextHelper.TextGenerator($"Timer has started & {activity} has begun!", ConsoleColor.Green);
+            TextHelper.TextGenerator($"\nTimer has started & {activity} has begun!", ConsoleColor.Green);
             StartTimer();
 
             TextHelper.TextGenerator($"Press ENTER when you want to stop {activity}", ConsoleColor.Cyan);
