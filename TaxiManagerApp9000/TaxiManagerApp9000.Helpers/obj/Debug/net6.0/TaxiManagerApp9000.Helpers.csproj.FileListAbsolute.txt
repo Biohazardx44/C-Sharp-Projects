@@ -1,3 +1,15 @@
+C:\Users\nikol\Desktop\Code\Class-C#-Advanced\Class-C#-Advanced\Class05\TaxiManagerApp9000\TaxiManagerApp9000.Helpers\bin\Debug\net6.0\TaxiManagerApp9000.Helpers.deps.json
+C:\Users\nikol\Desktop\Code\Class-C#-Advanced\Class-C#-Advanced\Class05\TaxiManagerApp9000\TaxiManagerApp9000.Helpers\bin\Debug\net6.0\TaxiManagerApp9000.Helpers.dll
+C:\Users\nikol\Desktop\Code\Class-C#-Advanced\Class-C#-Advanced\Class05\TaxiManagerApp9000\TaxiManagerApp9000.Helpers\bin\Debug\net6.0\TaxiManagerApp9000.Helpers.pdb
+C:\Users\nikol\Desktop\Code\Class-C#-Advanced\Class-C#-Advanced\Class05\TaxiManagerApp9000\TaxiManagerApp9000.Helpers\obj\Debug\net6.0\TaxiManagerApp9000.Helpers.csproj.AssemblyReference.cache
+C:\Users\nikol\Desktop\Code\Class-C#-Advanced\Class-C#-Advanced\Class05\TaxiManagerApp9000\TaxiManagerApp9000.Helpers\obj\Debug\net6.0\TaxiManagerApp9000.Helpers.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\nikol\Desktop\Code\Class-C#-Advanced\Class-C#-Advanced\Class05\TaxiManagerApp9000\TaxiManagerApp9000.Helpers\obj\Debug\net6.0\TaxiManagerApp9000.Helpers.AssemblyInfoInputs.cache
+C:\Users\nikol\Desktop\Code\Class-C#-Advanced\Class-C#-Advanced\Class05\TaxiManagerApp9000\TaxiManagerApp9000.Helpers\obj\Debug\net6.0\TaxiManagerApp9000.Helpers.AssemblyInfo.cs
+C:\Users\nikol\Desktop\Code\Class-C#-Advanced\Class-C#-Advanced\Class05\TaxiManagerApp9000\TaxiManagerApp9000.Helpers\obj\Debug\net6.0\TaxiManagerApp9000.Helpers.csproj.CoreCompileInputs.cache
+C:\Users\nikol\Desktop\Code\Class-C#-Advanced\Class-C#-Advanced\Class05\TaxiManagerApp9000\TaxiManagerApp9000.Helpers\obj\Debug\net6.0\TaxiManagerApp9000.Helpers.dll
+C:\Users\nikol\Desktop\Code\Class-C#-Advanced\Class-C#-Advanced\Class05\TaxiManagerApp9000\TaxiManagerApp9000.Helpers\obj\Debug\net6.0\refint\TaxiManagerApp9000.Helpers.dll
+C:\Users\nikol\Desktop\Code\Class-C#-Advanced\Class-C#-Advanced\Class05\TaxiManagerApp9000\TaxiManagerApp9000.Helpers\obj\Debug\net6.0\TaxiManagerApp9000.Helpers.pdb
+C:\Users\nikol\Desktop\Code\Class-C#-Advanced\Class-C#-Advanced\Class05\TaxiManagerApp9000\TaxiManagerApp9000.Helpers\obj\Debug\net6.0\ref\TaxiManagerApp9000.Helpers.dll
 C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TaxiManagerApp9000\TaxiManagerApp9000.Helpers\bin\Debug\net6.0\TaxiManagerApp9000.Helpers.deps.json
 C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TaxiManagerApp9000\TaxiManagerApp9000.Helpers\bin\Debug\net6.0\TaxiManagerApp9000.Helpers.dll
 C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TaxiManagerApp9000\TaxiManagerApp9000.Helpers\bin\Debug\net6.0\TaxiManagerApp9000.Helpers.pdb

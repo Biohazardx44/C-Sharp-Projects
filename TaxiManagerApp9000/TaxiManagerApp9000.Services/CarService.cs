@@ -6,19 +6,22 @@ namespace TaxiManagerApp9000.Services
 {
     public class CarService : BaseService<Car>, ICarService
     {
-        public List<Car> CheckCarLicenseExpiryStatus(LicensePlateStatus status)
+        public bool AssignDriver(Driver driver, Car car)
         {
-            throw new NotImplementedException();
+            car.AssignedDrivers.Add(driver);
+            _db.Update(car);
+            return true;
         }
 
-        public List<Car> GetAllCars()
+        public List<Car> GetAvailableCarsInShift(Shift shift)
         {
-            throw new NotImplementedException();
+            List<Car> cars = _db.GetAll().Where(x => x.LicensePlateExpiryDate > DateTime.Now
+                && !x.AssignedDrivers.Any(y => y.Shift == shift)).ToList();
+
+            return cars;
         }
 
-        public List<Car> GetAllOperationalCars()
-        {
-            throw new NotImplementedException();
-        }
+        public bool IsAvailableCar(Car car) =>
+            car.IsLicenseExpired() == ExpiryStatus.Expired || car.AssignedDrivers.Count == 3 ? false : true;
     }
 }

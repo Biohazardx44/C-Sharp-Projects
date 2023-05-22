@@ -3,10 +3,14 @@ using TaxiManagerApp9000.Domain.Enums;
 
 namespace TaxiManagerApp9000.Services.Interfaces
 {
-    public interface ICarService
+    public interface ICarService : IBaseService<Car>
     {
-        List<Car> GetAllCars();
-        List<Car> GetAllOperationalCars();
-        List<Car> CheckCarLicenseExpiryStatus(LicensePlateStatus status);
+        bool IsAvailableCar(Car car);
+
+        void Seed(List<Car> seedCars);
+
+        bool AssignDriver(Driver driver, Car car);
+
+        List<Car> GetAvailableCarsInShift(Shift shift);
     }
 }

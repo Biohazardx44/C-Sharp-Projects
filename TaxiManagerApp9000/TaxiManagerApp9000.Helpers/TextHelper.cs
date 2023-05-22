@@ -8,5 +8,13 @@
             Console.WriteLine(text);
             Console.ResetColor();
         }
+
+        public static string GetInput(string text)
+        {
+            Console.Write(text);
+            return Console.ReadLine();
+        }
+
+        public static void Separator() => Console.WriteLine("=============================================================");
     }
 }

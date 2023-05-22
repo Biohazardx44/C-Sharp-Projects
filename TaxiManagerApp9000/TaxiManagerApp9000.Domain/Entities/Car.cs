@@ -1,4 +1,6 @@
-﻿namespace TaxiManagerApp9000.Domain.Entities
+﻿using TaxiManagerApp9000.Domain.Enums;
+
+namespace TaxiManagerApp9000.Domain.Entities
 {
     public class Car : BaseEntity
     {
@@ -10,12 +12,11 @@
 
         public List<Driver> AssignedDrivers { get; set; } = new List<Driver>();
 
-        public Car(string model, string licensePlate, DateTime licensePlateExpiryDate, List<Driver> assignedDrivers)
+        public Car(string model, string licensePlate, DateTime licensePlateExpiryDate)
         {
             Model = model;
             LicensePlate = licensePlate;
             LicensePlateExpiryDate = licensePlateExpiryDate;
-            AssignedDrivers = assignedDrivers;
         }
 
         public override string Print()
@@ -30,6 +31,22 @@
             }
 
             return $"Car {Model} with plates {LicensePlate} that expire on {LicensePlateExpiryDate.Month}/{LicensePlateExpiryDate.Year} is driven by:\n{drivers}";
+        }
+
+        public ExpiryStatus IsLicenseExpired()
+        {
+            if (DateTime.Today >= LicensePlateExpiryDate)
+            {
+                return ExpiryStatus.Expired;
+            }
+            else if (DateTime.Today.AddMonths(3) >= LicensePlateExpiryDate)
+            {
+                return ExpiryStatus.Warning;
+            }
+            else
+            {
+                return ExpiryStatus.Valid;
+            }
         }
     }
 }

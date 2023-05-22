@@ -10,11 +10,20 @@ namespace TaxiManagerApp9000.Domain.Entities
 
         public Role Role { get; set; }
 
+        public User()
+        { }
+
         public User(string username, string password, Role role)
         {
             Username = username;
             Password = password;
             Role = role;
+        }
+
+        public User(string username, string password)
+        {
+            Username = username;
+            Password = password;
         }
 
         public override string Print()

@@ -1,13 +1,19 @@
 ﻿using TaxiManagerApp9000.Domain.Entities;
-using TaxiManagerApp9000.Domain.Enums;
 
 namespace TaxiManagerApp9000.Services.Interfaces
 {
-    public interface IDriverService
+    public interface IDriverService : IBaseService<Driver>
     {
-        List<Driver> GetAllDrivers();
-        void AssignDriverToShift(Driver driver, Shift shift, Car car);
-        void UnassignDriverFromShift(Driver driver);
-        List<Driver> CheckDriverLicenseExpiryStatus(LicensePlateStatus status);
+        void AssignDriver(Driver driver, Car car);
+
+        void Unassign(Driver driver);
+
+        bool IsAvailableDriver(Driver car);
+
+        List<Driver> GetUnassignedDrivers();
+
+        List<Driver> GetAssignedDrivers();
+
+        void Seed(List<Driver> seedDrivers);
     }
 }

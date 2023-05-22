@@ -7,18 +7,17 @@ namespace TaxiManagerApp9000.Services
 {
     public abstract class BaseService<T> : IBaseService<T> where T : BaseEntity
     {
-        private IDb<T> Db;
+        protected IDb<T> _db;
 
         public BaseService()
         {
-            Db = new LocalDb<T>();
+            _db = new FileSystemDb<T>();
         }
-
         public bool Add(T entity)
         {
             try
             {
-                Db.Add(entity);
+                _db.Add(entity);
                 return true;
             }
             catch (Exception ex)
@@ -27,19 +26,36 @@ namespace TaxiManagerApp9000.Services
             }
         }
 
-        public List<T> GetAll()
+        public async Task<List<T>> GetAll()
         {
-            return Db.GetAll();
+            await Task.Delay(2000);
+            return _db.GetAll();
+        }
+
+        public List<T> GetAll(Func<T, bool> wherePredicate)
+        {
+            return _db.GetAll().Where(wherePredicate).ToList();
         }
 
         public T GetById(int id)
         {
-            return Db.GetById(id);
+            return _db.GetById(id);
         }
 
         public bool Remove(int id)
         {
-            return Db.RemoveById(id);
+            return _db.RemoveById(id);
+        }
+
+        public void Seed(List<T> items)
+        {
+            List<T> data = _db.GetAll();
+            if (data != null && data.Count > 0)
+            {
+                return;
+            }
+
+            items.ForEach(x => _db.Add(x));
         }
     }
 }

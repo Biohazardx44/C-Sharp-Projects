@@ -6,24 +6,29 @@ namespace TaxiManagerApp9000.Services
 {
     public class DriverService : BaseService<Driver>, IDriverService
     {
-        public void AssignDriverToShift(Driver driver, Shift shift, Car car)
+
+        public void AssignDriver(Driver driver, Car car)
         {
-            throw new NotImplementedException();
+            driver.CarId = car.Id;
+            _db.Update(driver);
         }
 
-        public List<Driver> CheckDriverLicenseExpiryStatus(LicensePlateStatus status)
+        public void Unassign(Driver driver)
         {
-            throw new NotImplementedException();
+            driver.CarId = null;
+            _db.Update(driver);
         }
 
-        public List<Driver> GetAllDrivers()
+        public List<Driver> GetUnassignedDrivers()
         {
-            throw new NotImplementedException();
+            return _db.GetAll().Where(x => x.CarId == null).ToList();
         }
 
-        public void UnassignDriverFromShift(Driver driver)
+        public List<Driver> GetAssignedDrivers()
         {
-            throw new NotImplementedException();
+            return _db.GetAll().Where(x => x.CarId != null).ToList();
         }
+
+        public bool IsAvailableDriver(Driver driver) => driver.IsLicenseExpired() == ExpiryStatus.Expired ? false : true;
     }
 }

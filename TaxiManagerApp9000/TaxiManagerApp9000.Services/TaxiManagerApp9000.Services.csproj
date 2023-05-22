@@ -9,6 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="..\TaxiManagerApp9000.DataAccess\TaxiManagerApp9000.DataAccess.csproj" />
     <ProjectReference Include="..\TaxiManagerApp9000.Domain\TaxiManagerApp9000.Domain.csproj" />
+    <ProjectReference Include="..\TaxiManagerApp9000.Helpers\TaxiManagerApp9000.Helpers.csproj" />
   </ItemGroup>
 
 </Project>
