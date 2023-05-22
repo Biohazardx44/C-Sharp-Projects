@@ -2,14 +2,15 @@
 {
     public enum MenuOptions
     {
-        AddNewUser,
-        RemoveExistingUser,
-        ListAllDrivers,
-        TaxiLicenseStatus,
-        DriverManager,
-        ListAllCars,
-        LicensePlateStatus,
-        ChangePassword,
-        Exit
+        AddNewUser = 1,
+        RemoveExistingUser = 2,
+        ListAllDrivers = 3,
+        TaxiLicenseStatus = 4,
+        DriverManager = 5,
+        ListAllCars = 6,
+        LicensePlateStatus = 7,
+        ChangePassword = 8,
+        Logout = 9,
+        Exit = 10
     }
 }

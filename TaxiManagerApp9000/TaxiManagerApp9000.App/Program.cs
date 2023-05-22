@@ -220,10 +220,15 @@ while (true)
                     }
                     break;
                 }
-            case MenuOptions.Exit:
+            case MenuOptions.Logout:
                 {
                     userService.CurrentUser = null;
                     loopActive = false;
+                    break;
+                }
+            case MenuOptions.Exit:
+                {
+                    Environment.Exit(0);
                     break;
                 }
         }

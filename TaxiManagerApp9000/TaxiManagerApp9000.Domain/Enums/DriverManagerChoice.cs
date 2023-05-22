@@ -2,7 +2,7 @@
 {
     public enum DriverManagerChoice
     {
-        AssignDriver,
-        UnassignDriver
+        AssignDriver = 1,
+        UnassignDriver = 2
     }
 }

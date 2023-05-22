@@ -5,17 +5,11 @@ namespace TaxiManagerApp9000.Domain.Entities
     public class Driver : BaseEntity
     {
         public string FirstName { get; set; } = string.Empty;
-
         public string LastName { get; set; } = string.Empty;
-
         public int? CarId { get; set; }
-
         public Shift Shift { get; set; }
-
         public string License { get; set; } = string.Empty;
-
         public DateTime LicenseExpiryDate { get; set; }
-
         public Car Car { get; set; }
 
         public Driver(string firstname, string lastname, Shift shift, int? carId, string license, DateTime licenseExpieryDate)

@@ -12,9 +12,9 @@ namespace TaxiManagerApp9000.DataAccess
 
         public FileSystemDb()
         {
-            _databaseFolder = @"..\..\..\..\DataBase";
-            _databasePath = $@"{_databaseFolder}\{typeof(T).Name}s.json";
-            _idPath = $@"{_databaseFolder}\{typeof(T).Name}Id.txt";
+            _databaseFolder = $"../../../../Database";
+            _databasePath = $"{_databaseFolder}/{typeof(T).Name}s.json";
+            _idPath = $"{_databaseFolder}/{typeof(T).Name}Id.txt";
 
             if (!Directory.Exists(_databaseFolder))
             {

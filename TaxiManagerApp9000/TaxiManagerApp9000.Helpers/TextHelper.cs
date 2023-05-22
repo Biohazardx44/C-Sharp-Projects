@@ -14,7 +14,5 @@
             Console.Write(text);
             return Console.ReadLine();
         }
-
-        public static void Separator() => Console.WriteLine("=============================================================");
     }
 }

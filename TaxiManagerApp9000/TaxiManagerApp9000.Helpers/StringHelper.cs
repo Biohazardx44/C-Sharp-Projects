@@ -2,7 +2,7 @@
 {
     public static class StringHelper
     {
-        public static int validateNumber(string input, int range)
+        public static int ValidateNumber(string input, int range)
         {
             int number = -1;
             if (int.TryParse(input, out number))

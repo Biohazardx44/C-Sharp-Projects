@@ -9,6 +9,30 @@
     "Username": "GregGregsky",
     "Password": "supergreg1",
     "Role": 3,
+    "Id": 2
+  },
+  {
+    "Username": "admin",
+    "Password": "admin",
+    "Role": 1,
     "Id": 3
+  },
+  {
+    "Username": "manager",
+    "Password": "manager",
+    "Role": 2,
+    "Id": 4
+  },
+  {
+    "Username": "test1",
+    "Password": "test1",
+    "Role": 2,
+    "Id": 5
+  },
+  {
+    "Username": "test2",
+    "Password": "test2",
+    "Role": 2,
+    "Id": 6
   }
 ]

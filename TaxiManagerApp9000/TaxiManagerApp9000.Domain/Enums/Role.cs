@@ -3,7 +3,7 @@
     public enum Role
     {
         Administrator = 1,
-        Manager,
-        Maintenance
+        Manager = 2,
+        Maintenance = 3
     }
 }

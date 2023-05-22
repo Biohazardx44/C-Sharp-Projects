@@ -27,7 +27,6 @@ namespace TaxiManagerApp9000.Services
         public User LogIn()
         {
             Console.WriteLine("Taxi Manager 9000");
-            TextHelper.Separator();
             Console.WriteLine("Log In:");
             string username = TextHelper.GetInput("Username:");
             string password = TextHelper.GetInput("Password:");
@@ -38,7 +37,7 @@ namespace TaxiManagerApp9000.Services
         //3
         public int MainMenu(Role role)
         {
-            List<MenuOptions> menuItems = new List<MenuOptions>() { MenuOptions.ChangePassword, MenuOptions.Exit };
+            List<MenuOptions> menuItems = new List<MenuOptions>() { MenuOptions.ChangePassword, MenuOptions.Logout, MenuOptions.Exit };
 
             switch (role)
             {
@@ -73,7 +72,7 @@ namespace TaxiManagerApp9000.Services
                 {
                     Console.WriteLine($"{i + 1}) {items[i]}");
                 }
-                selectedId = StringHelper.validateNumber(Console.ReadLine(), items.Count);
+                selectedId = StringHelper.ValidateNumber(Console.ReadLine(), items.Count);
 
             }
             catch (Exception ex)
@@ -95,7 +94,7 @@ namespace TaxiManagerApp9000.Services
                     Console.WriteLine($"{i + 1}) {entities[i].Print()}");
                 }
 
-                int selected = StringHelper.validateNumber(Console.ReadLine(), entities.Count);
+                int selected = StringHelper.ValidateNumber(Console.ReadLine(), entities.Count);
                 if (selected == -1)
                 {
                     return selecteEntityId;

@@ -2,8 +2,8 @@
 {
     public enum ExpiryStatus
     {
-        Valid,
-        Warning,
-        Expired
+        Valid = 1,
+        Warning = 2,
+        Expired = 3
     }
 }

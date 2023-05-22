@@ -5,7 +5,7 @@
         public static void DiscountAdd()
         {
             Console.WriteLine("===================Discount======================");
-            Console.WriteLine(">>> 10% discount on all rides till 30/07/2023 <<<");
+            Console.WriteLine(">>> 20% discount on all rides till 30/07/2023 <<<");
             Console.WriteLine("===================Discount======================");
         }
     }
