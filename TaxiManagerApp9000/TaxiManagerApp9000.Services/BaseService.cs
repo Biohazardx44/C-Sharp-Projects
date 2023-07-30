@@ -13,6 +13,7 @@ namespace TaxiManagerApp9000.Services
         {
             _db = new FileSystemDb<T>();
         }
+
         public bool Add(T entity)
         {
             try

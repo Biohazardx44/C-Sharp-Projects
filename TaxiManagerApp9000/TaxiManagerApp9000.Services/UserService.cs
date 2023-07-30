@@ -12,7 +12,7 @@ namespace TaxiManagerApp9000.Services
             CurrentUser = _db.GetAll().FirstOrDefault(x => x.Username == username && x.Password == password);
             if (CurrentUser == null)
             {
-                throw new Exception("Login unsuccessful. Please try again");
+                throw new Exception("Login unsuccessful. Please try again!");
             }
         }
 

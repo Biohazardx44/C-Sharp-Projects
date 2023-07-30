@@ -12,4 +12,8 @@
     <ProjectReference Include="..\TaxiManagerApp9000.Services\TaxiManagerApp9000.Services.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Logs\" />
+  </ItemGroup>
+
 </Project>

@@ -4,8 +4,8 @@ namespace TaxiManagerApp9000.Services
 {
     public class Logger : ILogger
     {
-        private string _directoryPath = "../../../logs";
-        private string _logFilePath = $"../../../logs/log-{DateTime.Today.Date.ToString("dd-MM-yyyy")}.log";
+        private string _directoryPath = "../../../Logs";
+        private string _logFilePath = $"../../../Logs/Log-{DateTime.Today.Date.ToString("dd-MM-yyyy")}.log";
 
         public Logger()
         {

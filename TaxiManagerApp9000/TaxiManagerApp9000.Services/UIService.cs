@@ -9,7 +9,6 @@ namespace TaxiManagerApp9000.Services
     {
         private List<MenuOptions> _menuChoice;
 
-        //1
         public List<MenuOptions> MenuChoice
         {
             get => _menuChoice;
@@ -23,18 +22,17 @@ namespace TaxiManagerApp9000.Services
             }
         }
 
-        //2
         public User LogIn()
         {
-            Console.WriteLine("Taxi Manager 9000");
-            Console.WriteLine("Log In:");
+            TextHelper.TextGenerator("Welcome to Taxi Manager 9000", ConsoleColor.Green);
+            TextHelper.TextGenerator("Log In:\n", ConsoleColor.Green);
+            Console.ForegroundColor = ConsoleColor.Cyan;
             string username = TextHelper.GetInput("Username:");
             string password = TextHelper.GetInput("Password:");
-
+            Console.ResetColor();
             return new User(username, password);
         }
 
-        //3
         public int MainMenu(Role role)
         {
             List<MenuOptions> menuItems = new List<MenuOptions>() { MenuOptions.ChangePassword, MenuOptions.Logout, MenuOptions.Exit };
@@ -60,7 +58,6 @@ namespace TaxiManagerApp9000.Services
             return ChooseMenu(menuItems);
         }
 
-        //4
         public int ChooseMenu<T>(List<T> items)
         {
             int selectedId = -1;
@@ -83,7 +80,6 @@ namespace TaxiManagerApp9000.Services
             return selectedId;
         }
 
-        //5
         public int ChooseEntityMenu<T>(List<T>? entities) where T : BaseEntity
         {
             int selecteEntityId = -1;
