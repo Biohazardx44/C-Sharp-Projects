@@ -88,5 +88,41 @@
     "Duration": 1,
     "Working": 2,
     "Id": 15
+  },
+  {
+    "UserId": 14,
+    "Duration": 63,
+    "Working": 2,
+    "Id": 16
+  },
+  {
+    "UserId": 14,
+    "Duration": 3,
+    "Working": 1,
+    "Id": 17
+  },
+  {
+    "UserId": 14,
+    "Duration": 1,
+    "Working": 2,
+    "Id": 18
+  },
+  {
+    "UserId": 15,
+    "Duration": 1,
+    "Working": 1,
+    "Id": 19
+  },
+  {
+    "UserId": 15,
+    "Duration": 1,
+    "Working": 1,
+    "Id": 20
+  },
+  {
+    "UserId": 15,
+    "Duration": 1,
+    "Working": 2,
+    "Id": 21
   }
 ]

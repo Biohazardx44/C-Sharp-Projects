@@ -94,5 +94,17 @@
     "Duration": 1,
     "ExercisingType": 3,
     "Id": 16
+  },
+  {
+    "UserId": 14,
+    "Duration": 1,
+    "ExercisingType": 2,
+    "Id": 17
+  },
+  {
+    "UserId": 14,
+    "Duration": 1,
+    "ExercisingType": 2,
+    "Id": 18
   }
 ]
