@@ -13,3 +13,4 @@ C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.Dat
 C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.DataAccess\obj\Debug\net6.0\refint\TimeTrackingApp.DataAccess.dll
 C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.DataAccess\obj\Debug\net6.0\TimeTrackingApp.DataAccess.pdb
 C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.DataAccess\obj\Debug\net6.0\ref\TimeTrackingApp.DataAccess.dll
+C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.DataAccess\obj\Debug\net6.0\TimeTrackingApp.DataAccess.sourcelink.json

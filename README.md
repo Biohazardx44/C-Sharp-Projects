@@ -1,13 +1,3 @@
-# C# Projects
-* Here i will upload some projects made using C#
+# C# Console Apps Showcase
 
-## TaxiManagerApp9000
-**Version: 0.2.0 BETA**
-
-## TimeTrackingApp
-**Version: 1.2.0 Stable**
-   * Major Code Optimization
-   * Major UI Improvement
-   * Added XML Documentation
-
-* A console application designed for time tracking. To get started, simply launch the app and follow the on-screen instructions. The app offers both login and registration options, allowing users to save their information securely. Once registered and logged in, users can choose from a variety of options, including tracking the time spent on specific activities, viewing activity statistics, and managing their account information.
+Welcome to my collection of **C# Console Apps**, simple yet impressive applications that demonstrate the power of console-based solutions. Explore the efficiency and versatility of these projects for a firsthand experience of the capabilities of console applications.
