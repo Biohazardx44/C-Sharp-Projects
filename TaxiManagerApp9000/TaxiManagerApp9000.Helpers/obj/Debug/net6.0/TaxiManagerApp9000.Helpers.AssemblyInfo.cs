@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TaxiManagerApp9000.Helpers")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b32f9b5d488f74fe84963c4f96140d8846236c74")]
 [assembly: System.Reflection.AssemblyProductAttribute("TaxiManagerApp9000.Helpers")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TaxiManagerApp9000.Helpers")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

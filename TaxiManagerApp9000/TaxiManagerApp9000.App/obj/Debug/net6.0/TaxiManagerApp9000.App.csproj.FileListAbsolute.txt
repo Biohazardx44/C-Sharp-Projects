@@ -42,9 +42,10 @@ C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TaxiManagerApp9000\TaxiManagerApp90
 C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TaxiManagerApp9000\TaxiManagerApp9000.App\obj\Debug\net6.0\TaxiManagerApp9000.App.AssemblyInfoInputs.cache
 C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TaxiManagerApp9000\TaxiManagerApp9000.App\obj\Debug\net6.0\TaxiManagerApp9000.App.AssemblyInfo.cs
 C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TaxiManagerApp9000\TaxiManagerApp9000.App\obj\Debug\net6.0\TaxiManagerApp9000.App.csproj.CoreCompileInputs.cache
-C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TaxiManagerApp9000\TaxiManagerApp9000.App\obj\Debug\net6.0\TaxiManagerApp9000.App.csproj.CopyComplete
 C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TaxiManagerApp9000\TaxiManagerApp9000.App\obj\Debug\net6.0\TaxiManagerApp9000.App.dll
 C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TaxiManagerApp9000\TaxiManagerApp9000.App\obj\Debug\net6.0\refint\TaxiManagerApp9000.App.dll
 C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TaxiManagerApp9000\TaxiManagerApp9000.App\obj\Debug\net6.0\TaxiManagerApp9000.App.pdb
 C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TaxiManagerApp9000\TaxiManagerApp9000.App\obj\Debug\net6.0\TaxiManagerApp9000.App.genruntimeconfig.cache
 C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TaxiManagerApp9000\TaxiManagerApp9000.App\obj\Debug\net6.0\ref\TaxiManagerApp9000.App.dll
+C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TaxiManagerApp9000\TaxiManagerApp9000.App\obj\Debug\net6.0\TaxiManagerApp9000.App.sourcelink.json
+C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TaxiManagerApp9000\TaxiManagerApp9000.App\obj\Debug\net6.0\TaxiMana.6E5F4F74.Up2Date

@@ -25,7 +25,10 @@
       },
       "TaxiManagerApp9000.Domain/1.0.0": {
         "runtime": {
-          "TaxiManagerApp9000.Domain.dll": {}
+          "TaxiManagerApp9000.Domain.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       }
     }

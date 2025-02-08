@@ -8,9 +8,9 @@ C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.Dat
 C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.DataAccess\obj\Debug\net6.0\TimeTrackingApp.DataAccess.AssemblyInfoInputs.cache
 C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.DataAccess\obj\Debug\net6.0\TimeTrackingApp.DataAccess.AssemblyInfo.cs
 C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.DataAccess\obj\Debug\net6.0\TimeTrackingApp.DataAccess.csproj.CoreCompileInputs.cache
-C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.DataAccess\obj\Debug\net6.0\TimeTrackingApp.DataAccess.csproj.CopyComplete
 C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.DataAccess\obj\Debug\net6.0\TimeTrackingApp.DataAccess.dll
 C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.DataAccess\obj\Debug\net6.0\refint\TimeTrackingApp.DataAccess.dll
 C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.DataAccess\obj\Debug\net6.0\TimeTrackingApp.DataAccess.pdb
 C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.DataAccess\obj\Debug\net6.0\ref\TimeTrackingApp.DataAccess.dll
 C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.DataAccess\obj\Debug\net6.0\TimeTrackingApp.DataAccess.sourcelink.json
+C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.DataAccess\obj\Debug\net6.0\TimeTrac.B3A20DE2.Up2Date

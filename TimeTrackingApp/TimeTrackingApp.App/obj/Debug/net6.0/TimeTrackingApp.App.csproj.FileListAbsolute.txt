@@ -17,10 +17,10 @@ C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.App
 C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.App\obj\Debug\net6.0\TimeTrackingApp.App.AssemblyInfoInputs.cache
 C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.App\obj\Debug\net6.0\TimeTrackingApp.App.AssemblyInfo.cs
 C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.App\obj\Debug\net6.0\TimeTrackingApp.App.csproj.CoreCompileInputs.cache
-C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.App\obj\Debug\net6.0\TimeTrackingApp.App.csproj.CopyComplete
 C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.App\obj\Debug\net6.0\TimeTrackingApp.App.dll
 C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.App\obj\Debug\net6.0\refint\TimeTrackingApp.App.dll
 C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.App\obj\Debug\net6.0\TimeTrackingApp.App.pdb
 C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.App\obj\Debug\net6.0\TimeTrackingApp.App.genruntimeconfig.cache
 C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.App\obj\Debug\net6.0\ref\TimeTrackingApp.App.dll
 C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.App\obj\Debug\net6.0\TimeTrackingApp.App.sourcelink.json
+C:\Users\nikol\Desktop\Code\C-Sharp-Projects\TimeTrackingApp\TimeTrackingApp.App\obj\Debug\net6.0\TimeTrac.B0A4CDC4.Up2Date

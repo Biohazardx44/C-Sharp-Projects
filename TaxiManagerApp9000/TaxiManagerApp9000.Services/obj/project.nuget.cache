@@ -1,10 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "/9jCvQKAzPjcdKc/8x/GplMi/nqLk8HZK5YiqKoVV4d6+01RdIVp/7J2NMPvMQRPirTve5ukW4i+v0s9TN3zzw==",
+  "dgSpecHash": "ey4/olkoKeI=",
   "success": true,
   "projectFilePath": "C:\\Users\\nikol\\Desktop\\Code\\C-Sharp-Projects\\TaxiManagerApp9000\\TaxiManagerApp9000.Services\\TaxiManagerApp9000.Services.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\nikol\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
+    "C:\\Users\\nikol\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
+    "C:\\Users\\nikol\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.36\\microsoft.windowsdesktop.app.ref.6.0.36.nupkg.sha512",
+    "C:\\Users\\nikol\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.36\\microsoft.netcore.app.ref.6.0.36.nupkg.sha512",
+    "C:\\Users\\nikol\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.36\\microsoft.aspnetcore.app.ref.6.0.36.nupkg.sha512"
   ],
   "logs": []
 }

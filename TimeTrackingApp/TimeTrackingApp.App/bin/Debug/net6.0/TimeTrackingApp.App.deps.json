@@ -29,17 +29,26 @@
           "TimeTrackingApp.Domain": "1.0.0"
         },
         "runtime": {
-          "TimeTrackingApp.DataAccess.dll": {}
+          "TimeTrackingApp.DataAccess.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       },
       "TimeTrackingApp.Domain/1.0.0": {
         "runtime": {
-          "TimeTrackingApp.Domain.dll": {}
+          "TimeTrackingApp.Domain.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       },
       "TimeTrackingApp.Helpers/1.0.0": {
         "runtime": {
-          "TimeTrackingApp.Helpers.dll": {}
+          "TimeTrackingApp.Helpers.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       },
       "TimeTrackingApp.Services/1.0.0": {
@@ -49,7 +58,10 @@
           "TimeTrackingApp.Helpers": "1.0.0"
         },
         "runtime": {
-          "TimeTrackingApp.Services.dll": {}
+          "TimeTrackingApp.Services.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       }
     }

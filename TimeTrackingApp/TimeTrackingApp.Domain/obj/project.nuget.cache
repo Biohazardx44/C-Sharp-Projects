@@ -1,8 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "LQzAA+KSKStFqVoWKEh7SEY9KuxEij3mR0ckW2ooP+by8Da0ejbKssZE7GgP8wkvTUkyPhH9/39JnDFKrWDe9A==",
+  "dgSpecHash": "Zt9PqDBb8xk=",
   "success": true,
   "projectFilePath": "C:\\Users\\nikol\\Desktop\\Code\\C-Sharp-Projects\\TimeTrackingApp\\TimeTrackingApp.Domain\\TimeTrackingApp.Domain.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\nikol\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.36\\microsoft.windowsdesktop.app.ref.6.0.36.nupkg.sha512",
+    "C:\\Users\\nikol\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.36\\microsoft.netcore.app.ref.6.0.36.nupkg.sha512",
+    "C:\\Users\\nikol\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.36\\microsoft.aspnetcore.app.ref.6.0.36.nupkg.sha512"
+  ],
   "logs": []
 }
